@@ -9,6 +9,8 @@
     <PackageProjectUrl>https://github.com/HakamFostok/NModbus4.NetCore</PackageProjectUrl>
     <RepositoryUrl>https://github.com/HakamFostok/NModbus4.NetCore</RepositoryUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
