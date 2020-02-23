@@ -2,14 +2,32 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>NModbus4.NetCore</PackageId>
+    <Authors>Hakan FISTIK</Authors>
+    <Description>This library is driven from this library https://github.com/NModbus4/NModbus4. It just target .NET Core instead of .NET Framework</Description>
+    <PackageProjectUrl>https://github.com/HakamFostok/NModbus4.NetCore</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/HakamFostok/NModbus4.NetCore</RepositoryUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;SERIAL</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;SERIAL</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="System.IO.Ports" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
