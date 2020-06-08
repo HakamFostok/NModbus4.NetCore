@@ -9,3 +9,5 @@ with three changes.
 
 Nuget Package <br/>
 https://www.nuget.org/packages/NModbus4.NetCore/1.0.1
+
+# Pull Request is more than welcome
