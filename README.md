@@ -8,6 +8,6 @@ with three changes.
 3. This library is simplified by removing the unit testing which exists in the original library
 
 Nuget Package <br/>
-https://www.nuget.org/packages/NModbus4.NetCore/1.0.1
+https://www.nuget.org/packages/NModbus4.NetCore
 
 # Pull Request is more than welcome
