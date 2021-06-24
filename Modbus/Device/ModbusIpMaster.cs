@@ -6,7 +6,7 @@ namespace Modbus.Device
     using System.Diagnostics.CodeAnalysis;
 #if SERIAL
     using System.IO.Ports;
-    
+
 #endif
     using System.Net.Sockets;
     using System.Threading.Tasks;
