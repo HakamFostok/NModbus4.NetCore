@@ -2,7 +2,10 @@
 
 Very simply, it is [**NModbus4**](https://github.com/NModbus4/NModbus4) build for .NET (**NOT .NET Framework**)<br/>
 
-## OK, So what is NModbus4 in the first place?
+## Ok, so what is NModbus4 in the first place?
+Here is the definition of NModbus4
+>NModbus4 is a C# implementation of the Modbus protocol.
+
 Here is a snippet from NModbus4 documentation 
 >NModbus is a C# implementation of the Modbus protocol. Provides connectivity to Modbus slave compatible devices and applications. Supports serial ASCII, serial RTU, TCP, and UDP protocols. NModbus4 it's a fork of NModbus(https://code.google.com/p/nmodbus). NModbus4 differs from the original NModbus in following:
 >1. removed USB support(FtdAdapter.dll)
@@ -14,19 +17,20 @@ Here is a snippet from NModbus4 documentation
 ## Why NModbus4.NetCore?
 
 Because 
-1. The original library is not under active development, the last commit is dated 5 years ago <br/>
-2. There is a need to use **NModbus4** with .NET projects, but **NModbus4** support only .NET Framework but the original library does not support .NET <br/>
+1. The original library *NModbus4* is not under active development, the last commit is dated 5 years ago <br/>
+2. There is a need to use *NModbus4* with .NET projects, but *NModbus4* support only .NET Framework but the original library does not support .NET <br/>
 
-## What is the difference between NModbus4 and NModbus4.NetCore?
+## What is the differences between NModbus4 and NModbus4.NetCore?
 
 **NModbus4.NetCore** is a copy of **NModbus4** with the following differences
 
 1. As mention earlier, The main difference is the Target Framework.
-2. **NModbus4.NetCore** supports the SerialPort out-of-the-box. <br/>
-   **NModbus4** needs some configuration to support SerialPort that (by Defining the Compile-time constant).
-3. Supporting .NET with this library does **NOT** mean expanding the **NModbus4** <br/>
-   I mean **NModbus4.NetCore** will work **only** with .NET, <br/>
-   **if you want to use NModbus4.NetCore with .NET Framework you are in the wrong place, go to the original library then**
+2. *NModbus4.NetCore* supports the SerialPort out-of-the-box. <br/>
+   *NModbus4* needs some configuration to support SerialPort that (by Defining the Compile-time constant).
+3. Supporting .NET with this library does **NOT** mean expanding the *NModbus4* <br/>
+   I mean *NModbus4.NetCore* will work **only** with .NET. <br/>
+   **if you want to use this library with .NET Framework you are in the wrong place, go to the original library then**<br/>
+   NO .NET Standard, NO .NET Framework, **JUST .NET AND ONLY .NET**
 
 ## Nuget Package<br/>
 
