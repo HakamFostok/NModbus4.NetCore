@@ -1,16 +1,10 @@
 ﻿using System;
-#if NET46
-    using System.Runtime.Serialization;
-#endif
-/// <summary>
-///     An exception that provides the exception code that will be sent in response to an invalid Modbus request.
-/// </summary>
-#if NET46
-    [Serializable]
-# endif
 
 namespace Modbus
 {
+    /// <summary>
+    ///     An exception that provides the exception code that will be sent in response to an invalid Modbus request.
+    /// </summary>
     public class InvalidModbusRequestException : Exception
     {
         private readonly byte _exceptionCode;
@@ -56,19 +50,6 @@ namespace Modbus
             _exceptionCode = exceptionCode;
         }
 
-#if NET46
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="InvalidModbusRequestException" /> class with serialized data.
-        /// </summary>
-        /// <param name="info">The object that holds the serialized object data.</param>
-        /// <param name="context">The contextual information about the source or destination.</param>
-        protected InvalidModbusRequestException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-            _exceptionCode = info.GetByte(nameof(ExceptionCode));
-        }
-#endif
-
         /// <summary>
         ///     Gets the Modbus exception code to provide to the slave.
         /// </summary>
@@ -76,17 +57,6 @@ namespace Modbus
         {
             get { return _exceptionCode; }
         }
-
-#if NET46
-        /// <summary>Sets the <see cref="SerializationInfo" /> object with the Modbus exception code and additional exception information.</summary>
-        /// <param name="info">The <see cref="SerializationInfo" /> that holds the serialized object data about the exception being thrown.</param>
-        /// <param name="context">The <see cref="StreamingContext" /> that contains contextual information about the source or destination.</param>
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-            info.AddValue("ExceptionCode", this._exceptionCode, typeof(byte));
-        }
-#endif
 
         private static string GetMessage(byte exceptionCode)
         {

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.IO;
-#if NET46
-using System.Runtime.Serialization.Formatters.Binary;
-#endif
 using Modbus.Message;
 using Xunit;
 
@@ -76,26 +73,5 @@ namespace Modbus.UnitTests
                 $@"{customMessage}{Environment.NewLine}Function Code: {response.FunctionCode}{Environment.NewLine}Exception Code: {response.SlaveExceptionCode} - {Resources.IllegalDataAddress}",
                 e.Message);
         }
-
-#if NET46
-        [Fact]
-        public void Serializable()
-        {
-            var formatter = new BinaryFormatter();
-            var e = new SlaveException(new SlaveExceptionResponse(1, 2, 3));
-
-            using (var stream = new MemoryStream())
-            {
-                formatter.Serialize(stream, e);
-                stream.Position = 0;
-
-                var e2 = (SlaveException)formatter.Deserialize(stream);
-                Assert.NotNull(e2);
-                Assert.Equal(1, e2.SlaveAddress);
-                Assert.Equal(2, e2.FunctionCode);
-                Assert.Equal(3, e2.SlaveExceptionCode);
-            }
-        }
-#endif
     }
 }

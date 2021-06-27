@@ -9,7 +9,6 @@ using Modbus.Message;
 
 namespace Modbus.Device
 {
-
     /// <summary>
     ///     Modbus master device.
     /// </summary>

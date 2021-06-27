@@ -1,20 +1,12 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-#if NET46
-    using System.Runtime.Serialization;
-    using System.Security.Permissions;
-#endif
 using Modbus.Message;
-
-/// <summary>
-///     Represents slave errors that occur during communication.
-/// </summary>
-#if NET46
-    [Serializable]
-# endif
 
 namespace Modbus
 {
+    /// <summary>
+    ///     Represents slave errors that occur during communication.
+    /// </summary>
     public class SlaveException : Exception
     {
         private const string SlaveAddressPropertyName = "SlaveAdress";
@@ -61,36 +53,6 @@ namespace Modbus
             _slaveExceptionResponse = slaveExceptionResponse;
         }
 
-#if NET46
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="SlaveException" /> class.
-        /// </summary>
-        /// <param name="info">
-        ///     The <see cref="T:System.Runtime.Serialization.SerializationInfo"></see> that holds the serialized
-        ///     object data about the exception being thrown.
-        /// </param>
-        /// <param name="context">
-        ///     The <see cref="T:System.Runtime.Serialization.StreamingContext"></see> that contains contextual
-        ///     information about the source or destination.
-        /// </param>
-        /// <exception cref="T:System.Runtime.Serialization.SerializationException">
-        ///     The class name is null or
-        ///     <see cref="P:System.Exception.HResult"></see> is zero (0).
-        /// </exception>
-        /// <exception cref="T:System.ArgumentNullException">The info parameter is null. </exception>
-        protected SlaveException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-            if (info != null)
-            {
-                _slaveExceptionResponse = new SlaveExceptionResponse(
-                    info.GetByte(SlaveAddressPropertyName),
-                    info.GetByte(FunctionCodePropertyName),
-                    info.GetByte(SlaveExceptionCodePropertyName));
-            }
-        }
-#endif
-
         /// <summary>
         ///     Gets a message that describes the current exception.
         /// </summary>
@@ -133,42 +95,5 @@ namespace Modbus
         {
             get { return _slaveExceptionResponse != null ? _slaveExceptionResponse.SlaveAddress : (byte)0; }
         }
-
-#if NET46
-        /// <summary>
-        ///     When overridden in a derived class, sets the <see cref="T:System.Runtime.Serialization.SerializationInfo"></see>
-        ///     with information about the exception.
-        /// </summary>
-        /// <param name="info">
-        ///     The <see cref="T:System.Runtime.Serialization.SerializationInfo"></see> that holds the serialized
-        ///     object data about the exception being thrown.
-        /// </param>
-        /// <param name="context">
-        ///     The <see cref="T:System.Runtime.Serialization.StreamingContext"></see> that contains contextual
-        ///     information about the source or destination.
-        /// </param>
-        /// <exception cref="T:System.ArgumentNullException">The info parameter is a null reference (Nothing in Visual Basic). </exception>
-        /// <PermissionSet>
-        ///     <IPermission
-        ///         class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
-        ///         version="1" Read="*AllFiles*" PathDiscovery="*AllFiles*" />
-        ///     <IPermission
-        ///         class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
-        ///         version="1" Flags="SerializationFormatter" />
-        /// </PermissionSet>
-        [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Argument info is validated, rule does not understand AND condition.")]
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-
-            if (info != null && _slaveExceptionResponse != null)
-            {
-                info.AddValue(SlaveAddressPropertyName, _slaveExceptionResponse.SlaveAddress);
-                info.AddValue(FunctionCodePropertyName, _slaveExceptionResponse.FunctionCode);
-                info.AddValue(SlaveExceptionCodePropertyName, _slaveExceptionResponse.SlaveExceptionCode);
-            }
-        }
-#endif
     }
 }

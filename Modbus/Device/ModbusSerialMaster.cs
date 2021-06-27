@@ -12,8 +12,6 @@ using Modbus.Message;
 
 namespace Modbus.Device
 {
-
-
     /// <summary>
     ///     Modbus serial master device.
     /// </summary>
