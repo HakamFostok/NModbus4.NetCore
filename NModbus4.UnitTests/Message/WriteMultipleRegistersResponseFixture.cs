@@ -9,7 +9,7 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void CreateWriteMultipleRegistersResponse()
         {
-            WriteMultipleRegistersResponse response = new WriteMultipleRegistersResponse(12, 39, 2);
+            WriteMultipleRegistersResponse response = new(12, 39, 2);
             Assert.Equal(Modbus.WriteMultipleRegisters, response.FunctionCode);
             Assert.Equal(12, response.SlaveAddress);
             Assert.Equal(39, response.StartAddress);
@@ -25,7 +25,7 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void CreateWriteMultipleRegistersResponseMaxSize()
         {
-            WriteMultipleRegistersResponse response = new WriteMultipleRegistersResponse(1, 2,
+            WriteMultipleRegistersResponse response = new(1, 2,
                 Modbus.MaximumRegisterRequestResponseSize);
             Assert.Equal(Modbus.MaximumRegisterRequestResponseSize, response.NumberOfPoints);
         }

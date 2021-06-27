@@ -53,14 +53,9 @@ namespace Modbus
         /// <summary>
         ///     Gets the Modbus exception code to provide to the slave.
         /// </summary>
-        public byte ExceptionCode
-        {
-            get { return _exceptionCode; }
-        }
+        public byte ExceptionCode => _exceptionCode;
 
-        private static string GetMessage(byte exceptionCode)
-        {
-            return $"Modbus exception code {exceptionCode}.";
-        }
+        private static string GetMessage(byte exceptionCode) =>
+            $"Modbus exception code {exceptionCode}.";
     }
 }

@@ -21,10 +21,8 @@ namespace Modbus.Device
         /// <summary>
         ///     Gets the Modbus Transport.
         /// </summary>
-        public ModbusTransport Transport
-        {
-            get { return _transport; }
-        }
+        public ModbusTransport Transport => _transport;
+
 
         /// <summary>
         ///     Releases unmanaged and - optionally - managed resources.

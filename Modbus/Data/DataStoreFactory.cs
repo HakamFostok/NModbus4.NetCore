@@ -36,7 +36,7 @@
         /// </summary>
         internal static DataStore CreateTestDataStore()
         {
-            DataStore dataStore = new DataStore();
+            DataStore dataStore = new();
 
             for (int i = 1; i < 3000; i++)
             {

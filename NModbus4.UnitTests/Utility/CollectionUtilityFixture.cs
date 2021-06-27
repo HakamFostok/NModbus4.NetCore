@@ -35,7 +35,7 @@ namespace Modbus.UnitTests.Utility
         [Fact]
         public void SliceCollection()
         {
-            Collection<bool> col = new Collection<bool>(new bool[] { true, false, false, false, true, true });
+            Collection<bool> col = new(new bool[] { true, false, false, false, true, true });
             Assert.Equal(new bool[] { false, false, true }, col.Slice(2, 3).ToArray());
         }
 
@@ -43,7 +43,7 @@ namespace Modbus.UnitTests.Utility
         public void SliceReadOnlyCollection()
         {
             ReadOnlyCollection<bool> col =
-                new ReadOnlyCollection<bool>(new bool[] { true, false, false, false, true, true });
+                new(new bool[] { true, false, false, false, true, true });
             Assert.Equal(new bool[] { false, false, true }, col.Slice(2, 3).ToArray());
         }
 

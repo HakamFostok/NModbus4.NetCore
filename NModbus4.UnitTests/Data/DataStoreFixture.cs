@@ -10,7 +10,7 @@ namespace Modbus.UnitTests.Data
         [Fact]
         public void ReadData()
         {
-            ModbusDataCollection<ushort> slaveCol = new ModbusDataCollection<ushort>(0, 1, 2, 3, 4, 5, 6);
+            ModbusDataCollection<ushort> slaveCol = new(0, 1, 2, 3, 4, 5, 6);
             RegisterCollection result = DataStore.ReadData<RegisterCollection, ushort>(new DataStore(), slaveCol, 1, 3,
                 new object());
             Assert.Equal(new ushort[] { 1, 2, 3 }, result.ToArray());
@@ -41,8 +41,8 @@ namespace Modbus.UnitTests.Data
         [Fact]
         public void WriteDataSingle()
         {
-            ModbusDataCollection<bool> destination = new ModbusDataCollection<bool>(true, true);
-            DiscreteCollection newValues = new DiscreteCollection(false);
+            ModbusDataCollection<bool> destination = new(true, true);
+            DiscreteCollection newValues = new(false);
             DataStore.WriteData(new DataStore(), newValues, destination, 0, new object());
             Assert.Equal(false, destination[1]);
         }
@@ -50,9 +50,9 @@ namespace Modbus.UnitTests.Data
         [Fact]
         public void WriteDataMultiple()
         {
-            ModbusDataCollection<bool> destination = new ModbusDataCollection<bool>(false, false, false, false, false,
+            ModbusDataCollection<bool> destination = new(false, false, false, false, false,
                 false, true);
-            DiscreteCollection newValues = new DiscreteCollection(true, true, true, true);
+            DiscreteCollection newValues = new(true, true, true, true);
             DataStore.WriteData(new DataStore(), newValues, destination, 0, new object());
             Assert.Equal(new bool[] { false, true, true, true, true, false, false, true }, destination.ToArray());
         }
@@ -60,8 +60,8 @@ namespace Modbus.UnitTests.Data
         [Fact]
         public void WriteDataTooLarge()
         {
-            ModbusDataCollection<bool> slaveCol = new ModbusDataCollection<bool>(true);
-            DiscreteCollection newValues = new DiscreteCollection(false, false);
+            ModbusDataCollection<bool> slaveCol = new(true);
+            DiscreteCollection newValues = new(false, false);
             Assert.Throws<InvalidModbusRequestException>(() => DataStore.WriteData(new DataStore(), newValues, slaveCol, 1, new object()));
         }
 
@@ -219,8 +219,8 @@ namespace Modbus.UnitTests.Data
         [Fact]
         public void Update()
         {
-            List<int> newItems = new List<int>(new int[] { 4, 5, 6 });
-            List<int> destination = new List<int>(new int[] { 1, 2, 3, 7, 8, 9 });
+            List<int> newItems = new(new int[] { 4, 5, 6 });
+            List<int> destination = new(new int[] { 1, 2, 3, 7, 8, 9 });
             DataStore.Update<int>(newItems, destination, 3);
             Assert.Equal(new int[] { 1, 2, 3, 4, 5, 6 }, destination.ToArray());
         }
@@ -228,16 +228,16 @@ namespace Modbus.UnitTests.Data
         [Fact]
         public void UpdateItemsTooLarge()
         {
-            List<int> newItems = new List<int>(new int[] { 1, 2, 3, 7, 8, 9 });
-            List<int> destination = new List<int>(new int[] { 4, 5, 6 });
+            List<int> newItems = new(new int[] { 1, 2, 3, 7, 8, 9 });
+            List<int> destination = new(new int[] { 4, 5, 6 });
             Assert.Throws<InvalidModbusRequestException>(() => DataStore.Update<int>(newItems, destination, 3));
         }
 
         [Fact]
         public void UpdateNegativeIndex()
         {
-            List<int> newItems = new List<int>(new int[] { 1, 2, 3, 7, 8, 9 });
-            List<int> destination = new List<int>(new int[] { 4, 5, 6 });
+            List<int> newItems = new(new int[] { 1, 2, 3, 7, 8, 9 });
+            List<int> destination = new(new int[] { 4, 5, 6 });
             Assert.Throws<InvalidModbusRequestException>(() => DataStore.Update<int>(newItems, destination, -1));
         }
     }

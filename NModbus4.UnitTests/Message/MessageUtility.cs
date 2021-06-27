@@ -16,7 +16,7 @@ namespace Modbus.UnitTests.Message
                 throw new ArgumentOutOfRangeException("Collection size cannot be less than 0.");
             }
 
-            T col = new T();
+            T col = new();
 
             for (int i = 0; i < size; i++)
             {

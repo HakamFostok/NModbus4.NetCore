@@ -20,7 +20,7 @@ namespace Modbus.IntegrationTests
                 master.Transport.ReadTimeout = master.Transport.WriteTimeout = 1000;
                 slave.DataStore = DataStoreFactory.CreateTestDataStore();
 
-                Thread slaveThread = new Thread(async () => await slave.ListenAsync());
+                Thread slaveThread = new(async () => await slave.ListenAsync());
                 slaveThread.IsBackground = true;
                 slaveThread.Start();
 

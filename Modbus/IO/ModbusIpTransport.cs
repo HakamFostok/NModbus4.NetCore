@@ -15,7 +15,7 @@ namespace Modbus.IO
     /// </summary>
     internal class ModbusIpTransport : ModbusTransport
     {
-        private static readonly object _transactionIdLock = new object();
+        private static readonly object _transactionIdLock = new();
         private ushort _transactionId;
 
         internal ModbusIpTransport(IStreamResource streamResource)
@@ -129,15 +129,11 @@ namespace Modbus.IO
             StreamResource.Write(frame, 0, frame.Length);
         }
 
-        internal override byte[] ReadRequest()
-        {
-            return ReadRequestResponse(StreamResource);
-        }
+        internal override byte[] ReadRequest() =>
+            ReadRequestResponse(StreamResource);
 
-        internal override IModbusMessage ReadResponse<T>()
-        {
-            return CreateMessageAndInitializeTransactionId<T>(ReadRequestResponse(StreamResource));
-        }
+        internal override IModbusMessage ReadResponse<T>() =>
+            CreateMessageAndInitializeTransactionId<T>(ReadRequestResponse(StreamResource));
 
         internal override void OnValidateResponse(IModbusMessage request, IModbusMessage response)
         {

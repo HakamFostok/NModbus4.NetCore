@@ -49,7 +49,7 @@ namespace Modbus.IntegrationTests
 
         public static SerialPort CreateAndOpenSerialPort(string portName)
         {
-            SerialPort port = new SerialPort(portName);
+            SerialPort port = new(portName);
             port.Parity = Parity.None;
             port.Open();
 
@@ -75,7 +75,7 @@ namespace Modbus.IntegrationTests
             string pathToJamod = Path.Combine(
                 Path.GetDirectoryName(Assembly.GetAssembly(typeof(ModbusMasterFixture)).Location), "../../../../tools/jamod");
             string classpath = string.Format(@"-classpath ""{0};{1};{2}""", Path.Combine(pathToJamod, "jamod.jar"), Path.Combine(pathToJamod, "comm.jar"), Path.Combine(pathToJamod, "."));
-            ProcessStartInfo startInfo = new ProcessStartInfo("java", string.Format(CultureInfo.InvariantCulture, "{0} {1}", classpath, program));
+            ProcessStartInfo startInfo = new("java", string.Format(CultureInfo.InvariantCulture, "{0} {1}", classpath, program));
             Jamod = Process.Start(startInfo);
 
             Thread.Sleep(4000);
@@ -208,7 +208,7 @@ namespace Modbus.IntegrationTests
         [Fact]
         public virtual void ExecuteCustomMessage_ReadHoldingRegisters()
         {
-            CustomReadHoldingRegistersRequest request = new CustomReadHoldingRegistersRequest(3, SlaveAddress, 104, 2);
+            CustomReadHoldingRegistersRequest request = new(3, SlaveAddress, 104, 2);
             CustomReadHoldingRegistersResponse response = Master.ExecuteCustomMessage<CustomReadHoldingRegistersResponse>(request);
             Assert.Equal(new ushort[] { 0, 0 }, response.Data);
         }
@@ -218,8 +218,8 @@ namespace Modbus.IntegrationTests
         {
             ushort testAddress = 120;
             ushort[] testValues = new ushort[] { 10, 20, 30, 40, 50 };
-            CustomReadHoldingRegistersRequest readRequest = new CustomReadHoldingRegistersRequest(3, SlaveAddress, testAddress, (ushort)testValues.Length);
-            CustomWriteMultipleRegistersRequest writeRequest = new CustomWriteMultipleRegistersRequest(16, SlaveAddress, testAddress, new RegisterCollection(testValues));
+            CustomReadHoldingRegistersRequest readRequest = new(3, SlaveAddress, testAddress, (ushort)testValues.Length);
+            CustomWriteMultipleRegistersRequest writeRequest = new(16, SlaveAddress, testAddress, new RegisterCollection(testValues));
 
             var response = Master.ExecuteCustomMessage<CustomReadHoldingRegistersResponse>(readRequest);
             ushort[] originalValues = response.Data;
@@ -239,7 +239,7 @@ namespace Modbus.IntegrationTests
             // JIT compile the IL
             master.ReadHoldingRegisters(SlaveAddress, startAddress, numRegisters);
 
-            Stopwatch stopwatch = new Stopwatch();
+            Stopwatch stopwatch = new();
             long sum = 0;
             double numberOfReads = 50;
 

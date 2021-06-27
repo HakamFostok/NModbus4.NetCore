@@ -8,7 +8,7 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void NewWriteSingleRegisterRequestResponse()
         {
-            WriteSingleRegisterRequestResponse message = new WriteSingleRegisterRequestResponse(12, 5, 1200);
+            WriteSingleRegisterRequestResponse message = new(12, 5, 1200);
             Assert.Equal(12, message.SlaveAddress);
             Assert.Equal(5, message.StartAddress);
             Assert.Equal(1, message.Data.Count);
@@ -18,7 +18,7 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void ToStringOverride()
         {
-            WriteSingleRegisterRequestResponse message = new WriteSingleRegisterRequestResponse(12, 5, 1200);
+            WriteSingleRegisterRequestResponse message = new(12, 5, 1200);
             Assert.Equal("Write single holding register 1200 at address 5.", message.ToString());
         }
     }

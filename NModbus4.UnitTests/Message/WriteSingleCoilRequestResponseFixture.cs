@@ -8,7 +8,7 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void NewWriteSingleCoilRequestResponse()
         {
-            WriteSingleCoilRequestResponse request = new WriteSingleCoilRequestResponse(11, 5, true);
+            WriteSingleCoilRequestResponse request = new(11, 5, true);
             Assert.Equal(11, request.SlaveAddress);
             Assert.Equal(5, request.StartAddress);
             Assert.Equal(1, request.Data.Count);

@@ -21,21 +21,18 @@ namespace Modbus.Serial
             _serialPort.NewLine = NewLine;
         }
 
-        public int InfiniteTimeout
-        {
-            get { return SerialPort.InfiniteTimeout; }
-        }
+        public int InfiniteTimeout => SerialPort.InfiniteTimeout;
 
         public int ReadTimeout
         {
-            get { return _serialPort.ReadTimeout; }
-            set { _serialPort.ReadTimeout = value; }
+            get => _serialPort.ReadTimeout;
+            set => _serialPort.ReadTimeout = value;
         }
 
         public int WriteTimeout
         {
-            get { return _serialPort.WriteTimeout; }
-            set { _serialPort.WriteTimeout = value; }
+            get => _serialPort.WriteTimeout; 
+            set => _serialPort.WriteTimeout = value; 
         }
 
         public void DiscardInBuffer()
@@ -43,15 +40,11 @@ namespace Modbus.Serial
             _serialPort.DiscardInBuffer();
         }
 
-        public int Read(byte[] buffer, int offset, int count)
-        {
-            return _serialPort.Read(buffer, offset, count);
-        }
+        public int Read(byte[] buffer, int offset, int count) =>
+            _serialPort.Read(buffer, offset, count);
 
-        public void Write(byte[] buffer, int offset, int count)
-        {
+        public void Write(byte[] buffer, int offset, int count) =>
             _serialPort.Write(buffer, offset, count);
-        }
 
         public void Dispose()
         {

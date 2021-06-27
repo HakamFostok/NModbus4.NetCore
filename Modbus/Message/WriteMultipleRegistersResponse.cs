@@ -18,10 +18,7 @@ namespace Modbus.Message
 
         public ushort NumberOfPoints
         {
-            get
-            {
-                return MessageImpl.NumberOfPoints.Value;
-            }
+            get => MessageImpl.NumberOfPoints.Value;
 
             set
             {
@@ -37,20 +34,14 @@ namespace Modbus.Message
 
         public ushort StartAddress
         {
-            get { return MessageImpl.StartAddress.Value; }
-            set { MessageImpl.StartAddress = value; }
+            get => MessageImpl.StartAddress.Value;
+            set => MessageImpl.StartAddress = value;
         }
 
-        public override int MinimumFrameSize
-        {
-            get { return 6; }
-        }
+        public override int MinimumFrameSize => 6;
 
-        public override string ToString()
-        {
-            string msg = $"Wrote {NumberOfPoints} holding registers starting at address {StartAddress}.";
-            return msg;
-        }
+        public override string ToString() =>
+            $"Wrote {NumberOfPoints} holding registers starting at address {StartAddress}.";
 
         protected override void InitializeUnique(byte[] frame)
         {

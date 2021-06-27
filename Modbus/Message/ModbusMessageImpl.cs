@@ -59,7 +59,7 @@ namespace Modbus.Message
         {
             get
             {
-                List<byte> pdu = new List<byte>();
+                List<byte> pdu = new();
 
                 pdu.Add(FunctionCode);
 

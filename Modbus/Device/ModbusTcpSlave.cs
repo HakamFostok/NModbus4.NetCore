@@ -18,10 +18,10 @@ namespace Modbus.Device
     public class ModbusTcpSlave : ModbusSlave
     {
         private const int TimeWaitResponse = 1000;
-        private readonly object _serverLock = new object();
+        private readonly object _serverLock = new();
 
         private readonly ConcurrentDictionary<string, ModbusMasterTcpConnection> _masters =
-            new ConcurrentDictionary<string, ModbusMasterTcpConnection>();
+            new();
 
         private TcpListener _server;
 #if TIMER
@@ -57,13 +57,7 @@ namespace Modbus.Device
         /// <summary>
         ///     Gets the Modbus TCP Masters connected to this Modbus TCP Slave.
         /// </summary>
-        public ReadOnlyCollection<TcpClient> Masters
-        {
-            get
-            {
-                return new ReadOnlyCollection<TcpClient>(_masters.Values.Select(mc => mc.TcpClient).ToList());
-            }
-        }
+        public ReadOnlyCollection<TcpClient> Masters => new ReadOnlyCollection<TcpClient>(_masters.Values.Select(mc => mc.TcpClient).ToList());
 
         /// <summary>
         ///     Gets the server.
@@ -88,10 +82,8 @@ namespace Modbus.Device
         /// <summary>
         ///     Modbus TCP slave factory method.
         /// </summary>
-        public static ModbusTcpSlave CreateTcp(byte unitId, TcpListener tcpListener)
-        {
-            return new ModbusTcpSlave(unitId, tcpListener);
-        }
+        public static ModbusTcpSlave CreateTcp(byte unitId, TcpListener tcpListener) =>
+            new ModbusTcpSlave(unitId, tcpListener);
 
 #if TIMER
         /// <summary>

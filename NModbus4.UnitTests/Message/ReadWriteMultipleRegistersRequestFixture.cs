@@ -9,8 +9,8 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void ReadWriteMultipleRegistersRequest()
         {
-            RegisterCollection writeCollection = new RegisterCollection(255, 255, 255);
-            ReadWriteMultipleRegistersRequest request = new ReadWriteMultipleRegistersRequest(5, 3, 6, 14,
+            RegisterCollection writeCollection = new(255, 255, 255);
+            ReadWriteMultipleRegistersRequest request = new(5, 3, 6, 14,
                 writeCollection);
             Assert.Equal(Modbus.ReadWriteMultipleRegisters, request.FunctionCode);
             Assert.Equal(5, request.SlaveAddress);
@@ -31,8 +31,8 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void ProtocolDataUnit()
         {
-            RegisterCollection writeCollection = new RegisterCollection(255, 255, 255);
-            ReadWriteMultipleRegistersRequest request = new ReadWriteMultipleRegistersRequest(5, 3, 6, 14,
+            RegisterCollection writeCollection = new(255, 255, 255);
+            ReadWriteMultipleRegistersRequest request = new(5, 3, 6, 14,
                 writeCollection);
             byte[] pdu =
             {
@@ -44,8 +44,8 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void ToString_ReadWriteMultipleRegistersRequest()
         {
-            RegisterCollection writeCollection = new RegisterCollection(255, 255, 255);
-            ReadWriteMultipleRegistersRequest request = new ReadWriteMultipleRegistersRequest(5, 3, 6, 14,
+            RegisterCollection writeCollection = new(255, 255, 255);
+            ReadWriteMultipleRegistersRequest request = new(5, 3, 6, 14,
                 writeCollection);
 
             Assert.Equal(

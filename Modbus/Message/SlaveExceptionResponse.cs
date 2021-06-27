@@ -18,15 +18,12 @@ namespace Modbus.Message
             SlaveExceptionCode = exceptionCode;
         }
 
-        public override int MinimumFrameSize
-        {
-            get { return 3; }
-        }
+        public override int MinimumFrameSize => 3;
 
         public byte SlaveExceptionCode
         {
-            get { return MessageImpl.ExceptionCode.Value; }
-            set { MessageImpl.ExceptionCode = value; }
+            get => MessageImpl.ExceptionCode.Value;
+            set => MessageImpl.ExceptionCode = value;
         }
 
         /// <summary>
@@ -52,7 +49,7 @@ namespace Modbus.Message
 
         internal static Dictionary<byte, string> CreateExceptionMessages()
         {
-            Dictionary<byte, string> messages = new Dictionary<byte, string>(9);
+            Dictionary<byte, string> messages = new(9);
 
             messages.Add(1, Resources.IllegalFunction);
             messages.Add(2, Resources.IllegalDataAddress);

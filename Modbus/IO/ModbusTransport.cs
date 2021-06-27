@@ -15,7 +15,7 @@ namespace Modbus.IO
     /// </summary>
     public abstract class ModbusTransport : IDisposable
     {
-        private readonly object _syncLock = new object();
+        private readonly object _syncLock = new();
         private int _retries = Modbus.DefaultRetries;
         private int _waitToRetryMilliseconds = Modbus.DefaultWaitToRetryMilliseconds;
         private IStreamResource _streamResource;
@@ -40,8 +40,8 @@ namespace Modbus.IO
         /// </summary>
         public int Retries
         {
-            get { return _retries; }
-            set { _retries = value; }
+            get => _retries; 
+            set => _retries = value;
         }
 
         /// <summary>
@@ -62,11 +62,7 @@ namespace Modbus.IO
         /// </summary>
         public int WaitToRetryMilliseconds
         {
-            get
-            {
-                return _waitToRetryMilliseconds;
-            }
-
+            get => _waitToRetryMilliseconds;
             set
             {
                 if (value < 0)
@@ -83,8 +79,8 @@ namespace Modbus.IO
         /// </summary>
         public int ReadTimeout
         {
-            get { return StreamResource.ReadTimeout; }
-            set { StreamResource.ReadTimeout = value; }
+            get => StreamResource.ReadTimeout;
+            set => StreamResource.ReadTimeout = value;
         }
 
         /// <summary>
@@ -92,17 +88,14 @@ namespace Modbus.IO
         /// </summary>
         public int WriteTimeout
         {
-            get { return StreamResource.WriteTimeout; }
-            set { StreamResource.WriteTimeout = value; }
+            get => StreamResource.WriteTimeout;
+            set => StreamResource.WriteTimeout = value;
         }
 
         /// <summary>
         ///     Gets the stream resource.
         /// </summary>
-        internal IStreamResource StreamResource
-        {
-            get { return _streamResource; }
-        }
+        internal IStreamResource StreamResource => _streamResource;
 
         /// <summary>
         ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.

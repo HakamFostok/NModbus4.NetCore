@@ -225,7 +225,7 @@ namespace Modbus.UnitTests.IO
                     return 2;
                 });
 
-            ModbusRtuTransport transport = new ModbusRtuTransport(mock.Object);
+            ModbusRtuTransport transport = new(mock.Object);
             Assert.Equal(new byte[] { 2, 2, 2, 3, 3 }, transport.Read(5));
 
             mock.VerifyAll();

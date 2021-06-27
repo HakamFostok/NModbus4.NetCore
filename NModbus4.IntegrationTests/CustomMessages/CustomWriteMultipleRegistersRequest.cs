@@ -31,7 +31,7 @@ namespace Modbus.IntegrationTests.CustomMessages
         {
             get
             {
-                List<byte> frame = new List<byte>();
+                List<byte> frame = new();
                 frame.Add(SlaveAddress);
                 frame.AddRange(ProtocolDataUnit);
 
@@ -43,7 +43,7 @@ namespace Modbus.IntegrationTests.CustomMessages
         {
             get
             {
-                List<byte> pdu = new List<byte>();
+                List<byte> pdu = new();
 
                 pdu.Add(FunctionCode);
                 pdu.AddRange(BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)StartAddress)));

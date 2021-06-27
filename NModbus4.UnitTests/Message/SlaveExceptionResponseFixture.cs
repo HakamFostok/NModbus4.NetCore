@@ -8,7 +8,7 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void CreateSlaveExceptionResponse()
         {
-            SlaveExceptionResponse response = new SlaveExceptionResponse(11, Modbus.ReadCoils + Modbus.ExceptionOffset,
+            SlaveExceptionResponse response = new(11, Modbus.ReadCoils + Modbus.ExceptionOffset,
                 2);
             Assert.Equal(11, response.SlaveAddress);
             Assert.Equal(Modbus.ReadCoils + Modbus.ExceptionOffset, response.FunctionCode);
@@ -18,7 +18,7 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void SlaveExceptionResponsePDU()
         {
-            SlaveExceptionResponse response = new SlaveExceptionResponse(11, Modbus.ReadCoils + Modbus.ExceptionOffset,
+            SlaveExceptionResponse response = new(11, Modbus.ReadCoils + Modbus.ExceptionOffset,
                 2);
             Assert.Equal(new byte[] { response.FunctionCode, response.SlaveExceptionCode }, response.ProtocolDataUnit);
         }

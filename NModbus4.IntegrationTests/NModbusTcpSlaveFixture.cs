@@ -18,10 +18,10 @@ namespace Modbus.IntegrationTests
         [Fact(Skip = "TestDriver.exe")]
         public void ModbusTcpSlave_ConnectionResetByPeer()
         {
-            TcpListener slaveListener = new TcpListener(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
+            TcpListener slaveListener = new(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
             using (var slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener))
             {
-                Thread slaveThread = new Thread(async () => await slave.ListenAsync());
+                Thread slaveThread = new(async () => await slave.ListenAsync());
                 slaveThread.IsBackground = true;
                 slaveThread.Start();
 
@@ -47,10 +47,10 @@ namespace Modbus.IntegrationTests
         [Fact]
         public void ModbusTcpSlave_ConnectionClosesGracefully()
         {
-            TcpListener slaveListener = new TcpListener(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
+            TcpListener slaveListener = new(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
             using (var slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener))
             {
-                Thread slaveThread = new Thread(async () => await slave.ListenAsync());
+                Thread slaveThread = new(async () => await slave.ListenAsync());
                 slaveThread.IsBackground = true;
                 slaveThread.Start();
 
@@ -78,10 +78,10 @@ namespace Modbus.IntegrationTests
         [Fact]
         public void ModbusTcpSlave_ConnectionSlowlyClosesGracefully()
         {
-            TcpListener slaveListener = new TcpListener(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
+            TcpListener slaveListener = new(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
             using (var slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener))
             {
-                Thread slaveThread = new Thread(async () => await slave.ListenAsync());
+                Thread slaveThread = new(async () => await slave.ListenAsync());
                 slaveThread.IsBackground = true;
                 slaveThread.Start();
 
@@ -111,7 +111,7 @@ namespace Modbus.IntegrationTests
             var slaveListener = new TcpListener(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
             using (var slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener))
             {
-                Thread slaveThread = new Thread(async () => await slave.ListenAsync());
+                Thread slaveThread = new(async () => await slave.ListenAsync());
                 slaveThread.IsBackground = true;
                 slaveThread.Start();
 

@@ -13,7 +13,7 @@ namespace Modbus.IntegrationTests
         [Fact]
         public void ModbusUdpSlave_EnsureTheSlaveShutsDownCleanly()
         {
-            UdpClient client = new UdpClient(ModbusMasterFixture.Port);
+            UdpClient client = new(ModbusMasterFixture.Port);
             using (var slave = ModbusUdpSlave.CreateUdp(1, client))
             {
                 var handle = new AutoResetEvent(false);
@@ -35,7 +35,7 @@ namespace Modbus.IntegrationTests
         [Fact]
         public void ModbusUdpSlave_NotBound()
         {
-            UdpClient client = new UdpClient();
+            UdpClient client = new();
             ModbusSlave slave = ModbusUdpSlave.CreateUdp(1, client);
             Assert.ThrowsAsync<InvalidOperationException>(async () => await slave.ListenAsync());
         }
@@ -43,20 +43,20 @@ namespace Modbus.IntegrationTests
         [Fact]
         public void ModbusUdpSlave_MultipleMasters()
         {
-            Random randomNumberGenerator = new Random();
+            Random randomNumberGenerator = new();
             bool master1Complete = false;
             bool master2Complete = false;
-            UdpClient masterClient1 = new UdpClient();
+            UdpClient masterClient1 = new();
             masterClient1.Connect(ModbusMasterFixture.DefaultModbusIPEndPoint);
             ModbusIpMaster master1 = ModbusIpMaster.CreateIp(masterClient1);
 
-            UdpClient masterClient2 = new UdpClient();
+            UdpClient masterClient2 = new();
             masterClient2.Connect(ModbusMasterFixture.DefaultModbusIPEndPoint);
             ModbusIpMaster master2 = ModbusIpMaster.CreateIp(masterClient2);
 
             UdpClient slaveClient = CreateAndStartUdpSlave(ModbusMasterFixture.Port, DataStoreFactory.CreateTestDataStore());
 
-            Thread master1Thread = new Thread(() =>
+            Thread master1Thread = new(() =>
             {
                 for (int i = 0; i < 5; i++)
                 {
@@ -67,7 +67,7 @@ namespace Modbus.IntegrationTests
                 master1Complete = true;
             });
 
-            Thread master2Thread = new Thread(() =>
+            Thread master2Thread = new(() =>
             {
                 for (int i = 0; i < 5; i++)
                 {
@@ -112,15 +112,15 @@ namespace Modbus.IntegrationTests
         [Fact(Skip = "TODO consider supporting this scenario")]
         public void ModbusUdpSlave_SingleMasterPollingMultipleSlaves()
         {
-            DataStore slave1DataStore = new DataStore();
+            DataStore slave1DataStore = new();
             slave1DataStore.CoilDiscretes.Add(true);
 
-            DataStore slave2DataStore = new DataStore();
+            DataStore slave2DataStore = new();
             slave2DataStore.CoilDiscretes.Add(false);
 
             using (UdpClient slave1 = CreateAndStartUdpSlave(502, slave1DataStore))
             using (UdpClient slave2 = CreateAndStartUdpSlave(503, slave2DataStore))
-            using (UdpClient masterClient = new UdpClient())
+            using (UdpClient masterClient = new())
             {
                 masterClient.Connect(ModbusMasterFixture.DefaultModbusIPEndPoint);
                 ModbusIpMaster master = ModbusIpMaster.CreateIp(masterClient);
@@ -155,10 +155,10 @@ namespace Modbus.IntegrationTests
 
         private UdpClient CreateAndStartUdpSlave(int port, DataStore dataStore)
         {
-            UdpClient slaveClient = new UdpClient(port);
+            UdpClient slaveClient = new(port);
             ModbusSlave slave = ModbusUdpSlave.CreateUdp(slaveClient);
             slave.DataStore = dataStore;
-            Thread slaveThread = new Thread(async () => await slave.ListenAsync());
+            Thread slaveThread = new(async () => await slave.ListenAsync());
             slaveThread.Start();
 
             return slaveClient;

@@ -9,7 +9,7 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void CreateReadCoilsRequest()
         {
-            ReadCoilsInputsRequest request = new ReadCoilsInputsRequest(Modbus.ReadCoils, 5, 1, 10);
+            ReadCoilsInputsRequest request = new(Modbus.ReadCoils, 5, 1, 10);
             Assert.Equal(Modbus.ReadCoils, request.FunctionCode);
             Assert.Equal(5, request.SlaveAddress);
             Assert.Equal(1, request.StartAddress);
@@ -19,7 +19,7 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void CreateReadInputsRequest()
         {
-            ReadCoilsInputsRequest request = new ReadCoilsInputsRequest(Modbus.ReadInputs, 5, 1, 10);
+            ReadCoilsInputsRequest request = new(Modbus.ReadInputs, 5, 1, 10);
             Assert.Equal(Modbus.ReadInputs, request.FunctionCode);
             Assert.Equal(5, request.SlaveAddress);
             Assert.Equal(1, request.StartAddress);
@@ -35,7 +35,7 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void CreateReadCoilsInputsRequestMaxSize()
         {
-            ReadCoilsInputsRequest response = new ReadCoilsInputsRequest(Modbus.ReadCoils, 1, 2,
+            ReadCoilsInputsRequest response = new(Modbus.ReadCoils, 1, 2,
                 Modbus.MaximumDiscreteRequestResponseSize);
             Assert.Equal(Modbus.MaximumDiscreteRequestResponseSize, response.NumberOfPoints);
         }
@@ -43,7 +43,7 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void ToString_ReadCoilsRequest()
         {
-            ReadCoilsInputsRequest request = new ReadCoilsInputsRequest(Modbus.ReadCoils, 5, 1, 10);
+            ReadCoilsInputsRequest request = new(Modbus.ReadCoils, 5, 1, 10);
 
             Assert.Equal("Read 10 coils starting at address 1.", request.ToString());
         }
@@ -51,7 +51,7 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void ToString_ReadInputsRequest()
         {
-            ReadCoilsInputsRequest request = new ReadCoilsInputsRequest(Modbus.ReadInputs, 5, 1, 10);
+            ReadCoilsInputsRequest request = new(Modbus.ReadInputs, 5, 1, 10);
 
             Assert.Equal("Read 10 inputs starting at address 1.", request.ToString());
         }

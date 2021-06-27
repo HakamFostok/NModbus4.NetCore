@@ -9,7 +9,7 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void CreateWriteMultipleCoilsResponse()
         {
-            WriteMultipleCoilsResponse response = new WriteMultipleCoilsResponse(17, 19, 45);
+            WriteMultipleCoilsResponse response = new(17, 19, 45);
             Assert.Equal(Modbus.WriteMultipleCoils, response.FunctionCode);
             Assert.Equal(17, response.SlaveAddress);
             Assert.Equal(19, response.StartAddress);
@@ -25,7 +25,7 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void CreateWriteMultipleCoilsResponseMaxSize()
         {
-            WriteMultipleCoilsResponse response = new WriteMultipleCoilsResponse(1, 2,
+            WriteMultipleCoilsResponse response = new(1, 2,
                 Modbus.MaximumDiscreteRequestResponseSize);
             Assert.Equal(Modbus.MaximumDiscreteRequestResponseSize, response.NumberOfPoints);
         }

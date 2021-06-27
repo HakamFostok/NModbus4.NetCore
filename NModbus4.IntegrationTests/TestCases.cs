@@ -43,7 +43,7 @@ namespace Modbus.IntegrationTests
             {
                 StartSlave(slave);
 
-                IPAddress address = new IPAddress(new byte[] { 127, 0, 0, 1 });
+                IPAddress address = new(new byte[] { 127, 0, 0, 1 });
                 var masterClient = new TcpClient(address.ToString(), 502);
 
                 using (var master = ModbusIpMaster.CreateIp(masterClient))
@@ -61,7 +61,7 @@ namespace Modbus.IntegrationTests
                 StartSlave(slave);
 
                 var masterClient = new UdpClient();
-                IPEndPoint endPoint = new IPEndPoint(new IPAddress(new byte[] { 127, 0, 0, 1 }), 502);
+                IPEndPoint endPoint = new(new IPAddress(new byte[] { 127, 0, 0, 1 }), 502);
                 masterClient.Connect(endPoint);
 
                 using (var master = ModbusIpMaster.CreateIp(masterClient))

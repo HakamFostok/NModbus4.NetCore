@@ -28,18 +28,14 @@ namespace Modbus.Device
         ///     Modbus UDP slave factory method.
         ///     Creates NModbus UDP slave with default
         /// </summary>
-        public static ModbusUdpSlave CreateUdp(UdpClient client)
-        {
-            return new ModbusUdpSlave(Modbus.DefaultIpSlaveUnitId, client);
-        }
+        public static ModbusUdpSlave CreateUdp(UdpClient client) =>
+            new(Modbus.DefaultIpSlaveUnitId, client);
 
         /// <summary>
         ///     Modbus UDP slave factory method.
         /// </summary>
-        public static ModbusUdpSlave CreateUdp(byte unitId, UdpClient client)
-        {
-            return new ModbusUdpSlave(unitId, client);
-        }
+        public static ModbusUdpSlave CreateUdp(byte unitId, UdpClient client) =>
+            new(unitId, client);
 
         /// <summary>
         ///     Start slave listening for requests.

@@ -14,17 +14,17 @@ namespace Modbus.Data
     /// </summary>
     public class DataStore
     {
-        private readonly object _syncRoot = new object();
+        private readonly object _syncRoot = new();
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="DataStore" /> class.
         /// </summary>
         public DataStore()
         {
-            CoilDiscretes = new ModbusDataCollection<bool> { ModbusDataType = ModbusDataType.Coil };
-            InputDiscretes = new ModbusDataCollection<bool> { ModbusDataType = ModbusDataType.Input };
-            HoldingRegisters = new ModbusDataCollection<ushort> { ModbusDataType = ModbusDataType.HoldingRegister };
-            InputRegisters = new ModbusDataCollection<ushort> { ModbusDataType = ModbusDataType.InputRegister };
+            CoilDiscretes = new() { ModbusDataType = ModbusDataType.Coil };
+            InputDiscretes = new() { ModbusDataType = ModbusDataType.Input };
+            HoldingRegisters = new() { ModbusDataType = ModbusDataType.HoldingRegister };
+            InputRegisters = new() { ModbusDataType = ModbusDataType.InputRegister };
         }
 
         /// <summary>
@@ -40,10 +40,10 @@ namespace Modbus.Data
             IList<ushort> holdingRegisters,
             IList<ushort> inputRegisters)
         {
-            CoilDiscretes = new ModbusDataCollection<bool>(coilDiscretes) { ModbusDataType = ModbusDataType.Coil };
-            InputDiscretes = new ModbusDataCollection<bool>(inputDiscretes) { ModbusDataType = ModbusDataType.Input };
-            HoldingRegisters = new ModbusDataCollection<ushort>(holdingRegisters) { ModbusDataType = ModbusDataType.HoldingRegister };
-            InputRegisters = new ModbusDataCollection<ushort>(inputRegisters) { ModbusDataType = ModbusDataType.InputRegister };
+            CoilDiscretes = new(coilDiscretes) { ModbusDataType = ModbusDataType.Coil };
+            InputDiscretes = new(inputDiscretes) { ModbusDataType = ModbusDataType.Input };
+            HoldingRegisters = new(holdingRegisters) { ModbusDataType = ModbusDataType.HoldingRegister };
+            InputRegisters = new(inputRegisters) { ModbusDataType = ModbusDataType.InputRegister };
         }
 
         /// <summary>
@@ -79,10 +79,7 @@ namespace Modbus.Data
         /// <summary>
         ///     An object that can be used to synchronize direct access to the DataStore collections.
         /// </summary>
-        public object SyncRoot
-        {
-            get { return _syncRoot; }
-        }
+        public object SyncRoot => _syncRoot;
 
         /// <summary>
         ///     Retrieves subset of data from collection.
@@ -111,7 +108,7 @@ namespace Modbus.Data
                 dataToRetrieve = dataSource.Slice(startIndex, count).ToArray();
             }
 
-            T result = new T();
+            T result = new();
             for (int i = 0; i < count; i++)
             {
                 result.Add(dataToRetrieve[i]);

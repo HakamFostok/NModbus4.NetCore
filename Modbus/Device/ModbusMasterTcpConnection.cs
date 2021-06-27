@@ -28,20 +28,11 @@ namespace Modbus.Device
         public ModbusMasterTcpConnection(TcpClient client, ModbusTcpSlave slave)
             : base(new ModbusIpTransport(new TcpClientAdapter(client)))
         {
-            if (client == null)
-            {
-                throw new ArgumentNullException(nameof(client));
-            }
+            _client = client ?? throw new ArgumentNullException(nameof(client));
+            _slave = slave ?? throw new ArgumentNullException(nameof(slave));
 
-            if (slave == null)
-            {
-                throw new ArgumentNullException(nameof(slave));
-            }
-
-            _client = client;
             _endPoint = client.Client.RemoteEndPoint.ToString();
             _stream = client.GetStream();
-            _slave = slave;
             _requestHandlerTask = Task.Run((Func<Task>)HandleRequestAsync);
         }
 
@@ -50,20 +41,11 @@ namespace Modbus.Device
         /// </summary>
         public event EventHandler<TcpConnectionEventArgs> ModbusMasterTcpConnectionClosed;
 
-        public string EndPoint
-        {
-            get { return _endPoint; }
-        }
+        public string EndPoint => _endPoint;
 
-        public Stream Stream
-        {
-            get { return _stream; }
-        }
+        public Stream Stream => _stream;
 
-        public TcpClient TcpClient
-        {
-            get { return _client; }
-        }
+        public TcpClient TcpClient => _client;
 
         protected override void Dispose(bool disposing)
         {

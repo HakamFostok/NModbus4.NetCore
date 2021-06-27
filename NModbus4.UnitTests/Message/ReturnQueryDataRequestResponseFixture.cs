@@ -9,8 +9,8 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void ReturnQueryDataRequestResponse()
         {
-            RegisterCollection data = new RegisterCollection(1, 2, 3, 4);
-            DiagnosticsRequestResponse request = new DiagnosticsRequestResponse(Modbus.DiagnosticsReturnQueryData, 5,
+            RegisterCollection data = new(1, 2, 3, 4);
+            DiagnosticsRequestResponse request = new(Modbus.DiagnosticsReturnQueryData, 5,
                 data);
             Assert.Equal(Modbus.Diagnostics, request.FunctionCode);
             Assert.Equal(Modbus.DiagnosticsReturnQueryData, request.SubFunctionCode);
@@ -21,8 +21,8 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void ProtocolDataUnit()
         {
-            RegisterCollection data = new RegisterCollection(1, 2, 3, 4);
-            DiagnosticsRequestResponse request = new DiagnosticsRequestResponse(Modbus.DiagnosticsReturnQueryData, 5,
+            RegisterCollection data = new(1, 2, 3, 4);
+            DiagnosticsRequestResponse request = new(Modbus.DiagnosticsReturnQueryData, 5,
                 data);
             Assert.Equal(new byte[] { 8, 0, 0, 0, 1, 0, 2, 0, 3, 0, 4 }, request.ProtocolDataUnit);
         }

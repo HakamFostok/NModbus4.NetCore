@@ -20,22 +20,15 @@ namespace Modbus.Message
 
         public ushort StartAddress
         {
-            get { return MessageImpl.StartAddress.Value; }
-            set { MessageImpl.StartAddress = value; }
+            get => MessageImpl.StartAddress.Value;
+            set => MessageImpl.StartAddress = value;
         }
 
-        public override int MinimumFrameSize
-        {
-            get { return 6; }
-        }
+        public override int MinimumFrameSize => 6;
 
         public ushort NumberOfPoints
         {
-            get
-            {
-                return MessageImpl.NumberOfPoints.Value;
-            }
-
+            get => MessageImpl.NumberOfPoints.Value;
             set
             {
                 if (value > Modbus.MaximumRegisterRequestResponseSize)
@@ -49,10 +42,7 @@ namespace Modbus.Message
         }
 
         public override string ToString()
-        {
-            string msg = $"Read {NumberOfPoints} {(FunctionCode == Modbus.ReadHoldingRegisters ? "holding" : "input")} registers starting at address {StartAddress}.";
-            return msg;
-        }
+            => $"Read {NumberOfPoints} {(FunctionCode == Modbus.ReadHoldingRegisters ? "holding" : "input")} registers starting at address {StartAddress}.";
 
         public void ValidateResponse(IModbusMessage response)
         {

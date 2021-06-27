@@ -35,25 +35,19 @@ namespace Modbus.IO
             return frame.ToArray();
         }
 
-        internal override bool ChecksumsMatch(IModbusMessage message, byte[] messageFrame)
-        {
-            return ModbusUtility.CalculateLrc(message.MessageFrame) == messageFrame[messageFrame.Length - 1];
-        }
+        internal override bool ChecksumsMatch(IModbusMessage message, byte[] messageFrame) =>
+            ModbusUtility.CalculateLrc(message.MessageFrame) == messageFrame[^1];
 
-        internal override byte[] ReadRequest()
-        {
-            return ReadRequestResponse();
-        }
+        internal override byte[] ReadRequest() =>
+            ReadRequestResponse();
 
-        internal override IModbusMessage ReadResponse<T>()
-        {
-            return CreateResponse<T>(ReadRequestResponse());
-        }
+        internal override IModbusMessage ReadResponse<T>() =>
+            CreateResponse<T>(ReadRequestResponse());
 
         internal byte[] ReadRequestResponse()
         {
             // read message frame, removing frame start ':'
-            string frameHex = StreamResourceUtility.ReadLine(StreamResource).Substring(1);
+            string frameHex = StreamResourceUtility.ReadLine(StreamResource)[1..];
 
             // convert hex to bytes
             byte[] frame = ModbusUtility.HexToBytes(frameHex);

@@ -24,14 +24,12 @@ namespace Modbus.IO
         /// </summary>
         public bool CheckFrame
         {
-            get { return _checkFrame; }
-            set { _checkFrame = value; }
+            get => _checkFrame;
+            set => _checkFrame = value;
         }
 
-        internal void DiscardInBuffer()
-        {
+        internal void DiscardInBuffer() =>
             StreamResource.DiscardInBuffer();
-        }
 
         internal override void Write(IModbusMessage message)
         {

@@ -97,20 +97,16 @@ namespace Modbus.Utility
         /// </summary>
         /// <param name="numbers">The byte array.</param>
         /// <returns>An array of ASCII byte values.</returns>
-        public static byte[] GetAsciiBytes(params byte[] numbers)
-        {
-            return Encoding.UTF8.GetBytes(numbers.SelectMany(n => n.ToString("X2")).ToArray());
-        }
+        public static byte[] GetAsciiBytes(params byte[] numbers) =>
+            Encoding.UTF8.GetBytes(numbers.SelectMany(n => n.ToString("X2")).ToArray());
 
         /// <summary>
         ///     Converts an array of UInt16 to an ASCII byte array.
         /// </summary>
         /// <param name="numbers">The ushort array.</param>
         /// <returns>An array of ASCII byte values.</returns>
-        public static byte[] GetAsciiBytes(params ushort[] numbers)
-        {
-            return Encoding.UTF8.GetBytes(numbers.SelectMany(n => n.ToString("X4")).ToArray());
-        }
+        public static byte[] GetAsciiBytes(params ushort[] numbers) =>
+            Encoding.UTF8.GetBytes(numbers.SelectMany(n => n.ToString("X4")).ToArray());
 
         /// <summary>
         ///     Converts a network order byte array to an array of UInt16 values in host order.

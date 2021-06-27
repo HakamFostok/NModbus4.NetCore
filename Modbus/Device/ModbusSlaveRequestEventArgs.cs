@@ -19,9 +19,7 @@ namespace Modbus.Device
         /// <summary>
         ///     Gets the message.
         /// </summary>
-        public IModbusMessage Message
-        {
-            get { return _message; }
-        }
+        public IModbusMessage Message => _message;
+
     }
 }

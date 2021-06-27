@@ -8,14 +8,14 @@ namespace Modbus.UnitTests.Data
         [Fact]
         public void ByteCount()
         {
-            RegisterCollection col = new RegisterCollection(1, 2, 3);
+            RegisterCollection col = new(1, 2, 3);
             Assert.Equal(6, col.ByteCount);
         }
 
         [Fact]
         public void NewRegisterCollection()
         {
-            RegisterCollection col = new RegisterCollection(5, 3, 4, 6);
+            RegisterCollection col = new(5, 3, 4, 6);
             Assert.NotNull(col);
             Assert.Equal(4, col.Count);
             Assert.Equal(5, col[0]);
@@ -24,7 +24,7 @@ namespace Modbus.UnitTests.Data
         [Fact]
         public void NewRegisterCollectionFromBytes()
         {
-            RegisterCollection col = new RegisterCollection(new byte[] { 0, 1, 0, 2, 0, 3 });
+            RegisterCollection col = new(new byte[] { 0, 1, 0, 2, 0, 3 });
             Assert.NotNull(col);
             Assert.Equal(3, col.Count);
             Assert.Equal(1, col[0]);
@@ -35,7 +35,7 @@ namespace Modbus.UnitTests.Data
         [Fact]
         public void RegisterCollectionNetworkBytes()
         {
-            RegisterCollection col = new RegisterCollection(5, 3, 4, 6);
+            RegisterCollection col = new(5, 3, 4, 6);
             byte[] bytes = col.NetworkBytes;
             Assert.NotNull(bytes);
             Assert.Equal(8, bytes.Length);
@@ -45,7 +45,7 @@ namespace Modbus.UnitTests.Data
         [Fact]
         public void RegisterCollectionEmpty()
         {
-            RegisterCollection col = new RegisterCollection();
+            RegisterCollection col = new();
             Assert.NotNull(col);
             Assert.Equal(0, col.NetworkBytes.Length);
         }
@@ -53,14 +53,14 @@ namespace Modbus.UnitTests.Data
         [Fact]
         public void ModifyRegister()
         {
-            RegisterCollection col = new RegisterCollection(1, 2, 3, 4);
+            RegisterCollection col = new(1, 2, 3, 4);
             col[0] = 5;
         }
 
         [Fact]
         public void AddRegister()
         {
-            RegisterCollection col = new RegisterCollection();
+            RegisterCollection col = new();
             Assert.Equal(0, col.Count);
             col.Add(45);
             Assert.Equal(1, col.Count);
@@ -69,7 +69,7 @@ namespace Modbus.UnitTests.Data
         [Fact]
         public void RemoveRegister()
         {
-            RegisterCollection col = new RegisterCollection(3, 4, 5);
+            RegisterCollection col = new(3, 4, 5);
             Assert.Equal(3, col.Count);
             col.RemoveAt(2);
             Assert.Equal(2, col.Count);

@@ -2,7 +2,6 @@
 
 namespace Modbus.Data
 {
-
     /// <summary>
     ///     Modbus message containing data.
     /// </summary>

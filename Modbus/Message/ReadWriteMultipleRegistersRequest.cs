@@ -52,26 +52,14 @@ namespace Modbus.Message
             }
         }
 
-        public ReadHoldingInputRegistersRequest ReadRequest
-        {
-            get { return _readRequest; }
-        }
+        public ReadHoldingInputRegistersRequest ReadRequest => _readRequest; 
 
-        public WriteMultipleRegistersRequest WriteRequest
-        {
-            get { return _writeRequest; }
-        }
+        public WriteMultipleRegistersRequest WriteRequest => _writeRequest; 
 
-        public override int MinimumFrameSize
-        {
-            get { return 11; }
-        }
+        public override int MinimumFrameSize => 11; 
 
-        public override string ToString()
-        {
-            string msg = $"Write {_writeRequest.NumberOfPoints} holding registers starting at address {_writeRequest.StartAddress}, and read {_readRequest.NumberOfPoints} registers starting at address {_readRequest.StartAddress}.";
-            return msg;
-        }
+        public override string ToString() =>
+            $"Write {_writeRequest.NumberOfPoints} holding registers starting at address {_writeRequest.StartAddress}, and read {_readRequest.NumberOfPoints} registers starting at address {_readRequest.StartAddress}.";
 
         public void ValidateResponse(IModbusMessage response)
         {

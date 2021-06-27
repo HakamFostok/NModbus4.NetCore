@@ -21,32 +21,25 @@ namespace Modbus.IO
             _tcpClient = tcpClient;
         }
 
-        public int InfiniteTimeout
-        {
-            get { return Timeout.Infinite; }
-        }
+        public int InfiniteTimeout => Timeout.Infinite;
 
         public int ReadTimeout
         {
-            get { return _tcpClient.GetStream().ReadTimeout; }
-            set { _tcpClient.GetStream().ReadTimeout = value; }
+            get => _tcpClient.GetStream().ReadTimeout;
+            set => _tcpClient.GetStream().ReadTimeout = value;
         }
 
         public int WriteTimeout
         {
-            get { return _tcpClient.GetStream().WriteTimeout; }
-            set { _tcpClient.GetStream().WriteTimeout = value; }
+            get => _tcpClient.GetStream().WriteTimeout;
+            set => _tcpClient.GetStream().WriteTimeout = value;
         }
 
-        public void Write(byte[] buffer, int offset, int size)
-        {
+        public void Write(byte[] buffer, int offset, int size) =>
             _tcpClient.GetStream().Write(buffer, offset, size);
-        }
 
-        public int Read(byte[] buffer, int offset, int size)
-        {
-            return _tcpClient.GetStream().Read(buffer, offset, size);
-        }
+        public int Read(byte[] buffer, int offset, int size) =>
+            _tcpClient.GetStream().Read(buffer, offset, size);
 
         public void DiscardInBuffer()
         {

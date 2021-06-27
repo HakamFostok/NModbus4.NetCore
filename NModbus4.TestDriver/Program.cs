@@ -10,7 +10,7 @@
         {
             try
             {
-                using (TcpClient client = new TcpClient("127.0.0.1", 502))
+                using (TcpClient client = new("127.0.0.1", 502))
                 {
                     client.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
 

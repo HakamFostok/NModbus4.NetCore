@@ -66,10 +66,7 @@ namespace Modbus.Data
         /// <summary>
         ///     Gets the byte count.
         /// </summary>
-        public byte ByteCount
-        {
-            get { return (byte)(Count * 2); }
-        }
+        public byte ByteCount => (byte)(Count * 2);
 
         /// <summary>
         ///     Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
@@ -77,9 +74,7 @@ namespace Modbus.Data
         /// <returns>
         ///     A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
         /// </returns>
-        public override string ToString()
-        {
-            return string.Concat("{", string.Join(", ", this.Select(v => v.ToString()).ToArray()), "}");
-        }
+        public override string ToString() =>
+            string.Concat("{", string.Join(", ", this.Select(v => v.ToString()).ToArray()), "}");
     }
 }
