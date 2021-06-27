@@ -1,5 +1,4 @@
 ﻿using System.Net.Sockets;
-using System.Numerics;
 using System.Threading;
 using Modbus.Device;
 using Xunit;
@@ -33,7 +32,7 @@ namespace Modbus.IntegrationTests
         {
             var listener = new TcpListener(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
             using (var slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, listener))
-{
+            {
                 var slaveThread = new Thread(async () => await slave.ListenAsync());
                 slaveThread.Start();
 

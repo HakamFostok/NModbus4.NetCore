@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using Modbus.Device;
+﻿using Modbus.Device;
 using Xunit;
 
 namespace Modbus.IntegrationTests

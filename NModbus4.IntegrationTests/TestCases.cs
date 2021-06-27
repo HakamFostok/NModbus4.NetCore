@@ -2,7 +2,6 @@
 using System.IO.Ports;
 using System.Net;
 using System.Net.Sockets;
-using System.Numerics;
 using System.Threading;
 using Modbus.Data;
 using Modbus.Device;

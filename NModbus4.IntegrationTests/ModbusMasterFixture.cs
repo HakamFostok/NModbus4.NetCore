@@ -5,7 +5,6 @@ using System.IO;
 using System.IO.Ports;
 using System.Net;
 using System.Net.Sockets;
-using System.Numerics;
 using System.Reflection;
 using System.Threading;
 using Modbus.Data;
@@ -65,7 +64,7 @@ namespace Modbus.IntegrationTests
         }
 
         public void StartSlave()
-{
+        {
             SlaveThread = new Thread(async () => await Slave.ListenAsync());
             SlaveThread.IsBackground = true;
             SlaveThread.Start();

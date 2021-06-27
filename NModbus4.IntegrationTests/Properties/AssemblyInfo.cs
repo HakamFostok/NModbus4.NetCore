@@ -1,7 +1,4 @@
-﻿using System;
-using System.Reflection;
-using System.Runtime.InteropServices;
-
+﻿
 using Xunit;
 
 //[assembly: AssemblyTitle("Modbus.IntegrationTests")]
