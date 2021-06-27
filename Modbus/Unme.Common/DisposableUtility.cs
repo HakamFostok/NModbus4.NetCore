@@ -1,7 +1,7 @@
-﻿namespace Modbus.Unme.Common
-{
-    using System;
+﻿using System;
 
+namespace Modbus.Unme.Common
+{
     internal static class DisposableUtility
     {
         public static void Dispose<T>(ref T item)

@@ -1,7 +1,7 @@
-﻿namespace Modbus.Message
-{
-    using Data;
+﻿using Modbus.Data;
 
+namespace Modbus.Message
+{
     public abstract class AbstractModbusMessageWithData<TData> : AbstractModbusMessage
         where TData : IModbusMessageDataCollection
     {

@@ -1,15 +1,14 @@
-﻿namespace Modbus.IO
+﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Net;
+
+using Modbus.Message;
+using Modbus.Unme.Common;
+
+namespace Modbus.IO
 {
-    using System;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Linq;
-    using System.Net;
-
-    using Message;
-
-    using Unme.Common;
-
     /// <summary>
     ///     Transport for Internet protocols.
     ///     Refined Abstraction - http://en.wikipedia.org/wiki/Bridge_Pattern

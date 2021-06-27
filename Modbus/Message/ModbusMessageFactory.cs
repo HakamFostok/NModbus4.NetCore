@@ -1,7 +1,7 @@
-﻿namespace Modbus.Message
-{
-    using System;
+﻿using System;
 
+namespace Modbus.Message
+{
     /// <summary>
     ///     Modbus message factory.
     /// </summary>

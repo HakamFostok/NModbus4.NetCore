@@ -1,17 +1,18 @@
 ﻿using Modbus.Serial;
+using System;
+using System.Diagnostics.CodeAnalysis;
+#if SERIAL
+using System.IO.Ports;
+
+#endif
+using System.Net.Sockets;
+using System.Threading.Tasks;
+
+using Modbus.IO;
 
 namespace Modbus.Device
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-#if SERIAL
-    using System.IO.Ports;
 
-#endif
-    using System.Net.Sockets;
-    using System.Threading.Tasks;
-
-    using IO;
 
     /// <summary>
     ///    Modbus IP master device.

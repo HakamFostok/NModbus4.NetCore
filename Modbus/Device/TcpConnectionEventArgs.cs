@@ -1,7 +1,7 @@
-﻿namespace Modbus.Device
-{
-    using System;
+﻿using System;
 
+namespace Modbus.Device
+{
     internal class TcpConnectionEventArgs : EventArgs
     {
         public TcpConnectionEventArgs(string endPoint)

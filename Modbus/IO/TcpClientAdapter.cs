@@ -1,12 +1,12 @@
-﻿namespace Modbus.IO
+﻿using System;
+using System.Diagnostics;
+using System.Net.Sockets;
+using System.Threading;
+
+using Modbus.Unme.Common;
+
+namespace Modbus.IO
 {
-    using System;
-    using System.Diagnostics;
-    using System.Net.Sockets;
-    using System.Threading;
-
-    using Unme.Common;
-
     /// <summary>
     ///     Concrete Implementor - http://en.wikipedia.org/wiki/Bridge_Pattern
     /// </summary>

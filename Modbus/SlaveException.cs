@@ -1,19 +1,20 @@
-﻿namespace Modbus
-{
-    using System;
-    using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 #if NET46
     using System.Runtime.Serialization;
     using System.Security.Permissions;
 #endif
-    using Message;
+using Modbus.Message;
 
-    /// <summary>
-    ///     Represents slave errors that occur during communication.
-    /// </summary>
+/// <summary>
+///     Represents slave errors that occur during communication.
+/// </summary>
 #if NET46
     [Serializable]
-#endif
+# endif
+
+namespace Modbus
+{
     public class SlaveException : Exception
     {
         private const string SlaveAddressPropertyName = "SlaveAdress";

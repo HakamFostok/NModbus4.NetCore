@@ -1,7 +1,7 @@
-﻿namespace Modbus.IO
-{
-    using System;
+﻿using System;
 
+namespace Modbus.IO
+{
     /// <summary>
     ///     Represents a serial resource.
     ///     Implementor - http://en.wikipedia.org/wiki/Bridge_Pattern

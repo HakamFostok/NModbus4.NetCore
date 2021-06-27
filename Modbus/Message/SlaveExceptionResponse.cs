@@ -1,9 +1,9 @@
-﻿namespace Modbus.Message
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 
+namespace Modbus.Message
+{
     public class SlaveExceptionResponse : AbstractModbusMessage, IModbusMessage
     {
         private static readonly Dictionary<byte, string> _exceptionMessages = CreateExceptionMessages();

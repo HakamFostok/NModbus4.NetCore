@@ -1,10 +1,10 @@
-﻿namespace Modbus.IO
+﻿using System.Diagnostics;
+using System.IO;
+
+using Modbus.Message;
+
+namespace Modbus.IO
 {
-    using System.Diagnostics;
-    using System.IO;
-
-    using Message;
-
     /// <summary>
     ///     Transport for Serial protocols.
     ///     Refined Abstraction - http://en.wikipedia.org/wiki/Bridge_Pattern

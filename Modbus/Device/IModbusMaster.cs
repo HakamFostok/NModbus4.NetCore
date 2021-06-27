@@ -1,10 +1,10 @@
-﻿namespace Modbus.Device
+﻿using System;
+using System.Threading.Tasks;
+
+using Modbus.IO;
+
+namespace Modbus.Device
 {
-    using System;
-    using System.Threading.Tasks;
-
-    using IO;
-
     /// <summary>
     ///     Modbus master device.
     /// </summary>

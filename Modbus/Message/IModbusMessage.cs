@@ -1,7 +1,7 @@
-﻿namespace Modbus.Message
-{
-    using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Modbus.Message
+{
     /// <summary>
     ///     A message built by the master (client) that initiates a Modbus transaction.
     /// </summary>

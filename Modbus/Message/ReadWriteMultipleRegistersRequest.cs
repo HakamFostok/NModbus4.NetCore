@@ -1,10 +1,10 @@
-﻿namespace Modbus.Message
+﻿using System;
+using System.IO;
+
+using Modbus.Data;
+
+namespace Modbus.Message
 {
-    using System;
-    using System.IO;
-
-    using Data;
-
     public class ReadWriteMultipleRegistersRequest : AbstractModbusMessage, IModbusRequest
     {
         private ReadHoldingInputRegistersRequest _readRequest;

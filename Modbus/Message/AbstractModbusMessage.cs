@@ -1,7 +1,7 @@
-﻿namespace Modbus.Message
-{
-    using System;
+﻿using System;
 
+namespace Modbus.Message
+{
     /// <summary>
     ///     Abstract Modbus message.
     /// </summary>

@@ -1,11 +1,11 @@
-﻿namespace Modbus.Device
+﻿using System;
+
+using Modbus.IO;
+
+using Modbus.Unme.Common;
+
+namespace Modbus.Device
 {
-    using System;
-
-    using IO;
-
-    using Unme.Common;
-
     /// <summary>
     ///     Modbus device.
     /// </summary>
