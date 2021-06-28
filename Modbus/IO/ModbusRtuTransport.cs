@@ -41,7 +41,6 @@ namespace Modbus.IO
                     break;
 
                 case Modbus.WriteMultipleCoils:
-
                 case Modbus.WriteMultipleRegisters:
                     byte byteCount = frameStart[6];
                     numBytes = byteCount + 2;
