@@ -1,17 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageId>NModbus4.NetCore</PackageId>
 		<Authors>Hakan FISTIK</Authors>
 		<Description>This library is driven from this library https://github.com/NModbus4/NModbus4. It just target .NET Core instead of .NET Framework</Description>
 		<PackageProjectUrl>https://github.com/HakamFostok/NModbus4.NetCore</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/HakamFostok/NModbus4.NetCore</RepositoryUrl>
-		<!--<PackageLicenseFile>LICENSE</PackageLicenseFile>-->
-		<AssemblyVersion>1.3.0.0</AssemblyVersion>
-		<FileVersion>1.3.0.0</FileVersion>
-		<Version>1.3.0</Version>
+
 	</PropertyGroup>
 
 	<PropertyGroup>
