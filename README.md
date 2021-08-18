@@ -18,7 +18,7 @@ Here is a snippet from NModbus4 documentation
 
 Because 
 1. The original library *NModbus4* is not under active development, the last commit is dated 5 years ago <br/>
-2. There is a need to use *NModbus4* with .NET projects, but *NModbus4* support only .NET Framework but the original library does not support .NET <br/>
+2. There is a need to use *NModbus4* with .NET projects, but *NModbus4* support only .NET Framework (Not .NET) <br/>
 
 ## What is the differences between NModbus4 and NModbus4.NetCore?
 
