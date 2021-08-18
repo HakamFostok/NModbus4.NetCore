@@ -29,8 +29,8 @@ Because
    *NModbus4* needs some configuration to support SerialPort that (by Defining the Compile-time constant).
 3. Supporting .NET with this library does **NOT** mean expanding the *NModbus4* <br/>
    I mean *NModbus4.NetCore* will work **only** with .NET. <br/>
-   **if you want to use this library with .NET Framework you are in the wrong place, go to the original library then**<br/>
-   NO .NET Standard, NO .NET Framework, **JUST .NET AND ONLY .NET**
+   **if you want to use this library with .NET Framework you are in the wrong place, go to the original library then.**<br/>
+   .NET Standard is NOT supported, .NET Framework is NOT supported, **JUST .NET AND ONLY .NET**
 
 ## Nuget Package<br/>
 
