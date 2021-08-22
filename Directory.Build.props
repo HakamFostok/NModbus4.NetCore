@@ -4,13 +4,10 @@
 		<Nullable>enable</Nullable>
 		<!--<WarningsAsErrors>CS8600;CS8602;CS8603</WarningsAsErrors>-->
 		<!--<PackageLicenseFile>LICENSE</PackageLicenseFile>-->
-		<AssemblyVersion>1.3.0.0</AssemblyVersion>
-		<FileVersion>1.3.0.0</FileVersion>
-		<Version>1.3.0</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.25.0.33663">
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.27.0.35380">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
