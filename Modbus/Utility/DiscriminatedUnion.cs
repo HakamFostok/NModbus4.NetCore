@@ -40,13 +40,13 @@ public class DiscriminatedUnion<TA, TB>
     {
         get
         {
-            if (this.Option != DiscriminatedUnionOption.A)
+            if (Option != DiscriminatedUnionOption.A)
             {
                 string msg = $"{DiscriminatedUnionOption.A} is not a valid option for this discriminated union instance.";
                 throw new InvalidOperationException(msg);
             }
 
-            return this.optionA;
+            return optionA;
         }
     }
 
@@ -58,23 +58,20 @@ public class DiscriminatedUnion<TA, TB>
     {
         get
         {
-            if (this.Option != DiscriminatedUnionOption.B)
+            if (Option != DiscriminatedUnionOption.B)
             {
                 string msg = $"{DiscriminatedUnionOption.B} is not a valid option for this discriminated union instance.";
                 throw new InvalidOperationException(msg);
             }
 
-            return this.optionB;
+            return optionB;
         }
     }
 
     /// <summary>
     ///     Gets the discriminated value option set for this instance.
     /// </summary>
-    public DiscriminatedUnionOption Option
-    {
-        get { return this.option; }
-    }
+    public DiscriminatedUnionOption Option => option;
 
     /// <summary>
     ///     Factory method for creating DiscriminatedUnion with option A set.

@@ -9,11 +9,11 @@ public class UshortModbusDataCollectionFixture : ModbusDataCollectionFixture<ush
     [Fact]
     public void Remove_FromReadOnly()
     {
-        ushort[] source = this.GetArray();
+        ushort[] source = GetArray();
         ModbusDataCollection<ushort>? col = new ModbusDataCollection<ushort>(new ReadOnlyCollection<ushort>(source));
         int expectedCount = source.Length;
 
-        Assert.False(col.Remove(this.GetNonExistentElement()));
+        Assert.False(col.Remove(GetNonExistentElement()));
         Assert.True(col.Remove(source[3]));
 
         Assert.Equal(expectedCount, col.Count);
