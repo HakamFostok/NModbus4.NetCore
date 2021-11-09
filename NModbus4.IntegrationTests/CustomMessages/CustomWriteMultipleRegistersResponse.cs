@@ -1,10 +1,9 @@
-﻿namespace Modbus.IntegrationTests.CustomMessages;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using Message;
+using Modbus.Message;
 
+namespace Modbus.IntegrationTests.CustomMessages;
 public class CustomWriteMultipleRegistersResponse : IModbusMessage
 {
     private byte _functionCode;

@@ -131,6 +131,9 @@ csharp_style_expression_bodied_operators=true:warning
 csharp_style_expression_bodied_local_functions=true:warning
 csharp_style_expression_bodied_indexers=true:warning
 csharp_style_expression_bodied_lambdas=true:warning
+csharp_using_directive_placement=outside_namespace:warning
+csharp_prefer_simple_using_statement=true:warning
 
 [*.{cs,vb}]
 dotnet_style_allow_multiple_blank_lines_experimental=false:warning
+dotnet_style_readonly_field=true:warning

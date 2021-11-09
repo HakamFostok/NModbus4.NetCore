@@ -5,7 +5,7 @@ namespace Modbus.IntegrationTests;
 
 public class NModbusSerialAsciiMasterJamodSerialAsciiSlaveFixture : ModbusMasterFixture
 {
-    private string program = $"SerialSlave {DefaultSlaveSerialPortName} ASCII";
+    private const string program = $"SerialSlave {DefaultSlaveSerialPortName} ASCII";
 
     public NModbusSerialAsciiMasterJamodSerialAsciiSlaveFixture()
     {
