@@ -9,145 +9,144 @@ using System.IO.Ports;
 using Modbus.IO;
 using Modbus.Message;
 
-namespace Modbus.Device
+namespace Modbus.Device;
+
+/// <summary>
+///     Modbus serial slave device.
+/// </summary>
+public class ModbusSerialSlave : ModbusSlave
 {
-    /// <summary>
-    ///     Modbus serial slave device.
-    /// </summary>
-    public class ModbusSerialSlave : ModbusSlave
+    private ModbusSerialSlave(byte unitId, ModbusTransport transport)
+        : base(unitId, transport)
     {
-        private ModbusSerialSlave(byte unitId, ModbusTransport transport)
-            : base(unitId, transport)
-        {
-        }
+    }
 
-        private ModbusSerialTransport SerialTransport
+    private ModbusSerialTransport SerialTransport
+    {
+        get
         {
-            get
+            ModbusSerialTransport? transport = Transport as ModbusSerialTransport;
+
+            if (transport == null)
             {
-                ModbusSerialTransport? transport = Transport as ModbusSerialTransport;
-
-                if (transport == null)
-                {
-                    throw new ObjectDisposedException("SerialTransport");
-                }
-
-                return transport;
+                throw new ObjectDisposedException("SerialTransport");
             }
+
+            return transport;
         }
+    }
 
 #if SERIAL
-        /// <summary>
-        ///     Modbus ASCII slave factory method.
-        /// </summary>
-        public static ModbusSerialSlave CreateAscii(byte unitId, SerialPort serialPort)
+    /// <summary>
+    ///     Modbus ASCII slave factory method.
+    /// </summary>
+    public static ModbusSerialSlave CreateAscii(byte unitId, SerialPort serialPort)
+    {
+        if (serialPort == null)
         {
-            if (serialPort == null)
-            {
-                throw new ArgumentNullException(nameof(serialPort));
-            }
-
-            return CreateAscii(unitId, new SerialPortAdapter(serialPort));
+            throw new ArgumentNullException(nameof(serialPort));
         }
+
+        return CreateAscii(unitId, new SerialPortAdapter(serialPort));
+    }
 #endif
 
-        /// <summary>
-        ///     Modbus ASCII slave factory method.
-        /// </summary>
-        public static ModbusSerialSlave CreateAscii(byte unitId, IStreamResource streamResource)
+    /// <summary>
+    ///     Modbus ASCII slave factory method.
+    /// </summary>
+    public static ModbusSerialSlave CreateAscii(byte unitId, IStreamResource streamResource)
+    {
+        if (streamResource == null)
         {
-            if (streamResource == null)
-            {
-                throw new ArgumentNullException(nameof(streamResource));
-            }
-
-            return new ModbusSerialSlave(unitId, new ModbusAsciiTransport(streamResource));
+            throw new ArgumentNullException(nameof(streamResource));
         }
+
+        return new ModbusSerialSlave(unitId, new ModbusAsciiTransport(streamResource));
+    }
 
 #if SERIAL
-        /// <summary>
-        ///     Modbus RTU slave factory method.
-        /// </summary>
-        public static ModbusSerialSlave CreateRtu(byte unitId, SerialPort serialPort)
+    /// <summary>
+    ///     Modbus RTU slave factory method.
+    /// </summary>
+    public static ModbusSerialSlave CreateRtu(byte unitId, SerialPort serialPort)
+    {
+        if (serialPort == null)
         {
-            if (serialPort == null)
-            {
-                throw new ArgumentNullException(nameof(serialPort));
-            }
-
-            return CreateRtu(unitId, new SerialPortAdapter(serialPort));
+            throw new ArgumentNullException(nameof(serialPort));
         }
+
+        return CreateRtu(unitId, new SerialPortAdapter(serialPort));
+    }
 #endif
 
-        /// <summary>
-        ///     Modbus RTU slave factory method.
-        /// </summary>
-        public static ModbusSerialSlave CreateRtu(byte unitId, IStreamResource streamResource)
+    /// <summary>
+    ///     Modbus RTU slave factory method.
+    /// </summary>
+    public static ModbusSerialSlave CreateRtu(byte unitId, IStreamResource streamResource)
+    {
+        if (streamResource == null)
         {
-            if (streamResource == null)
-            {
-                throw new ArgumentNullException(nameof(streamResource));
-            }
-
-            return new ModbusSerialSlave(unitId, new ModbusRtuTransport(streamResource));
+            throw new ArgumentNullException(nameof(streamResource));
         }
 
-        /// <summary>
-        ///     Start slave listening for requests.
-        /// </summary>
-        public override async Task ListenAsync()
+        return new ModbusSerialSlave(unitId, new ModbusRtuTransport(streamResource));
+    }
+
+    /// <summary>
+    ///     Start slave listening for requests.
+    /// </summary>
+    public override async Task ListenAsync()
+    {
+        while (true)
         {
-            while (true)
+            try
             {
                 try
                 {
-                    try
+                    //TODO: remove deleay once async will be implemented in transport level
+                    await Task.Delay(20).ConfigureAwait(false);
+
+                    // read request and build message
+                    byte[] frame = SerialTransport.ReadRequest();
+                    IModbusMessage request = ModbusMessageFactory.CreateModbusRequest(frame);
+
+                    if (SerialTransport.CheckFrame && !SerialTransport.ChecksumsMatch(request, frame))
                     {
-                        //TODO: remove deleay once async will be implemented in transport level
-                        await Task.Delay(20).ConfigureAwait(false);
-
-                        // read request and build message
-                        byte[] frame = SerialTransport.ReadRequest();
-                        IModbusMessage request = ModbusMessageFactory.CreateModbusRequest(frame);
-
-                        if (SerialTransport.CheckFrame && !SerialTransport.ChecksumsMatch(request, frame))
-                        {
-                            string msg = $"Checksums failed to match {string.Join(", ", request.MessageFrame)} != {string.Join(", ", frame)}.";
-                            Debug.WriteLine(msg);
-                            throw new IOException(msg);
-                        }
-
-                        // only service requests addressed to this particular slave
-                        if (request.SlaveAddress != UnitId)
-                        {
-                            Debug.WriteLine($"NModbus Slave {UnitId} ignoring request intended for NModbus Slave {request.SlaveAddress}");
-                            continue;
-                        }
-
-                        // perform action
-                        IModbusMessage response = ApplyRequest(request);
-
-                        // write response
-                        SerialTransport.Write(response);
-                    }
-                    catch (IOException ioe)
-                    {
-                        Debug.WriteLine($"IO Exception encountered while listening for requests - {ioe.Message}");
-                        SerialTransport.DiscardInBuffer();
-                    }
-                    catch (TimeoutException te)
-                    {
-                        Debug.WriteLine($"Timeout Exception encountered while listening for requests - {te.Message}");
-                        SerialTransport.DiscardInBuffer();
+                        string msg = $"Checksums failed to match {string.Join(", ", request.MessageFrame)} != {string.Join(", ", frame)}.";
+                        Debug.WriteLine(msg);
+                        throw new IOException(msg);
                     }
 
-                    // TODO better exception handling here, missing FormatException, NotImplemented...
+                    // only service requests addressed to this particular slave
+                    if (request.SlaveAddress != UnitId)
+                    {
+                        Debug.WriteLine($"NModbus Slave {UnitId} ignoring request intended for NModbus Slave {request.SlaveAddress}");
+                        continue;
+                    }
+
+                    // perform action
+                    IModbusMessage response = ApplyRequest(request);
+
+                    // write response
+                    SerialTransport.Write(response);
                 }
-                catch (InvalidOperationException)
+                catch (IOException ioe)
                 {
-                    // when the underlying transport is disposed
-                    break;
+                    Debug.WriteLine($"IO Exception encountered while listening for requests - {ioe.Message}");
+                    SerialTransport.DiscardInBuffer();
                 }
+                catch (TimeoutException te)
+                {
+                    Debug.WriteLine($"Timeout Exception encountered while listening for requests - {te.Message}");
+                    SerialTransport.DiscardInBuffer();
+                }
+
+                // TODO better exception handling here, missing FormatException, NotImplemented...
+            }
+            catch (InvalidOperationException)
+            {
+                // when the underlying transport is disposed
+                break;
             }
         }
     }

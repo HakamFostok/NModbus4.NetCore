@@ -1,28 +1,27 @@
-﻿namespace Modbus.Data
+﻿namespace Modbus.Data;
+
+/// <summary>
+///     Types of data supported by the Modbus protocol.
+/// </summary>
+public enum ModbusDataType
 {
     /// <summary>
-    ///     Types of data supported by the Modbus protocol.
+    ///     Read/write register.
     /// </summary>
-    public enum ModbusDataType
-    {
-        /// <summary>
-        ///     Read/write register.
-        /// </summary>
-        HoldingRegister,
+    HoldingRegister,
 
-        /// <summary>
-        ///     Readonly register.
-        /// </summary>
-        InputRegister,
+    /// <summary>
+    ///     Readonly register.
+    /// </summary>
+    InputRegister,
 
-        /// <summary>
-        ///     Read/write discrete.
-        /// </summary>
-        Coil,
+    /// <summary>
+    ///     Read/write discrete.
+    /// </summary>
+    Coil,
 
-        /// <summary>
-        ///     Readonly discrete.
-        /// </summary>
-        Input
-    }
+    /// <summary>
+    ///     Readonly discrete.
+    /// </summary>
+    Input
 }

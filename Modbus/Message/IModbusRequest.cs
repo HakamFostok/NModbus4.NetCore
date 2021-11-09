@@ -1,13 +1,12 @@
-﻿namespace Modbus.Message
+﻿namespace Modbus.Message;
+
+/// <summary>
+///     Methods specific to a modbus request message.
+/// </summary>
+public interface IModbusRequest : IModbusMessage
 {
     /// <summary>
-    ///     Methods specific to a modbus request message.
+    ///     Validate the specified response against the current request.
     /// </summary>
-    public interface IModbusRequest : IModbusMessage
-    {
-        /// <summary>
-        ///     Validate the specified response against the current request.
-        /// </summary>
-        void ValidateResponse(IModbusMessage response);
-    }
+    void ValidateResponse(IModbusMessage response);
 }

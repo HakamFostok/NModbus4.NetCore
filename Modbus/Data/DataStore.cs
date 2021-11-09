@@ -5,169 +5,168 @@ using System.Linq;
 
 using Modbus.Unme.Common;
 
-namespace Modbus.Data
+namespace Modbus.Data;
+
+/// <summary>
+///     Object simulation of device memory map.
+///     The underlying collections are thread safe when using the ModbusMaster API to read/write values.
+///     You can use the SyncRoot property to synchronize direct access to the DataStore collections.
+/// </summary>
+public class DataStore
 {
+    private readonly object _syncRoot = new();
+
     /// <summary>
-    ///     Object simulation of device memory map.
-    ///     The underlying collections are thread safe when using the ModbusMaster API to read/write values.
-    ///     You can use the SyncRoot property to synchronize direct access to the DataStore collections.
+    ///     Initializes a new instance of the <see cref="DataStore" /> class.
     /// </summary>
-    public class DataStore
+    public DataStore()
     {
-        private readonly object _syncRoot = new();
+        CoilDiscretes = new() { ModbusDataType = ModbusDataType.Coil };
+        InputDiscretes = new() { ModbusDataType = ModbusDataType.Input };
+        HoldingRegisters = new() { ModbusDataType = ModbusDataType.HoldingRegister };
+        InputRegisters = new() { ModbusDataType = ModbusDataType.InputRegister };
+    }
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="DataStore" /> class.
-        /// </summary>
-        public DataStore()
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="DataStore"/> class.
+    /// </summary>
+    /// <param name="coilDiscretes">List of discrete coil values.</param>
+    /// <param name="inputDiscretes">List of discrete input values</param>
+    /// <param name="holdingRegisters">List of holding register values.</param>
+    /// <param name="inputRegisters">List of input register values.</param>
+    internal DataStore(
+        IList<bool> coilDiscretes,
+        IList<bool> inputDiscretes,
+        IList<ushort> holdingRegisters,
+        IList<ushort> inputRegisters)
+    {
+        CoilDiscretes = new(coilDiscretes) { ModbusDataType = ModbusDataType.Coil };
+        InputDiscretes = new(inputDiscretes) { ModbusDataType = ModbusDataType.Input };
+        HoldingRegisters = new(holdingRegisters) { ModbusDataType = ModbusDataType.HoldingRegister };
+        InputRegisters = new(inputRegisters) { ModbusDataType = ModbusDataType.InputRegister };
+    }
+
+    /// <summary>
+    ///     Occurs when the DataStore is written to via a Modbus command.
+    /// </summary>
+    public event EventHandler<DataStoreEventArgs> DataStoreWrittenTo;
+
+    /// <summary>
+    ///     Occurs when the DataStore is read from via a Modbus command.
+    /// </summary>
+    public event EventHandler<DataStoreEventArgs> DataStoreReadFrom;
+
+    /// <summary>
+    ///     Gets the discrete coils.
+    /// </summary>
+    public ModbusDataCollection<bool> CoilDiscretes { get; }
+
+    /// <summary>
+    ///     Gets the discrete inputs.
+    /// </summary>
+    public ModbusDataCollection<bool> InputDiscretes { get; }
+
+    /// <summary>
+    ///     Gets the holding registers.
+    /// </summary>
+    public ModbusDataCollection<ushort> HoldingRegisters { get; }
+
+    /// <summary>
+    ///     Gets the input registers.
+    /// </summary>
+    public ModbusDataCollection<ushort> InputRegisters { get; }
+
+    /// <summary>
+    ///     An object that can be used to synchronize direct access to the DataStore collections.
+    /// </summary>
+    public object SyncRoot => _syncRoot;
+
+    /// <summary>
+    ///     Retrieves subset of data from collection.
+    /// </summary>
+    /// <typeparam name="T">The collection type.</typeparam>
+    /// <typeparam name="U">The type of elements in the collection.</typeparam>
+    internal static T ReadData<T, U>(
+        DataStore dataStore,
+        ModbusDataCollection<U> dataSource,
+        ushort startAddress,
+        ushort count,
+        object syncRoot)
+        where T : Collection<U>, new()
+    {
+        DataStoreEventArgs dataStoreEventArgs;
+        int startIndex = startAddress + 1;
+
+        if (startIndex < 0 || dataSource.Count < startIndex + count)
         {
-            CoilDiscretes = new() { ModbusDataType = ModbusDataType.Coil };
-            InputDiscretes = new() { ModbusDataType = ModbusDataType.Input };
-            HoldingRegisters = new() { ModbusDataType = ModbusDataType.HoldingRegister };
-            InputRegisters = new() { ModbusDataType = ModbusDataType.InputRegister };
+            throw new InvalidModbusRequestException(Modbus.IllegalDataAddress);
         }
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="DataStore"/> class.
-        /// </summary>
-        /// <param name="coilDiscretes">List of discrete coil values.</param>
-        /// <param name="inputDiscretes">List of discrete input values</param>
-        /// <param name="holdingRegisters">List of holding register values.</param>
-        /// <param name="inputRegisters">List of input register values.</param>
-        internal DataStore(
-            IList<bool> coilDiscretes,
-            IList<bool> inputDiscretes,
-            IList<ushort> holdingRegisters,
-            IList<ushort> inputRegisters)
+        U[] dataToRetrieve;
+        lock (syncRoot)
         {
-            CoilDiscretes = new(coilDiscretes) { ModbusDataType = ModbusDataType.Coil };
-            InputDiscretes = new(inputDiscretes) { ModbusDataType = ModbusDataType.Input };
-            HoldingRegisters = new(holdingRegisters) { ModbusDataType = ModbusDataType.HoldingRegister };
-            InputRegisters = new(inputRegisters) { ModbusDataType = ModbusDataType.InputRegister };
+            dataToRetrieve = dataSource.Slice(startIndex, count).ToArray();
         }
 
-        /// <summary>
-        ///     Occurs when the DataStore is written to via a Modbus command.
-        /// </summary>
-        public event EventHandler<DataStoreEventArgs> DataStoreWrittenTo;
-
-        /// <summary>
-        ///     Occurs when the DataStore is read from via a Modbus command.
-        /// </summary>
-        public event EventHandler<DataStoreEventArgs> DataStoreReadFrom;
-
-        /// <summary>
-        ///     Gets the discrete coils.
-        /// </summary>
-        public ModbusDataCollection<bool> CoilDiscretes { get; }
-
-        /// <summary>
-        ///     Gets the discrete inputs.
-        /// </summary>
-        public ModbusDataCollection<bool> InputDiscretes { get; }
-
-        /// <summary>
-        ///     Gets the holding registers.
-        /// </summary>
-        public ModbusDataCollection<ushort> HoldingRegisters { get; }
-
-        /// <summary>
-        ///     Gets the input registers.
-        /// </summary>
-        public ModbusDataCollection<ushort> InputRegisters { get; }
-
-        /// <summary>
-        ///     An object that can be used to synchronize direct access to the DataStore collections.
-        /// </summary>
-        public object SyncRoot => _syncRoot;
-
-        /// <summary>
-        ///     Retrieves subset of data from collection.
-        /// </summary>
-        /// <typeparam name="T">The collection type.</typeparam>
-        /// <typeparam name="U">The type of elements in the collection.</typeparam>
-        internal static T ReadData<T, U>(
-            DataStore dataStore,
-            ModbusDataCollection<U> dataSource,
-            ushort startAddress,
-            ushort count,
-            object syncRoot)
-            where T : Collection<U>, new()
+        T result = new();
+        for (int i = 0; i < count; i++)
         {
-            DataStoreEventArgs dataStoreEventArgs;
-            int startIndex = startAddress + 1;
-
-            if (startIndex < 0 || dataSource.Count < startIndex + count)
-            {
-                throw new InvalidModbusRequestException(Modbus.IllegalDataAddress);
-            }
-
-            U[] dataToRetrieve;
-            lock (syncRoot)
-            {
-                dataToRetrieve = dataSource.Slice(startIndex, count).ToArray();
-            }
-
-            T result = new();
-            for (int i = 0; i < count; i++)
-            {
-                result.Add(dataToRetrieve[i]);
-            }
-
-            dataStoreEventArgs = DataStoreEventArgs.CreateDataStoreEventArgs(startAddress, dataSource.ModbusDataType, result);
-            dataStore.DataStoreReadFrom?.Invoke(dataStore, dataStoreEventArgs);
-            return result;
+            result.Add(dataToRetrieve[i]);
         }
 
-        /// <summary>
-        ///     Write data to data store.
-        /// </summary>
-        /// <typeparam name="TData">The type of the data.</typeparam>
-        internal static void WriteData<TData>(
-            DataStore dataStore,
-            IEnumerable<TData> items,
-            ModbusDataCollection<TData> destination,
-            ushort startAddress,
-            object syncRoot)
+        dataStoreEventArgs = DataStoreEventArgs.CreateDataStoreEventArgs(startAddress, dataSource.ModbusDataType, result);
+        dataStore.DataStoreReadFrom?.Invoke(dataStore, dataStoreEventArgs);
+        return result;
+    }
+
+    /// <summary>
+    ///     Write data to data store.
+    /// </summary>
+    /// <typeparam name="TData">The type of the data.</typeparam>
+    internal static void WriteData<TData>(
+        DataStore dataStore,
+        IEnumerable<TData> items,
+        ModbusDataCollection<TData> destination,
+        ushort startAddress,
+        object syncRoot)
+    {
+        DataStoreEventArgs dataStoreEventArgs;
+        int startIndex = startAddress + 1;
+
+        if (startIndex < 0 || destination.Count < startIndex + items.Count())
         {
-            DataStoreEventArgs dataStoreEventArgs;
-            int startIndex = startAddress + 1;
-
-            if (startIndex < 0 || destination.Count < startIndex + items.Count())
-            {
-                throw new InvalidModbusRequestException(Modbus.IllegalDataAddress);
-            }
-
-            lock (syncRoot)
-            {
-                Update(items, destination, startIndex);
-            }
-
-            dataStoreEventArgs = DataStoreEventArgs.CreateDataStoreEventArgs(
-                startAddress,
-                destination.ModbusDataType,
-                items);
-
-            dataStore.DataStoreWrittenTo?.Invoke(dataStore, dataStoreEventArgs);
+            throw new InvalidModbusRequestException(Modbus.IllegalDataAddress);
         }
 
-        /// <summary>
-        ///     Updates subset of values in a collection.
-        /// </summary>
-        internal static void Update<T>(IEnumerable<T> items, IList<T> destination, int startIndex)
+        lock (syncRoot)
         {
-            if (startIndex < 0 || destination.Count < startIndex + items.Count())
-            {
-                throw new InvalidModbusRequestException(Modbus.IllegalDataAddress);
-            }
+            Update(items, destination, startIndex);
+        }
 
-            int index = startIndex;
+        dataStoreEventArgs = DataStoreEventArgs.CreateDataStoreEventArgs(
+            startAddress,
+            destination.ModbusDataType,
+            items);
 
-            foreach (T item in items)
-            {
-                destination[index] = item;
-                ++index;
-            }
+        dataStore.DataStoreWrittenTo?.Invoke(dataStore, dataStoreEventArgs);
+    }
+
+    /// <summary>
+    ///     Updates subset of values in a collection.
+    /// </summary>
+    internal static void Update<T>(IEnumerable<T> items, IList<T> destination, int startIndex)
+    {
+        if (startIndex < 0 || destination.Count < startIndex + items.Count())
+        {
+            throw new InvalidModbusRequestException(Modbus.IllegalDataAddress);
+        }
+
+        int index = startIndex;
+
+        foreach (T item in items)
+        {
+            destination[index] = item;
+            ++index;
         }
     }
 }

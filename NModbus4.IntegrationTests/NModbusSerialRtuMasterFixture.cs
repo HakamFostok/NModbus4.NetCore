@@ -2,19 +2,18 @@
 using Modbus.Device;
 using Xunit;
 
-namespace Modbus.IntegrationTests
+namespace Modbus.IntegrationTests;
+
+public class NModbusSerialRtuMasterFixture
 {
-    public class NModbusSerialRtuMasterFixture
+    [Fact]
+    public void NModbusRtuMaster_ReadTimeout()
     {
-        [Fact]
-        public void NModbusRtuMaster_ReadTimeout()
+        SerialPort port = ModbusMasterFixture.CreateAndOpenSerialPort(ModbusMasterFixture.DefaultMasterSerialPortName);
+        using (ModbusSerialMaster? master = ModbusSerialMaster.CreateRtu(port))
         {
-            SerialPort port = ModbusMasterFixture.CreateAndOpenSerialPort(ModbusMasterFixture.DefaultMasterSerialPortName);
-            using (ModbusSerialMaster? master = ModbusSerialMaster.CreateRtu(port))
-            {
-                master.Transport.ReadTimeout = master.Transport.WriteTimeout = 1000;
-                master.ReadCoils(100, 1, 1);
-            }
+            master.Transport.ReadTimeout = master.Transport.WriteTimeout = 1000;
+            master.ReadCoils(100, 1, 1);
         }
     }
 }

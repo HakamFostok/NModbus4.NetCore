@@ -1,24 +1,23 @@
 ﻿using System;
 
-namespace Modbus.Device
+namespace Modbus.Device;
+
+internal class TcpConnectionEventArgs : EventArgs
 {
-    internal class TcpConnectionEventArgs : EventArgs
+    public TcpConnectionEventArgs(string endPoint)
     {
-        public TcpConnectionEventArgs(string endPoint)
+        if (endPoint == null)
         {
-            if (endPoint == null)
-            {
-                throw new ArgumentNullException(nameof(endPoint));
-            }
-
-            if (endPoint == string.Empty)
-            {
-                throw new ArgumentException(Resources.EmptyEndPoint);
-            }
-
-            EndPoint = endPoint;
+            throw new ArgumentNullException(nameof(endPoint));
         }
 
-        public string EndPoint { get; set; }
+        if (endPoint == string.Empty)
+        {
+            throw new ArgumentException(Resources.EmptyEndPoint);
+        }
+
+        EndPoint = endPoint;
     }
+
+    public string EndPoint { get; set; }
 }

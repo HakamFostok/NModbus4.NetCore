@@ -1,52 +1,51 @@
 ﻿using System;
 using System.Net;
 
-namespace Modbus.Message
+namespace Modbus.Message;
+
+public class WriteMultipleCoilsResponse : AbstractModbusMessage, IModbusMessage
 {
-    public class WriteMultipleCoilsResponse : AbstractModbusMessage, IModbusMessage
+    public WriteMultipleCoilsResponse()
     {
-        public WriteMultipleCoilsResponse()
-        {
-        }
+    }
 
-        public WriteMultipleCoilsResponse(byte slaveAddress, ushort startAddress, ushort numberOfPoints)
-            : base(slaveAddress, Modbus.WriteMultipleCoils)
-        {
-            StartAddress = startAddress;
-            NumberOfPoints = numberOfPoints;
-        }
+    public WriteMultipleCoilsResponse(byte slaveAddress, ushort startAddress, ushort numberOfPoints)
+        : base(slaveAddress, Modbus.WriteMultipleCoils)
+    {
+        StartAddress = startAddress;
+        NumberOfPoints = numberOfPoints;
+    }
 
-        public ushort NumberOfPoints
-        {
-            get => MessageImpl.NumberOfPoints.Value;
+    public ushort NumberOfPoints
+    {
+        get => MessageImpl.NumberOfPoints.Value;
 
-            set
+        set
+        {
+            if (value > Modbus.MaximumDiscreteRequestResponseSize)
             {
-                if (value > Modbus.MaximumDiscreteRequestResponseSize)
-                {
-                    string msg = $"Maximum amount of data {Modbus.MaximumDiscreteRequestResponseSize} coils.";
-                    throw new ArgumentOutOfRangeException("NumberOfPoints", msg);
-                }
-
-                MessageImpl.NumberOfPoints = value;
+                string msg = $"Maximum amount of data {Modbus.MaximumDiscreteRequestResponseSize} coils.";
+                throw new ArgumentOutOfRangeException("NumberOfPoints", msg);
             }
+
+            MessageImpl.NumberOfPoints = value;
         }
+    }
 
-        public ushort StartAddress
-        {
-            get => MessageImpl.StartAddress.Value;
-            set => MessageImpl.StartAddress = value;
-        }
+    public ushort StartAddress
+    {
+        get => MessageImpl.StartAddress.Value;
+        set => MessageImpl.StartAddress = value;
+    }
 
-        public override int MinimumFrameSize => 6;
+    public override int MinimumFrameSize => 6;
 
-        public override string ToString() =>
-            $"Wrote {NumberOfPoints} coils starting at address {StartAddress}.";
+    public override string ToString() =>
+        $"Wrote {NumberOfPoints} coils starting at address {StartAddress}.";
 
-        protected override void InitializeUnique(byte[] frame)
-        {
-            StartAddress = (ushort)IPAddress.NetworkToHostOrder(BitConverter.ToInt16(frame, 2));
-            NumberOfPoints = (ushort)IPAddress.NetworkToHostOrder(BitConverter.ToInt16(frame, 4));
-        }
+    protected override void InitializeUnique(byte[] frame)
+    {
+        StartAddress = (ushort)IPAddress.NetworkToHostOrder(BitConverter.ToInt16(frame, 2));
+        NumberOfPoints = (ushort)IPAddress.NetworkToHostOrder(BitConverter.ToInt16(frame, 4));
     }
 }

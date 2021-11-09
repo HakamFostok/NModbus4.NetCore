@@ -1,27 +1,26 @@
 ﻿using System.Linq;
 using System.Text;
 
-namespace Modbus.IO
+namespace Modbus.IO;
+
+internal static class StreamResourceUtility
 {
-    internal static class StreamResourceUtility
+    internal static string ReadLine(IStreamResource stream)
     {
-        internal static string ReadLine(IStreamResource stream)
+        StringBuilder? result = new StringBuilder();
+        byte[]? singleByteBuffer = new byte[1];
+
+        do
         {
-            StringBuilder? result = new StringBuilder();
-            byte[]? singleByteBuffer = new byte[1];
-
-            do
+            if (stream.Read(singleByteBuffer, 0, 1) == 0)
             {
-                if (stream.Read(singleByteBuffer, 0, 1) == 0)
-                {
-                    continue;
-                }
-
-                result.Append(Encoding.UTF8.GetChars(singleByteBuffer).First());
+                continue;
             }
-            while (!result.ToString().EndsWith(Modbus.NewLine));
 
-            return result.ToString().Substring(0, result.Length - Modbus.NewLine.Length);
+            result.Append(Encoding.UTF8.GetChars(singleByteBuffer).First());
         }
+        while (!result.ToString().EndsWith(Modbus.NewLine));
+
+        return result.ToString().Substring(0, result.Length - Modbus.NewLine.Length);
     }
 }

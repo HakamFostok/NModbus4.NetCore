@@ -3,62 +3,61 @@ using System.Diagnostics;
 using System.IO.Ports;
 using Modbus.IO;
 
-namespace Modbus.Serial
+namespace Modbus.Serial;
+
+/// <summary>
+///     Concrete Implementor - http://en.wikipedia.org/wiki/Bridge_Pattern
+/// </summary>
+public class SerialPortAdapter : IStreamResource
 {
-    /// <summary>
-    ///     Concrete Implementor - http://en.wikipedia.org/wiki/Bridge_Pattern
-    /// </summary>
-    public class SerialPortAdapter : IStreamResource
+    private const string NewLine = "\r\n";
+    private SerialPort _serialPort;
+
+    public SerialPortAdapter(SerialPort serialPort)
     {
-        private const string NewLine = "\r\n";
-        private SerialPort _serialPort;
+        Debug.Assert(serialPort != null, "Argument serialPort cannot be null.");
 
-        public SerialPortAdapter(SerialPort serialPort)
+        _serialPort = serialPort;
+        _serialPort.NewLine = NewLine;
+    }
+
+    public int InfiniteTimeout => SerialPort.InfiniteTimeout;
+
+    public int ReadTimeout
+    {
+        get => _serialPort.ReadTimeout;
+        set => _serialPort.ReadTimeout = value;
+    }
+
+    public int WriteTimeout
+    {
+        get => _serialPort.WriteTimeout;
+        set => _serialPort.WriteTimeout = value;
+    }
+
+    public void DiscardInBuffer()
+    {
+        _serialPort.DiscardInBuffer();
+    }
+
+    public int Read(byte[] buffer, int offset, int count) =>
+        _serialPort.Read(buffer, offset, count);
+
+    public void Write(byte[] buffer, int offset, int count) =>
+        _serialPort.Write(buffer, offset, count);
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
         {
-            Debug.Assert(serialPort != null, "Argument serialPort cannot be null.");
-
-            _serialPort = serialPort;
-            _serialPort.NewLine = NewLine;
-        }
-
-        public int InfiniteTimeout => SerialPort.InfiniteTimeout;
-
-        public int ReadTimeout
-        {
-            get => _serialPort.ReadTimeout;
-            set => _serialPort.ReadTimeout = value;
-        }
-
-        public int WriteTimeout
-        {
-            get => _serialPort.WriteTimeout; 
-            set => _serialPort.WriteTimeout = value; 
-        }
-
-        public void DiscardInBuffer()
-        {
-            _serialPort.DiscardInBuffer();
-        }
-
-        public int Read(byte[] buffer, int offset, int count) =>
-            _serialPort.Read(buffer, offset, count);
-
-        public void Write(byte[] buffer, int offset, int count) =>
-            _serialPort.Write(buffer, offset, count);
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _serialPort?.Dispose();
-                _serialPort = null;
-            }
+            _serialPort?.Dispose();
+            _serialPort = null;
         }
     }
 }

@@ -3,64 +3,63 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 
-namespace Modbus.Message
+namespace Modbus.Message;
+
+public class ReadHoldingInputRegistersRequest : AbstractModbusMessage, IModbusRequest
 {
-    public class ReadHoldingInputRegistersRequest : AbstractModbusMessage, IModbusRequest
+    public ReadHoldingInputRegistersRequest()
     {
-        public ReadHoldingInputRegistersRequest()
-        {
-        }
+    }
 
-        public ReadHoldingInputRegistersRequest(byte functionCode, byte slaveAddress, ushort startAddress, ushort numberOfPoints)
-            : base(slaveAddress, functionCode)
-        {
-            StartAddress = startAddress;
-            NumberOfPoints = numberOfPoints;
-        }
+    public ReadHoldingInputRegistersRequest(byte functionCode, byte slaveAddress, ushort startAddress, ushort numberOfPoints)
+        : base(slaveAddress, functionCode)
+    {
+        StartAddress = startAddress;
+        NumberOfPoints = numberOfPoints;
+    }
 
-        public ushort StartAddress
-        {
-            get => MessageImpl.StartAddress.Value;
-            set => MessageImpl.StartAddress = value;
-        }
+    public ushort StartAddress
+    {
+        get => MessageImpl.StartAddress.Value;
+        set => MessageImpl.StartAddress = value;
+    }
 
-        public override int MinimumFrameSize => 6;
+    public override int MinimumFrameSize => 6;
 
-        public ushort NumberOfPoints
+    public ushort NumberOfPoints
+    {
+        get => MessageImpl.NumberOfPoints.Value;
+        set
         {
-            get => MessageImpl.NumberOfPoints.Value;
-            set
+            if (value > Modbus.MaximumRegisterRequestResponseSize)
             {
-                if (value > Modbus.MaximumRegisterRequestResponseSize)
-                {
-                    string msg = $"Maximum amount of data {Modbus.MaximumRegisterRequestResponseSize} registers.";
-                    throw new ArgumentOutOfRangeException(nameof(NumberOfPoints), msg);
-                }
-
-                MessageImpl.NumberOfPoints = value;
+                string msg = $"Maximum amount of data {Modbus.MaximumRegisterRequestResponseSize} registers.";
+                throw new ArgumentOutOfRangeException(nameof(NumberOfPoints), msg);
             }
+
+            MessageImpl.NumberOfPoints = value;
         }
+    }
 
-        public override string ToString()
-            => $"Read {NumberOfPoints} {(FunctionCode == Modbus.ReadHoldingRegisters ? "holding" : "input")} registers starting at address {StartAddress}.";
+    public override string ToString()
+        => $"Read {NumberOfPoints} {(FunctionCode == Modbus.ReadHoldingRegisters ? "holding" : "input")} registers starting at address {StartAddress}.";
 
-        public void ValidateResponse(IModbusMessage response)
+    public void ValidateResponse(IModbusMessage response)
+    {
+        ReadHoldingInputRegistersResponse? typedResponse = response as ReadHoldingInputRegistersResponse;
+        Debug.Assert(typedResponse != null, "Argument response should be of type ReadHoldingInputRegistersResponse.");
+        int expectedByteCount = NumberOfPoints * 2;
+
+        if (expectedByteCount != typedResponse.ByteCount)
         {
-            ReadHoldingInputRegistersResponse? typedResponse = response as ReadHoldingInputRegistersResponse;
-            Debug.Assert(typedResponse != null, "Argument response should be of type ReadHoldingInputRegistersResponse.");
-            int expectedByteCount = NumberOfPoints * 2;
-
-            if (expectedByteCount != typedResponse.ByteCount)
-            {
-                string msg = $"Unexpected byte count. Expected {expectedByteCount}, received {typedResponse.ByteCount}.";
-                throw new IOException(msg);
-            }
+            string msg = $"Unexpected byte count. Expected {expectedByteCount}, received {typedResponse.ByteCount}.";
+            throw new IOException(msg);
         }
+    }
 
-        protected override void InitializeUnique(byte[] frame)
-        {
-            StartAddress = (ushort)IPAddress.NetworkToHostOrder(BitConverter.ToInt16(frame, 2));
-            NumberOfPoints = (ushort)IPAddress.NetworkToHostOrder(BitConverter.ToInt16(frame, 4));
-        }
+    protected override void InitializeUnique(byte[] frame)
+    {
+        StartAddress = (ushort)IPAddress.NetworkToHostOrder(BitConverter.ToInt16(frame, 2));
+        NumberOfPoints = (ushort)IPAddress.NetworkToHostOrder(BitConverter.ToInt16(frame, 4));
     }
 }

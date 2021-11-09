@@ -1,90 +1,89 @@
 ﻿using System;
 
-namespace Modbus.Message
+namespace Modbus.Message;
+
+/// <summary>
+///     Modbus message factory.
+/// </summary>
+public static class ModbusMessageFactory
 {
     /// <summary>
-    ///     Modbus message factory.
+    ///     Minimum request frame length.
     /// </summary>
-    public static class ModbusMessageFactory
+    private const int MinRequestFrameLength = 3;
+
+    /// <summary>
+    ///     Create a Modbus message.
+    /// </summary>
+    /// <typeparam name="T">Modbus message type.</typeparam>
+    /// <param name="frame">Bytes of Modbus frame.</param>
+    /// <returns>New Modbus message based on type and frame bytes.</returns>
+    public static T CreateModbusMessage<T>(byte[] frame)
+        where T : IModbusMessage, new()
     {
-        /// <summary>
-        ///     Minimum request frame length.
-        /// </summary>
-        private const int MinRequestFrameLength = 3;
+        IModbusMessage message = new T();
+        message.Initialize(frame);
 
-        /// <summary>
-        ///     Create a Modbus message.
-        /// </summary>
-        /// <typeparam name="T">Modbus message type.</typeparam>
-        /// <param name="frame">Bytes of Modbus frame.</param>
-        /// <returns>New Modbus message based on type and frame bytes.</returns>
-        public static T CreateModbusMessage<T>(byte[] frame)
-            where T : IModbusMessage, new()
+        return (T)message;
+    }
+
+    /// <summary>
+    ///     Create a Modbus request.
+    /// </summary>
+    /// <param name="frame">Bytes of Modbus frame.</param>
+    /// <returns>Modbus request.</returns>
+    public static IModbusMessage CreateModbusRequest(byte[] frame)
+    {
+        if (frame.Length < MinRequestFrameLength)
         {
-            IModbusMessage message = new T();
-            message.Initialize(frame);
-
-            return (T)message;
+            string msg = $"Argument 'frame' must have a length of at least {MinRequestFrameLength} bytes.";
+            throw new FormatException(msg);
         }
 
-        /// <summary>
-        ///     Create a Modbus request.
-        /// </summary>
-        /// <param name="frame">Bytes of Modbus frame.</param>
-        /// <returns>Modbus request.</returns>
-        public static IModbusMessage CreateModbusRequest(byte[] frame)
+        IModbusMessage request;
+        byte functionCode = frame[1];
+
+        switch (functionCode)
         {
-            if (frame.Length < MinRequestFrameLength)
-            {
-                string msg = $"Argument 'frame' must have a length of at least {MinRequestFrameLength} bytes.";
-                throw new FormatException(msg);
-            }
+            case Modbus.ReadCoils:
+            case Modbus.ReadInputs:
+                request = CreateModbusMessage<ReadCoilsInputsRequest>(frame);
+                break;
 
-            IModbusMessage request;
-            byte functionCode = frame[1];
+            case Modbus.ReadHoldingRegisters:
+            case Modbus.ReadInputRegisters:
+                request = CreateModbusMessage<ReadHoldingInputRegistersRequest>(frame);
+                break;
 
-            switch (functionCode)
-            {
-                case Modbus.ReadCoils:
-                case Modbus.ReadInputs:
-                    request = CreateModbusMessage<ReadCoilsInputsRequest>(frame);
-                    break;
+            case Modbus.WriteSingleCoil:
+                request = CreateModbusMessage<WriteSingleCoilRequestResponse>(frame);
+                break;
 
-                case Modbus.ReadHoldingRegisters:
-                case Modbus.ReadInputRegisters:
-                    request = CreateModbusMessage<ReadHoldingInputRegistersRequest>(frame);
-                    break;
+            case Modbus.WriteSingleRegister:
+                request = CreateModbusMessage<WriteSingleRegisterRequestResponse>(frame);
+                break;
 
-                case Modbus.WriteSingleCoil:
-                    request = CreateModbusMessage<WriteSingleCoilRequestResponse>(frame);
-                    break;
+            case Modbus.Diagnostics:
+                request = CreateModbusMessage<DiagnosticsRequestResponse>(frame);
+                break;
 
-                case Modbus.WriteSingleRegister:
-                    request = CreateModbusMessage<WriteSingleRegisterRequestResponse>(frame);
-                    break;
+            case Modbus.WriteMultipleCoils:
+                request = CreateModbusMessage<WriteMultipleCoilsRequest>(frame);
+                break;
 
-                case Modbus.Diagnostics:
-                    request = CreateModbusMessage<DiagnosticsRequestResponse>(frame);
-                    break;
+            case Modbus.WriteMultipleRegisters:
+                request = CreateModbusMessage<WriteMultipleRegistersRequest>(frame);
+                break;
 
-                case Modbus.WriteMultipleCoils:
-                    request = CreateModbusMessage<WriteMultipleCoilsRequest>(frame);
-                    break;
+            case Modbus.ReadWriteMultipleRegisters:
+                request = CreateModbusMessage<ReadWriteMultipleRegistersRequest>(frame);
+                break;
 
-                case Modbus.WriteMultipleRegisters:
-                    request = CreateModbusMessage<WriteMultipleRegistersRequest>(frame);
-                    break;
-
-                case Modbus.ReadWriteMultipleRegisters:
-                    request = CreateModbusMessage<ReadWriteMultipleRegistersRequest>(frame);
-                    break;
-
-                default:
-                    string msg = $"Unsupported function code {functionCode}";
-                    throw new ArgumentException(msg, nameof(frame));
-            }
-
-            return request;
+            default:
+                string msg = $"Unsupported function code {functionCode}";
+                throw new ArgumentException(msg, nameof(frame));
         }
+
+        return request;
     }
 }

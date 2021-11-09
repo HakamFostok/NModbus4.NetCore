@@ -1,34 +1,33 @@
 ﻿using Modbus.Device;
 using Xunit;
 
-namespace Modbus.IntegrationTests
+namespace Modbus.IntegrationTests;
+
+public class NModbusSerialRtuMasterDl06SlaveFixture : ModbusSerialMasterFixture
 {
-    public class NModbusSerialRtuMasterDl06SlaveFixture : ModbusSerialMasterFixture
+    public NModbusSerialRtuMasterDl06SlaveFixture()
     {
-        public NModbusSerialRtuMasterDl06SlaveFixture()
-        {
-            MasterSerialPort = CreateAndOpenSerialPort("COM1");
-            Master = ModbusSerialMaster.CreateRtu(MasterSerialPort);
-        }
+        MasterSerialPort = CreateAndOpenSerialPort("COM1");
+        Master = ModbusSerialMaster.CreateRtu(MasterSerialPort);
+    }
 
-        /// <summary>
-        /// Not supported by the DL06
-        /// </summary>
-        public override void ReadWriteMultipleRegisters()
-        {
-        }
+    /// <summary>
+    /// Not supported by the DL06
+    /// </summary>
+    public override void ReadWriteMultipleRegisters()
+    {
+    }
 
-        /// <summary>
-        /// Not supported by the DL06
-        /// </summary>
-        public override void ReturnQueryData()
-        {
-        }
+    /// <summary>
+    /// Not supported by the DL06
+    /// </summary>
+    public override void ReturnQueryData()
+    {
+    }
 
-        [Fact]
-        public override void ReadCoils()
-        {
-            base.ReadCoils();
-        }
+    [Fact]
+    public override void ReadCoils()
+    {
+        base.ReadCoils();
     }
 }

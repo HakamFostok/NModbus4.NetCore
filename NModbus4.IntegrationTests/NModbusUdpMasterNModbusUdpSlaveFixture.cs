@@ -1,19 +1,18 @@
 ﻿using System.Net.Sockets;
 using Modbus.Device;
 
-namespace Modbus.IntegrationTests
-{
-    internal class NModbusUdpMasterNModbusUdpSlaveFixture : ModbusMasterFixture
-    {
-        public NModbusUdpMasterNModbusUdpSlaveFixture()
-        {
-            SlaveUdp = new UdpClient(Port);
-            Slave = ModbusUdpSlave.CreateUdp(SlaveUdp);
-            StartSlave();
+namespace Modbus.IntegrationTests;
 
-            MasterUdp = new UdpClient();
-            MasterUdp.Connect(DefaultModbusIPEndPoint);
-            Master = ModbusIpMaster.CreateIp(MasterUdp);
-        }
+internal class NModbusUdpMasterNModbusUdpSlaveFixture : ModbusMasterFixture
+{
+    public NModbusUdpMasterNModbusUdpSlaveFixture()
+    {
+        SlaveUdp = new UdpClient(Port);
+        Slave = ModbusUdpSlave.CreateUdp(SlaveUdp);
+        StartSlave();
+
+        MasterUdp = new UdpClient();
+        MasterUdp.Connect(DefaultModbusIPEndPoint);
+        Master = ModbusIpMaster.CreateIp(MasterUdp);
     }
 }

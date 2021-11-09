@@ -6,162 +6,161 @@ using Modbus.Data;
 using Modbus.Device;
 using Xunit;
 
-namespace Modbus.IntegrationTests
+namespace Modbus.IntegrationTests;
+
+public class NModbusUdpSlaveFixture
 {
-    public class NModbusUdpSlaveFixture
+    [Fact]
+    public void ModbusUdpSlave_EnsureTheSlaveShutsDownCleanly()
     {
-        [Fact]
-        public void ModbusUdpSlave_EnsureTheSlaveShutsDownCleanly()
+        UdpClient client = new(ModbusMasterFixture.Port);
+        using (ModbusUdpSlave? slave = ModbusUdpSlave.CreateUdp(1, client))
         {
-            UdpClient client = new(ModbusMasterFixture.Port);
-            using (ModbusUdpSlave? slave = ModbusUdpSlave.CreateUdp(1, client))
+            AutoResetEvent? handle = new AutoResetEvent(false);
+
+            Thread? backgroundThread = new Thread(async (state) =>
             {
-                AutoResetEvent? handle = new AutoResetEvent(false);
-
-                Thread? backgroundThread = new Thread(async (state) =>
-                {
-                    handle.Set();
-                    await slave.ListenAsync();
-                });
-
-                backgroundThread.IsBackground = true;
-                backgroundThread.Start();
-
-                handle.WaitOne();
-                Thread.Sleep(100);
-            }
-        }
-
-        [Fact]
-        public void ModbusUdpSlave_NotBound()
-        {
-            UdpClient client = new();
-            ModbusSlave slave = ModbusUdpSlave.CreateUdp(1, client);
-            Assert.ThrowsAsync<InvalidOperationException>(async () => await slave.ListenAsync());
-        }
-
-        [Fact]
-        public void ModbusUdpSlave_MultipleMasters()
-        {
-            Random randomNumberGenerator = new();
-            bool master1Complete = false;
-            bool master2Complete = false;
-            UdpClient masterClient1 = new();
-            masterClient1.Connect(ModbusMasterFixture.DefaultModbusIPEndPoint);
-            ModbusIpMaster master1 = ModbusIpMaster.CreateIp(masterClient1);
-
-            UdpClient masterClient2 = new();
-            masterClient2.Connect(ModbusMasterFixture.DefaultModbusIPEndPoint);
-            ModbusIpMaster master2 = ModbusIpMaster.CreateIp(masterClient2);
-
-            UdpClient slaveClient = CreateAndStartUdpSlave(ModbusMasterFixture.Port, DataStoreFactory.CreateTestDataStore());
-
-            Thread master1Thread = new(() =>
-            {
-                for (int i = 0; i < 5; i++)
-                {
-                    Thread.Sleep(randomNumberGenerator.Next(1000));
-                    Debug.WriteLine("Read from master 1");
-                    Assert.Equal(new ushort[] { 2, 3, 4, 5, 6 }, master1.ReadHoldingRegisters(1, 5));
-                }
-                master1Complete = true;
+                handle.Set();
+                await slave.ListenAsync();
             });
 
-            Thread master2Thread = new(() =>
-            {
-                for (int i = 0; i < 5; i++)
-                {
-                    Thread.Sleep(randomNumberGenerator.Next(1000));
-                    Debug.WriteLine("Read from master 2");
-                    Assert.Equal(new ushort[] { 3, 4, 5, 6, 7 }, master2.ReadHoldingRegisters(2, 5));
-                }
-                master2Complete = true;
-            });
+            backgroundThread.IsBackground = true;
+            backgroundThread.Start();
 
-            master1Thread.Start();
-            master2Thread.Start();
+            handle.WaitOne();
+            Thread.Sleep(100);
+        }
+    }
 
-            while (!master1Complete || !master2Complete)
+    [Fact]
+    public void ModbusUdpSlave_NotBound()
+    {
+        UdpClient client = new();
+        ModbusSlave slave = ModbusUdpSlave.CreateUdp(1, client);
+        Assert.ThrowsAsync<InvalidOperationException>(async () => await slave.ListenAsync());
+    }
+
+    [Fact]
+    public void ModbusUdpSlave_MultipleMasters()
+    {
+        Random randomNumberGenerator = new();
+        bool master1Complete = false;
+        bool master2Complete = false;
+        UdpClient masterClient1 = new();
+        masterClient1.Connect(ModbusMasterFixture.DefaultModbusIPEndPoint);
+        ModbusIpMaster master1 = ModbusIpMaster.CreateIp(masterClient1);
+
+        UdpClient masterClient2 = new();
+        masterClient2.Connect(ModbusMasterFixture.DefaultModbusIPEndPoint);
+        ModbusIpMaster master2 = ModbusIpMaster.CreateIp(masterClient2);
+
+        UdpClient slaveClient = CreateAndStartUdpSlave(ModbusMasterFixture.Port, DataStoreFactory.CreateTestDataStore());
+
+        Thread master1Thread = new(() =>
+        {
+            for (int i = 0; i < 5; i++)
             {
-                Thread.Sleep(200);
+                Thread.Sleep(randomNumberGenerator.Next(1000));
+                Debug.WriteLine("Read from master 1");
+                Assert.Equal(new ushort[] { 2, 3, 4, 5, 6 }, master1.ReadHoldingRegisters(1, 5));
             }
+            master1Complete = true;
+        });
 
-            slaveClient.Close();
-            masterClient1.Close();
-            masterClient2.Close();
+        Thread master2Thread = new(() =>
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                Thread.Sleep(randomNumberGenerator.Next(1000));
+                Debug.WriteLine("Read from master 2");
+                Assert.Equal(new ushort[] { 3, 4, 5, 6, 7 }, master2.ReadHoldingRegisters(2, 5));
+            }
+            master2Complete = true;
+        });
+
+        master1Thread.Start();
+        master2Thread.Start();
+
+        while (!master1Complete || !master2Complete)
+        {
+            Thread.Sleep(200);
         }
 
-        [Fact]
-        public void ModbusUdpSlave_MultiThreaded()
+        slaveClient.Close();
+        masterClient1.Close();
+        masterClient2.Close();
+    }
+
+    [Fact]
+    public void ModbusUdpSlave_MultiThreaded()
+    {
+        DataStore? dataStore = DataStoreFactory.CreateDefaultDataStore();
+        dataStore.CoilDiscretes.Add(false);
+
+        using (UdpClient? slave = CreateAndStartUdpSlave(502, dataStore))
         {
-            DataStore? dataStore = DataStoreFactory.CreateDefaultDataStore();
-            dataStore.CoilDiscretes.Add(false);
+            Thread? workerThread1 = new Thread(ReadThread);
+            Thread? workerThread2 = new Thread(ReadThread);
+            workerThread1.Start();
+            workerThread2.Start();
 
-            using (UdpClient? slave = CreateAndStartUdpSlave(502, dataStore))
-            {
-                Thread? workerThread1 = new Thread(ReadThread);
-                Thread? workerThread2 = new Thread(ReadThread);
-                workerThread1.Start();
-                workerThread2.Start();
-
-                workerThread1.Join();
-                workerThread2.Join();
-            }
+            workerThread1.Join();
+            workerThread2.Join();
         }
+    }
 
-        [Fact(Skip = "TODO consider supporting this scenario")]
-        public void ModbusUdpSlave_SingleMasterPollingMultipleSlaves()
+    [Fact(Skip = "TODO consider supporting this scenario")]
+    public void ModbusUdpSlave_SingleMasterPollingMultipleSlaves()
+    {
+        DataStore slave1DataStore = new();
+        slave1DataStore.CoilDiscretes.Add(true);
+
+        DataStore slave2DataStore = new();
+        slave2DataStore.CoilDiscretes.Add(false);
+
+        using (UdpClient slave1 = CreateAndStartUdpSlave(502, slave1DataStore))
+        using (UdpClient slave2 = CreateAndStartUdpSlave(503, slave2DataStore))
+        using (UdpClient masterClient = new())
         {
-            DataStore slave1DataStore = new();
-            slave1DataStore.CoilDiscretes.Add(true);
-
-            DataStore slave2DataStore = new();
-            slave2DataStore.CoilDiscretes.Add(false);
-
-            using (UdpClient slave1 = CreateAndStartUdpSlave(502, slave1DataStore))
-            using (UdpClient slave2 = CreateAndStartUdpSlave(503, slave2DataStore))
-            using (UdpClient masterClient = new())
-            {
-                masterClient.Connect(ModbusMasterFixture.DefaultModbusIPEndPoint);
-                ModbusIpMaster master = ModbusIpMaster.CreateIp(masterClient);
-
-                for (int i = 0; i < 5; i++)
-                {
-                    // we would need to create an overload taking in a port argument
-                    Assert.True(master.ReadCoils(0, 1)[0]);
-                    Assert.False(master.ReadCoils(1, 1)[0]);
-                }
-            }
-        }
-
-        private static void ReadThread(object state)
-        {
-            UdpClient? masterClient = new UdpClient();
             masterClient.Connect(ModbusMasterFixture.DefaultModbusIPEndPoint);
-            using (ModbusIpMaster? master = ModbusIpMaster.CreateIp(masterClient))
-            {
-                master.Transport.Retries = 0;
+            ModbusIpMaster master = ModbusIpMaster.CreateIp(masterClient);
 
-                Random? random = new Random();
-                for (int i = 0; i < 5; i++)
-                {
-                    bool[] coils = master.ReadCoils(1, 1);
-                    Assert.Equal(1, coils.Length);
-                    Debug.WriteLine($"{Thread.CurrentThread.ManagedThreadId}: Reading coil value");
-                    Thread.Sleep(random.Next(100));
-                }
+            for (int i = 0; i < 5; i++)
+            {
+                // we would need to create an overload taking in a port argument
+                Assert.True(master.ReadCoils(0, 1)[0]);
+                Assert.False(master.ReadCoils(1, 1)[0]);
             }
         }
+    }
 
-        private UdpClient CreateAndStartUdpSlave(int port, DataStore dataStore)
+    private static void ReadThread(object state)
+    {
+        UdpClient? masterClient = new UdpClient();
+        masterClient.Connect(ModbusMasterFixture.DefaultModbusIPEndPoint);
+        using (ModbusIpMaster? master = ModbusIpMaster.CreateIp(masterClient))
         {
-            UdpClient slaveClient = new(port);
-            ModbusSlave slave = ModbusUdpSlave.CreateUdp(slaveClient);
-            slave.DataStore = dataStore;
-            Thread slaveThread = new(async () => await slave.ListenAsync());
-            slaveThread.Start();
+            master.Transport.Retries = 0;
 
-            return slaveClient;
+            Random? random = new Random();
+            for (int i = 0; i < 5; i++)
+            {
+                bool[] coils = master.ReadCoils(1, 1);
+                Assert.Equal(1, coils.Length);
+                Debug.WriteLine($"{Thread.CurrentThread.ManagedThreadId}: Reading coil value");
+                Thread.Sleep(random.Next(100));
+            }
         }
+    }
+
+    private UdpClient CreateAndStartUdpSlave(int port, DataStore dataStore)
+    {
+        UdpClient slaveClient = new(port);
+        ModbusSlave slave = ModbusUdpSlave.CreateUdp(slaveClient);
+        slave.DataStore = dataStore;
+        Thread slaveThread = new(async () => await slave.ListenAsync());
+        slaveThread.Start();
+
+        return slaveClient;
     }
 }
