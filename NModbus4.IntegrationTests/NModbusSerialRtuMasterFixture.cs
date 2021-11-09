@@ -10,10 +10,8 @@ public class NModbusSerialRtuMasterFixture
     public void NModbusRtuMaster_ReadTimeout()
     {
         SerialPort port = ModbusMasterFixture.CreateAndOpenSerialPort(ModbusMasterFixture.DefaultMasterSerialPortName);
-        using (ModbusSerialMaster? master = ModbusSerialMaster.CreateRtu(port))
-        {
-            master.Transport.ReadTimeout = master.Transport.WriteTimeout = 1000;
-            master.ReadCoils(100, 1, 1);
-        }
+        using ModbusSerialMaster? master = ModbusSerialMaster.CreateRtu(port);
+        master.Transport.ReadTimeout = master.Transport.WriteTimeout = 1000;
+        master.ReadCoils(100, 1, 1);
     }
 }

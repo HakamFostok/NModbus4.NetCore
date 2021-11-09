@@ -20,12 +20,10 @@ public class ModbusTransportFixture
 
         Mock<ModbusTransport>? mock = new Mock<ModbusTransport>(streamMock.Object) { CallBase = true };
 
-        using (ModbusTransport? transport = mock.Object)
-        {
-            Assert.NotNull(transport.StreamResource);
-            transport.Dispose();
-            Assert.Null(transport.StreamResource);
-        }
+        using ModbusTransport? transport = mock.Object;
+        Assert.NotNull(transport.StreamResource);
+        transport.Dispose();
+        Assert.Null(transport.StreamResource);
     }
 
     [Fact]

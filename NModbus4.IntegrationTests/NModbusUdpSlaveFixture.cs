@@ -14,22 +14,20 @@ public class NModbusUdpSlaveFixture
     public void ModbusUdpSlave_EnsureTheSlaveShutsDownCleanly()
     {
         UdpClient client = new(ModbusMasterFixture.Port);
-        using (ModbusUdpSlave? slave = ModbusUdpSlave.CreateUdp(1, client))
+        using ModbusUdpSlave? slave = ModbusUdpSlave.CreateUdp(1, client);
+        AutoResetEvent? handle = new AutoResetEvent(false);
+
+        Thread? backgroundThread = new Thread(async (state) =>
         {
-            AutoResetEvent? handle = new AutoResetEvent(false);
+            handle.Set();
+            await slave.ListenAsync();
+        });
 
-            Thread? backgroundThread = new Thread(async (state) =>
-            {
-                handle.Set();
-                await slave.ListenAsync();
-            });
+        backgroundThread.IsBackground = true;
+        backgroundThread.Start();
 
-            backgroundThread.IsBackground = true;
-            backgroundThread.Start();
-
-            handle.WaitOne();
-            Thread.Sleep(100);
-        }
+        handle.WaitOne();
+        Thread.Sleep(100);
     }
 
     [Fact]
@@ -97,16 +95,14 @@ public class NModbusUdpSlaveFixture
         DataStore? dataStore = DataStoreFactory.CreateDefaultDataStore();
         dataStore.CoilDiscretes.Add(false);
 
-        using (UdpClient? slave = CreateAndStartUdpSlave(502, dataStore))
-        {
-            Thread? workerThread1 = new Thread(ReadThread);
-            Thread? workerThread2 = new Thread(ReadThread);
-            workerThread1.Start();
-            workerThread2.Start();
+        using UdpClient? slave = CreateAndStartUdpSlave(502, dataStore);
+        Thread? workerThread1 = new Thread(ReadThread);
+        Thread? workerThread2 = new Thread(ReadThread);
+        workerThread1.Start();
+        workerThread2.Start();
 
-            workerThread1.Join();
-            workerThread2.Join();
-        }
+        workerThread1.Join();
+        workerThread2.Join();
     }
 
     [Fact(Skip = "TODO consider supporting this scenario")]
@@ -118,19 +114,17 @@ public class NModbusUdpSlaveFixture
         DataStore slave2DataStore = new();
         slave2DataStore.CoilDiscretes.Add(false);
 
-        using (UdpClient slave1 = CreateAndStartUdpSlave(502, slave1DataStore))
-        using (UdpClient slave2 = CreateAndStartUdpSlave(503, slave2DataStore))
-        using (UdpClient masterClient = new())
-        {
-            masterClient.Connect(ModbusMasterFixture.DefaultModbusIPEndPoint);
-            ModbusIpMaster master = ModbusIpMaster.CreateIp(masterClient);
+        using UdpClient slave1 = CreateAndStartUdpSlave(502, slave1DataStore);
+        using UdpClient slave2 = CreateAndStartUdpSlave(503, slave2DataStore);
+        using UdpClient masterClient = new();
+        masterClient.Connect(ModbusMasterFixture.DefaultModbusIPEndPoint);
+        ModbusIpMaster master = ModbusIpMaster.CreateIp(masterClient);
 
-            for (int i = 0; i < 5; i++)
-            {
-                // we would need to create an overload taking in a port argument
-                Assert.True(master.ReadCoils(0, 1)[0]);
-                Assert.False(master.ReadCoils(1, 1)[0]);
-            }
+        for (int i = 0; i < 5; i++)
+        {
+            // we would need to create an overload taking in a port argument
+            Assert.True(master.ReadCoils(0, 1)[0]);
+            Assert.False(master.ReadCoils(1, 1)[0]);
         }
     }
 
@@ -138,18 +132,16 @@ public class NModbusUdpSlaveFixture
     {
         UdpClient? masterClient = new UdpClient();
         masterClient.Connect(ModbusMasterFixture.DefaultModbusIPEndPoint);
-        using (ModbusIpMaster? master = ModbusIpMaster.CreateIp(masterClient))
-        {
-            master.Transport.Retries = 0;
+        using ModbusIpMaster? master = ModbusIpMaster.CreateIp(masterClient);
+        master.Transport.Retries = 0;
 
-            Random? random = new Random();
-            for (int i = 0; i < 5; i++)
-            {
-                bool[] coils = master.ReadCoils(1, 1);
-                Assert.Equal(1, coils.Length);
-                Debug.WriteLine($"{Thread.CurrentThread.ManagedThreadId}: Reading coil value");
-                Thread.Sleep(random.Next(100));
-            }
+        Random? random = new Random();
+        for (int i = 0; i < 5; i++)
+        {
+            bool[] coils = master.ReadCoils(1, 1);
+            Assert.Equal(1, coils.Length);
+            Debug.WriteLine($"{Thread.CurrentThread.ManagedThreadId}: Reading coil value");
+            Thread.Sleep(random.Next(100));
         }
     }
 
