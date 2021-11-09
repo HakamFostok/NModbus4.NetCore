@@ -23,7 +23,6 @@ public abstract class ModbusDevice : IDisposable
     /// </summary>
     public ModbusTransport Transport => _transport;
 
-
     /// <summary>
     ///     Releases unmanaged and - optionally - managed resources.
     /// </summary>
