@@ -115,7 +115,7 @@ public static class EnronModbus
             throw new ArgumentNullException(nameof(data));
         }
 
-        if (data.Length == 0 || data.Length > 61)
+        if (data.Length is 0 or > 61)
         {
             throw new ArgumentException("The length of argument data must be between 1 and 61 inclusive.");
         }

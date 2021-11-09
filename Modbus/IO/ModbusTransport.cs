@@ -171,10 +171,10 @@ public abstract class ModbusTransport : IDisposable
             }
             catch (Exception e)
             {
-                if (e is FormatException ||
-                    e is NotImplementedException ||
-                    e is TimeoutException ||
-                    e is IOException)
+                if (e is FormatException or
+                    NotImplementedException or
+                    TimeoutException or
+                    IOException)
                 {
                     Debug.WriteLine($"{e.GetType().Name}, {(_retries - attempt + 1)} retries remaining - {e}");
 
