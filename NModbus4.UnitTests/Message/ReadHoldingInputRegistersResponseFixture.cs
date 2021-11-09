@@ -8,10 +8,7 @@ namespace Modbus.UnitTests.Message;
 public class ReadHoldingInputRegistersResponseFixture
 {
     [Fact]
-    public void ReadHoldingInputRegistersResponse_NullData()
-    {
-        Assert.Throws<ArgumentNullException>(() => new ReadHoldingInputRegistersResponse(0, 0, null));
-    }
+    public void ReadHoldingInputRegistersResponse_NullData() => Assert.Throws<ArgumentNullException>(() => new ReadHoldingInputRegistersResponse(0, 0, null));
 
     [Fact]
     public void ReadHoldingRegistersResponse()

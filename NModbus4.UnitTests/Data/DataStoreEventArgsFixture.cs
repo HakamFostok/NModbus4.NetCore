@@ -18,17 +18,13 @@ public class DataStoreEventArgsFixture
     }
 
     [Fact]
-    public void CreateDataStoreEventArgs_InvalidType()
-    {
+    public void CreateDataStoreEventArgs_InvalidType() =>
         Assert.Throws<ArgumentException>(() => DataStoreEventArgs.CreateDataStoreEventArgs(5, ModbusDataType.HoldingRegister,
-            new int[] { 1, 2, 3 }));
-    }
+                                                            new int[] { 1, 2, 3 }));
 
     [Fact]
-    public void CreateDataStoreEventArgs_DataNull()
-    {
+    public void CreateDataStoreEventArgs_DataNull() =>
         Assert.Throws<ArgumentNullException>(() =>
-            DataStoreEventArgs.CreateDataStoreEventArgs(5, ModbusDataType.HoldingRegister,
-                default(ushort[])));
-    }
+                                                         DataStoreEventArgs.CreateDataStoreEventArgs(5, ModbusDataType.HoldingRegister,
+                                                             default(ushort[])));
 }

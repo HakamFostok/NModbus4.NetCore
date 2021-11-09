@@ -23,8 +23,6 @@ public class NModbusSerialAsciiMasterJamodSerialAsciiSlaveFixture : ModbusMaster
     }
 
     [Fact]
-    public override void ReadCoils()
-    {
+    public override void ReadCoils() =>
         base.ReadCoils();
-    }
 }

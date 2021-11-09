@@ -17,10 +17,7 @@ public class WriteMultipleRegistersResponseFixture
     }
 
     [Fact]
-    public void CreateWriteMultipleRegistersResponseTooMuchData()
-    {
-        Assert.Throws<ArgumentOutOfRangeException>(() => new WriteMultipleRegistersResponse(1, 2, Modbus.MaximumRegisterRequestResponseSize + 1));
-    }
+    public void CreateWriteMultipleRegistersResponseTooMuchData() => Assert.Throws<ArgumentOutOfRangeException>(() => new WriteMultipleRegistersResponse(1, 2, Modbus.MaximumRegisterRequestResponseSize + 1));
 
     [Fact]
     public void CreateWriteMultipleRegistersResponseMaxSize()

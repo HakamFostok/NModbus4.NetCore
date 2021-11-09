@@ -27,10 +27,7 @@ public class ReadCoilsInputsRequestFixture
     }
 
     [Fact]
-    public void CreateReadCoilsInputsRequestTooMuchData()
-    {
-        Assert.Throws<ArgumentOutOfRangeException>(() => new ReadCoilsInputsRequest(Modbus.ReadCoils, 1, 2, Modbus.MaximumDiscreteRequestResponseSize + 1));
-    }
+    public void CreateReadCoilsInputsRequestTooMuchData() => Assert.Throws<ArgumentOutOfRangeException>(() => new ReadCoilsInputsRequest(Modbus.ReadCoils, 1, 2, Modbus.MaximumDiscreteRequestResponseSize + 1));
 
     [Fact]
     public void CreateReadCoilsInputsRequestMaxSize()

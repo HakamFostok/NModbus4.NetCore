@@ -16,62 +16,42 @@ public class NModbusSerialAsciiMasterNModbusSerialAsciiSlaveFixture : ModbusSeri
     }
 
     [Fact]
-    public override void ReadCoils()
-    {
+    public override void ReadCoils() =>
         base.ReadCoils();
-    }
 
     [Fact]
-    public override void ReadInputs()
-    {
+    public override void ReadInputs() => 
         base.ReadInputs();
-    }
 
     [Fact]
-    public override void ReadHoldingRegisters()
-    {
+    public override void ReadHoldingRegisters() =>
         base.ReadHoldingRegisters();
-    }
 
     [Fact]
-    public override void ReadInputRegisters()
-    {
+    public override void ReadInputRegisters() =>
         base.ReadInputRegisters();
-    }
 
     [Fact]
-    public override void WriteSingleCoil()
-    {
+    public override void WriteSingleCoil() => 
         base.WriteSingleCoil();
-    }
 
     [Fact]
-    public override void WriteMultipleCoils()
-    {
+    public override void WriteMultipleCoils() =>
         base.WriteMultipleCoils();
-    }
 
     [Fact]
-    public override void WriteSingleRegister()
-    {
+    public override void WriteSingleRegister() =>
         base.WriteSingleRegister();
-    }
 
     [Fact]
-    public override void WriteMultipleRegisters()
-    {
+    public override void WriteMultipleRegisters() => 
         base.WriteMultipleRegisters();
-    }
 
     [Fact]
-    public override void ReadWriteMultipleRegisters()
-    {
+    public override void ReadWriteMultipleRegisters() => 
         base.ReadWriteMultipleRegisters();
-    }
 
     [Fact]
-    public override void ReturnQueryData()
-    {
+    public override void ReturnQueryData() => 
         base.ReturnQueryData();
-    }
 }

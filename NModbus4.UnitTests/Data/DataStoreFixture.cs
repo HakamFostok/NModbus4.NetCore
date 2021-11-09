@@ -17,26 +17,20 @@ public class DataStoreFixture
     }
 
     [Fact]
-    public void ReadDataStartAddressTooLarge()
-    {
+    public void ReadDataStartAddressTooLarge() => 
         Assert.Throws<InvalidModbusRequestException>(() =>
-            DataStore.ReadData<DiscreteCollection, bool>(new DataStore(), new ModbusDataCollection<bool>(), 3, 2,
-                new object()));
-    }
+                                                    DataStore.ReadData<DiscreteCollection, bool>(new DataStore(), new ModbusDataCollection<bool>(), 3, 2,
+                                                        new object()));
 
     [Fact]
-    public void ReadDataCountTooLarge()
-    {
+    public void ReadDataCountTooLarge() => 
         Assert.Throws<InvalidModbusRequestException>(() => DataStore.ReadData<DiscreteCollection, bool>(new DataStore(),
-            new ModbusDataCollection<bool>(true, false, true, true), 1, 5, new object()));
-    }
+                                             new ModbusDataCollection<bool>(true, false, true, true), 1, 5, new object()));
 
     [Fact]
-    public void ReadDataStartAddressZero()
-    {
+    public void ReadDataStartAddressZero() => 
         DataStore.ReadData<DiscreteCollection, bool>(new DataStore(),
             new ModbusDataCollection<bool>(true, false, true, true, true, true), 0, 5, new object());
-    }
 
     [Fact]
     public void WriteDataSingle()
@@ -66,18 +60,14 @@ public class DataStoreFixture
     }
 
     [Fact]
-    public void WriteDataStartAddressZero()
-    {
+    public void WriteDataStartAddressZero() => 
         DataStore.WriteData(new DataStore(), new DiscreteCollection(false),
             new ModbusDataCollection<bool>(true, true), 0, new object());
-    }
 
     [Fact]
-    public void WriteDataStartAddressTooLarge()
-    {
+    public void WriteDataStartAddressTooLarge() =>
         Assert.Throws<InvalidModbusRequestException>(() => DataStore.WriteData(new DataStore(), new DiscreteCollection(true), new ModbusDataCollection<bool>(true), 2,
-            new object()));
-    }
+                                                     new object()));
 
     /// <summary>
     ///     http://modbus.org/docs/Modbus_Application_Protocol_V1_1b.pdf

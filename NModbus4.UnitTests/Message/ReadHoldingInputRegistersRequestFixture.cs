@@ -29,11 +29,8 @@ public class ReadHoldingInputRegistersRequestFixture
     }
 
     [Fact]
-    public void CreateReadHoldingInputRegistersRequestTooMuchData()
-    {
-        Assert.Throws<ArgumentOutOfRangeException>(() => new ReadHoldingInputRegistersRequest(Modbus.ReadHoldingRegisters, 1, 2,
-            Modbus.MaximumRegisterRequestResponseSize + 1));
-    }
+    public void CreateReadHoldingInputRegistersRequestTooMuchData() => Assert.Throws<ArgumentOutOfRangeException>(() => new ReadHoldingInputRegistersRequest(Modbus.ReadHoldingRegisters, 1, 2,
+                                                                         Modbus.MaximumRegisterRequestResponseSize + 1));
 
     [Fact]
     public void CreateReadHoldingInputRegistersRequestMaxSize()

@@ -57,44 +57,44 @@ public class CustomWriteMultipleRegistersRequest : IModbusMessage
 
     public ushort TransactionId
     {
-        get { return _transactionId; }
-        set { _transactionId = value; }
+        get => _transactionId;
+        set => _transactionId = value;
     }
 
     public byte FunctionCode
     {
-        get { return _functionCode; }
-        set { _functionCode = value; }
+        get => _functionCode;
+        set => _functionCode = value;
     }
 
     public byte SlaveAddress
     {
-        get { return _slaveAddress; }
-        set { _slaveAddress = value; }
+        get => _slaveAddress;
+        set => _slaveAddress = value;
     }
 
     public ushort StartAddress
     {
-        get { return _startAddress; }
-        set { _startAddress = value; }
+        get => _startAddress;
+        set => _startAddress = value;
     }
 
     public ushort NumberOfPoints
     {
-        get { return _numberOfPoints; }
-        set { _numberOfPoints = value; }
+        get => _numberOfPoints;
+        set => _numberOfPoints = value;
     }
 
     public byte ByteCount
     {
-        get { return _byteCount; }
-        set { _byteCount = value; }
+        get => _byteCount;
+        set => _byteCount = value;
     }
 
     public RegisterCollection Data
     {
-        get { return _data; }
-        set { _data = value; }
+        get => _data;
+        set => _data = value;
     }
 
     public void Initialize(byte[] frame)

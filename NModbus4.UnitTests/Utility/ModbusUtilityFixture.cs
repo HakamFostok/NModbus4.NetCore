@@ -33,34 +33,19 @@ public class ModbusUtilityFixture
     }
 
     [Fact]
-    public void HexToBytes()
-    {
-        Assert.Equal(new byte[] { 255 }, ModbusUtility.HexToBytes("FF"));
-    }
+    public void HexToBytes() => Assert.Equal(new byte[] { 255 }, ModbusUtility.HexToBytes("FF"));
 
     [Fact]
-    public void HexToBytes2()
-    {
-        Assert.Equal(new byte[] { 204, 255 }, ModbusUtility.HexToBytes("CCFF"));
-    }
+    public void HexToBytes2() => Assert.Equal(new byte[] { 204, 255 }, ModbusUtility.HexToBytes("CCFF"));
 
     [Fact]
-    public void HexToBytesEmpty()
-    {
-        Assert.Equal(new byte[] { }, ModbusUtility.HexToBytes(string.Empty));
-    }
+    public void HexToBytesEmpty() => Assert.Equal(new byte[] { }, ModbusUtility.HexToBytes(string.Empty));
 
     [Fact]
-    public void HexToBytesNull()
-    {
-        Assert.Throws<ArgumentNullException>(() => ModbusUtility.HexToBytes(null));
-    }
+    public void HexToBytesNull() => Assert.Throws<ArgumentNullException>(() => ModbusUtility.HexToBytes(null));
 
     [Fact]
-    public void HexToBytesOdd()
-    {
-        Assert.Throws<FormatException>(() => ModbusUtility.HexToBytes("CCF"));
-    }
+    public void HexToBytesOdd() => Assert.Throws<FormatException>(() => ModbusUtility.HexToBytes("CCF"));
 
     [Fact]
     public void CalculateCrc()
@@ -77,16 +62,10 @@ public class ModbusUtilityFixture
     }
 
     [Fact]
-    public void CalculateCrcEmpty()
-    {
-        Assert.Equal(new byte[] { 255, 255 }, ModbusUtility.CalculateCrc(new byte[] { }));
-    }
+    public void CalculateCrcEmpty() => Assert.Equal(new byte[] { 255, 255 }, ModbusUtility.CalculateCrc(new byte[] { }));
 
     [Fact]
-    public void CalculateCrcNull()
-    {
-        Assert.Throws<ArgumentNullException>(() => ModbusUtility.CalculateCrc(null));
-    }
+    public void CalculateCrcNull() => Assert.Throws<ArgumentNullException>(() => ModbusUtility.CalculateCrc(null));
 
     [Fact]
     public void CalculateLrc()
@@ -104,40 +83,22 @@ public class ModbusUtilityFixture
     }
 
     [Fact]
-    public void CalculateLrcNull()
-    {
-        Assert.Throws<ArgumentNullException>(() => ModbusUtility.CalculateLrc(null));
-    }
+    public void CalculateLrcNull() => Assert.Throws<ArgumentNullException>(() => ModbusUtility.CalculateLrc(null));
 
     [Fact]
-    public void CalculateLrcEmpty()
-    {
-        Assert.Equal(0, ModbusUtility.CalculateLrc(new byte[] { }));
-    }
+    public void CalculateLrcEmpty() => Assert.Equal(0, ModbusUtility.CalculateLrc(new byte[] { }));
 
     [Fact]
-    public void NetworkBytesToHostUInt16()
-    {
-        Assert.Equal(new ushort[] { 1, 2 }, ModbusUtility.NetworkBytesToHostUInt16(new byte[] { 0, 1, 0, 2 }));
-    }
+    public void NetworkBytesToHostUInt16() => Assert.Equal(new ushort[] { 1, 2 }, ModbusUtility.NetworkBytesToHostUInt16(new byte[] { 0, 1, 0, 2 }));
 
     [Fact]
-    public void NetworkBytesToHostUInt16Null()
-    {
-        Assert.Throws<ArgumentNullException>(() => ModbusUtility.NetworkBytesToHostUInt16(null));
-    }
+    public void NetworkBytesToHostUInt16Null() => Assert.Throws<ArgumentNullException>(() => ModbusUtility.NetworkBytesToHostUInt16(null));
 
     [Fact]
-    public void NetworkBytesToHostUInt16OddNumberOfBytes()
-    {
-        Assert.Throws<FormatException>(() => ModbusUtility.NetworkBytesToHostUInt16(new byte[] { 1 }));
-    }
+    public void NetworkBytesToHostUInt16OddNumberOfBytes() => Assert.Throws<FormatException>(() => ModbusUtility.NetworkBytesToHostUInt16(new byte[] { 1 }));
 
     [Fact]
-    public void NetworkBytesToHostUInt16EmptyBytes()
-    {
-        Assert.Equal(new ushort[] { }, ModbusUtility.NetworkBytesToHostUInt16(new byte[] { }));
-    }
+    public void NetworkBytesToHostUInt16EmptyBytes() => Assert.Equal(new ushort[] { }, ModbusUtility.NetworkBytesToHostUInt16(new byte[] { }));
 
     [Fact]
     public void GetDouble()

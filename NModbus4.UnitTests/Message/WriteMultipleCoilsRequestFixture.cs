@@ -21,11 +21,8 @@ public class WriteMultipleCoilsRequestFixture
     }
 
     [Fact]
-    public void CreateWriteMultipleCoilsRequestTooMuchData()
-    {
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            new WriteMultipleCoilsRequest(1, 2, MessageUtility.CreateDefaultCollection<DiscreteCollection, bool>(true, Modbus.MaximumDiscreteRequestResponseSize + 1)));
-    }
+    public void CreateWriteMultipleCoilsRequestTooMuchData() => Assert.Throws<ArgumentOutOfRangeException>(() =>
+                                                                  new WriteMultipleCoilsRequest(1, 2, MessageUtility.CreateDefaultCollection<DiscreteCollection, bool>(true, Modbus.MaximumDiscreteRequestResponseSize + 1)));
 
     [Fact]
     public void CreateWriteMultipleCoilsRequestMaxSize()

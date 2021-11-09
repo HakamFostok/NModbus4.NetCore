@@ -26,8 +26,6 @@ public class NModbusSerialRtuMasterDl06SlaveFixture : ModbusSerialMasterFixture
     }
 
     [Fact]
-    public override void ReadCoils()
-    {
+    public override void ReadCoils() =>
         base.ReadCoils();
-    }
 }

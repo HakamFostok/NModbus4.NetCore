@@ -111,8 +111,6 @@ public abstract class ModbusDataCollectionFixture<TData>
 
     protected abstract TData GetNonExistentElement();
 
-    protected List<TData> GetList()
-    {
-        return new List<TData>(GetArray());
-    }
+    protected List<TData> GetList() => 
+        new List<TData>(GetArray());
 }

@@ -17,10 +17,7 @@ public class WriteMultipleCoilsResponseFixture
     }
 
     [Fact]
-    public void CreateWriteMultipleCoilsResponseTooMuchData()
-    {
-        Assert.Throws<ArgumentOutOfRangeException>(() => new WriteMultipleCoilsResponse(1, 2, Modbus.MaximumDiscreteRequestResponseSize + 1));
-    }
+    public void CreateWriteMultipleCoilsResponseTooMuchData() => Assert.Throws<ArgumentOutOfRangeException>(() => new WriteMultipleCoilsResponse(1, 2, Modbus.MaximumDiscreteRequestResponseSize + 1));
 
     [Fact]
     public void CreateWriteMultipleCoilsResponseMaxSize()

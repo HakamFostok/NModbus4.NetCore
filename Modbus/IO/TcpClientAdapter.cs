@@ -41,10 +41,8 @@ internal class TcpClientAdapter : IStreamResource
     public int Read(byte[] buffer, int offset, int size) =>
         _tcpClient.GetStream().Read(buffer, offset, size);
 
-    public void DiscardInBuffer()
-    {
+    public void DiscardInBuffer() =>
         _tcpClient.GetStream().Flush();
-    }
 
     public void Dispose()
     {

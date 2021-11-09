@@ -35,10 +35,8 @@ public class SerialPortAdapter : IStreamResource
         set => _serialPort.WriteTimeout = value;
     }
 
-    public void DiscardInBuffer()
-    {
+    public void DiscardInBuffer() =>
         _serialPort.DiscardInBuffer();
-    }
 
     public int Read(byte[] buffer, int offset, int count) =>
         _serialPort.Read(buffer, offset, count);

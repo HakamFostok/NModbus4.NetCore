@@ -8,10 +8,8 @@ public static class DataStoreFactory
     /// <summary>
     ///     Factory method for default data store - register values set to 0 and discrete values set to false.
     /// </summary>
-    public static DataStore CreateDefaultDataStore()
-    {
-        return CreateDefaultDataStore(ushort.MaxValue, ushort.MaxValue, ushort.MaxValue, ushort.MaxValue);
-    }
+    public static DataStore CreateDefaultDataStore() => 
+        CreateDefaultDataStore(ushort.MaxValue, ushort.MaxValue, ushort.MaxValue, ushort.MaxValue);
 
     /// <summary>
     ///     Factory method for default data store - register values set to 0 and discrete values set to false.

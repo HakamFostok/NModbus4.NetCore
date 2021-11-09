@@ -44,26 +44,26 @@ public class CustomReadHoldingRegistersResponse : IModbusMessage
 
     public ushort TransactionId
     {
-        get { return _transactionId; }
-        set { _transactionId = value; }
+        get => _transactionId;
+        set => _transactionId = value;
     }
 
     public byte FunctionCode
     {
-        get { return _functionCode; }
-        set { _functionCode = value; }
+        get => _functionCode;
+        set => _functionCode = value;
     }
 
     public byte SlaveAddress
     {
-        get { return _slaveAddress; }
-        set { _slaveAddress = value; }
+        get => _slaveAddress;
+        set => _slaveAddress = value;
     }
 
     public byte ByteCount
     {
-        get { return _byteCount; }
-        set { _byteCount = value; }
+        get => _byteCount;
+        set => _byteCount = value;
     }
 
     public void Initialize(byte[] frame)

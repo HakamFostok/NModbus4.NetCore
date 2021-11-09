@@ -261,10 +261,7 @@ public abstract class ModbusTransport : IDisposable
     /// <summary>
     ///     Provide hook to check whether receiving a response should be retried
     /// </summary>
-    internal virtual bool OnShouldRetryResponse(IModbusMessage request, IModbusMessage response)
-    {
-        return false;
-    }
+    internal virtual bool OnShouldRetryResponse(IModbusMessage request, IModbusMessage response) => false;
 
     /// <summary>
     ///     Provide hook to do transport level message validation.
@@ -295,8 +292,6 @@ public abstract class ModbusTransport : IDisposable
         }
     }
 
-    private static void Sleep(int millisecondsTimeout)
-    {
+    private static void Sleep(int millisecondsTimeout) =>
         Task.Delay(millisecondsTimeout).Wait();
-    }
 }

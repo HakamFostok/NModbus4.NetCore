@@ -66,10 +66,8 @@ public class DiscreteCollectionFixture
     }
 
     [Fact]
-    public void CreateNewDiscreteCollectionFromBytesParams_NullArray()
-    {
+    public void CreateNewDiscreteCollectionFromBytesParams_NullArray() => 
         Assert.Throws<ArgumentNullException>(() => new DiscreteCollection((byte[])null));
-    }
 
     [Fact]
     public void CreateNewDiscreteCollectionFromBytesParamsOrder()
