@@ -17,7 +17,7 @@ public class TcpConnectionEventArgsFixture
     [Fact]
     public void TcpConnectionEventArgs()
     {
-        TcpConnectionEventArgs? args = new TcpConnectionEventArgs("foo");
+        TcpConnectionEventArgs? args = new("foo");
 
         Assert.Equal("foo", args.EndPoint);
     }

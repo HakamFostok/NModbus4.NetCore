@@ -10,7 +10,7 @@ public class SlaveExceptionFixture
     [Fact]
     public void EmptyConstructor()
     {
-        SlaveException? e = new SlaveException();
+        SlaveException? e = new();
         Assert.Equal($"Exception of type '{typeof(SlaveException).FullName}' was thrown.", e.Message);
         Assert.Equal(0, e.SlaveAddress);
         Assert.Equal(0, e.FunctionCode);
@@ -21,7 +21,7 @@ public class SlaveExceptionFixture
     [Fact]
     public void ConstructorWithMessage()
     {
-        SlaveException? e = new SlaveException("Hello World");
+        SlaveException? e = new("Hello World");
         Assert.Equal("Hello World", e.Message);
         Assert.Equal(0, e.SlaveAddress);
         Assert.Equal(0, e.FunctionCode);
@@ -32,8 +32,8 @@ public class SlaveExceptionFixture
     [Fact]
     public void ConstructorWithMessageAndInnerException()
     {
-        IOException? inner = new IOException("Bar");
-        SlaveException? e = new SlaveException("Foo", inner);
+        IOException? inner = new("Bar");
+        SlaveException? e = new("Foo", inner);
         Assert.Equal("Foo", e.Message);
         Assert.Same(inner, e.InnerException);
         Assert.Equal(0, e.SlaveAddress);
@@ -44,8 +44,8 @@ public class SlaveExceptionFixture
     [Fact]
     public void ConstructorWithSlaveExceptionResponse()
     {
-        SlaveExceptionResponse? response = new SlaveExceptionResponse(12, Modbus.ReadCoils, 1);
-        SlaveException? e = new SlaveException(response);
+        SlaveExceptionResponse? response = new(12, Modbus.ReadCoils, 1);
+        SlaveException? e = new(response);
 
         Assert.Equal(12, e.SlaveAddress);
         Assert.Equal(Modbus.ReadCoils, e.FunctionCode);
@@ -60,9 +60,9 @@ public class SlaveExceptionFixture
     [Fact]
     public void ConstructorWithCustomMessageAndSlaveExceptionResponse()
     {
-        SlaveExceptionResponse? response = new SlaveExceptionResponse(12, Modbus.ReadCoils, 2);
+        SlaveExceptionResponse? response = new(12, Modbus.ReadCoils, 2);
         string customMessage = "custom message";
-        SlaveException? e = new SlaveException(customMessage, response);
+        SlaveException? e = new(customMessage, response);
 
         Assert.Equal(12, e.SlaveAddress);
         Assert.Equal(Modbus.ReadCoils, e.FunctionCode);

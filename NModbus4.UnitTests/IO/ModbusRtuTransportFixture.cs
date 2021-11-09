@@ -18,8 +18,8 @@ public class ModbusRtuTransportFixture
     public void BuildMessageFrame()
     {
         byte[] message = { 17, Modbus.ReadCoils, 0, 19, 0, 37, 14, 132 };
-        ReadCoilsInputsRequest? request = new ReadCoilsInputsRequest(Modbus.ReadCoils, 17, 19, 37);
-        ModbusRtuTransport? transport = new ModbusRtuTransport(StreamResource);
+        ReadCoilsInputsRequest? request = new(Modbus.ReadCoils, 17, 19, 37);
+        ModbusRtuTransport? transport = new(StreamResource);
 
         Assert.Equal(message, transport.BuildMessageFrame(request));
     }
@@ -104,8 +104,8 @@ public class ModbusRtuTransportFixture
     [Fact]
     public void ChecksumsMatchSucceed()
     {
-        ModbusRtuTransport? transport = new ModbusRtuTransport(StreamResource);
-        ReadCoilsInputsRequest? message = new ReadCoilsInputsRequest(Modbus.ReadCoils, 17, 19, 37);
+        ModbusRtuTransport? transport = new(StreamResource);
+        ReadCoilsInputsRequest? message = new(Modbus.ReadCoils, 17, 19, 37);
         byte[] frame = { 17, Modbus.ReadCoils, 0, 19, 0, 37, 14, 132 };
 
         Assert.True(transport.ChecksumsMatch(message, frame));
@@ -114,8 +114,8 @@ public class ModbusRtuTransportFixture
     [Fact]
     public void ChecksumsMatchFail()
     {
-        ModbusRtuTransport? transport = new ModbusRtuTransport(StreamResource);
-        ReadCoilsInputsRequest? message = new ReadCoilsInputsRequest(Modbus.ReadCoils, 17, 19, 38);
+        ModbusRtuTransport? transport = new(StreamResource);
+        ReadCoilsInputsRequest? message = new(Modbus.ReadCoils, 17, 19, 38);
         byte[] frame = { 17, Modbus.ReadCoils, 0, 19, 0, 37, 14, 132 };
 
         Assert.False(transport.ChecksumsMatch(message, frame));
@@ -124,7 +124,7 @@ public class ModbusRtuTransportFixture
     [Fact]
     public void ReadResponse()
     {
-        Mock<ModbusRtuTransport>? mock = new Mock<ModbusRtuTransport>(StreamResource) { CallBase = true };
+        Mock<ModbusRtuTransport>? mock = new(StreamResource) { CallBase = true };
         ModbusRtuTransport? transport = mock.Object;
 
         mock.Setup(t => t.Read(ModbusRtuTransport.ResponseFrameStartLength)).Returns(new byte[] { 1, 1, 1, 0 });
@@ -133,7 +133,7 @@ public class ModbusRtuTransportFixture
         IModbusMessage? response = transport.ReadResponse<ReadCoilsInputsResponse>();
         Assert.IsType<ReadCoilsInputsResponse>(response);
 
-        ReadCoilsInputsResponse? expectedResponse = new ReadCoilsInputsResponse(Modbus.ReadCoils, 1, 1, new DiscreteCollection(false));
+        ReadCoilsInputsResponse? expectedResponse = new(Modbus.ReadCoils, 1, 1, new DiscreteCollection(false));
         Assert.Equal(expectedResponse.MessageFrame, response.MessageFrame);
 
         mock.VerifyAll();
@@ -142,7 +142,7 @@ public class ModbusRtuTransportFixture
     [Fact]
     public void ReadResponseSlaveException()
     {
-        Mock<ModbusRtuTransport>? mock = new Mock<ModbusRtuTransport>(StreamResource) { CallBase = true };
+        Mock<ModbusRtuTransport>? mock = new(StreamResource) { CallBase = true };
         ModbusRtuTransport? transport = mock.Object;
 
         byte[] messageFrame = { 0x01, 0x81, 0x02 };
@@ -157,7 +157,7 @@ public class ModbusRtuTransportFixture
         IModbusMessage? response = transport.ReadResponse<ReadCoilsInputsResponse>();
         Assert.IsType<SlaveExceptionResponse>(response);
 
-        SlaveExceptionResponse? expectedResponse = new SlaveExceptionResponse(0x01, 0x81, 0x02);
+        SlaveExceptionResponse? expectedResponse = new(0x01, 0x81, 0x02);
         Assert.Equal(expectedResponse.MessageFrame, response.MessageFrame);
 
         mock.VerifyAll();
@@ -170,7 +170,7 @@ public class ModbusRtuTransportFixture
     [Fact]
     public void ReadResponseSlaveExceptionWithErroneousLrc()
     {
-        Mock<ModbusRtuTransport>? mock = new Mock<ModbusRtuTransport>(StreamResource) { CallBase = true };
+        Mock<ModbusRtuTransport>? mock = new(StreamResource) { CallBase = true };
         ModbusRtuTransport? transport = mock.Object;
 
         byte[] messageFrame = { 0x01, 0x81, 0x02 };
@@ -192,7 +192,7 @@ public class ModbusRtuTransportFixture
     [Fact]
     public void ReadRequest()
     {
-        Mock<ModbusRtuTransport>? mock = new Mock<ModbusRtuTransport>(StreamResource) { CallBase = true };
+        Mock<ModbusRtuTransport>? mock = new(StreamResource) { CallBase = true };
         ModbusRtuTransport? transport = mock.Object;
 
         mock.Setup(t => t.Read(ModbusRtuTransport.RequestFrameStartLength))
@@ -209,7 +209,7 @@ public class ModbusRtuTransportFixture
     [Fact]
     public void Read()
     {
-        Mock<IStreamResource>? mock = new Mock<IStreamResource>(MockBehavior.Strict);
+        Mock<IStreamResource>? mock = new(MockBehavior.Strict);
 
         mock.Setup(s => s.Read(It.Is<byte[]>(x => x.Length == 5), 0, 5))
             .Returns((byte[] buf, int offset, int count) =>

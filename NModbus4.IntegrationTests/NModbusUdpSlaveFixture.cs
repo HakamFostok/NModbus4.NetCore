@@ -15,9 +15,9 @@ public class NModbusUdpSlaveFixture
     {
         UdpClient client = new(ModbusMasterFixture.Port);
         using ModbusUdpSlave? slave = ModbusUdpSlave.CreateUdp(1, client);
-        AutoResetEvent? handle = new AutoResetEvent(false);
+        AutoResetEvent? handle = new(false);
 
-        Thread? backgroundThread = new Thread(async (state) =>
+        Thread? backgroundThread = new(async (state) =>
         {
             handle.Set();
             await slave.ListenAsync();
@@ -96,8 +96,8 @@ public class NModbusUdpSlaveFixture
         dataStore.CoilDiscretes.Add(false);
 
         using UdpClient? slave = CreateAndStartUdpSlave(502, dataStore);
-        Thread? workerThread1 = new Thread(ReadThread);
-        Thread? workerThread2 = new Thread(ReadThread);
+        Thread? workerThread1 = new(ReadThread);
+        Thread? workerThread2 = new(ReadThread);
         workerThread1.Start();
         workerThread2.Start();
 
@@ -130,12 +130,12 @@ public class NModbusUdpSlaveFixture
 
     private static void ReadThread(object state)
     {
-        UdpClient? masterClient = new UdpClient();
+        UdpClient? masterClient = new();
         masterClient.Connect(ModbusMasterFixture.DefaultModbusIPEndPoint);
         using ModbusIpMaster? master = ModbusIpMaster.CreateIp(masterClient);
         master.Transport.Retries = 0;
 
-        Random? random = new Random();
+        Random? random = new();
         for (int i = 0; i < 5; i++)
         {
             bool[] coils = master.ReadCoils(1, 1);

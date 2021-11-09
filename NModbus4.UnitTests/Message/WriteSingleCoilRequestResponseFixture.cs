@@ -18,7 +18,7 @@ public class WriteSingleCoilRequestResponseFixture
     [Fact]
     public void ToString_True()
     {
-        WriteSingleCoilRequestResponse? request = new WriteSingleCoilRequestResponse(11, 5, true);
+        WriteSingleCoilRequestResponse? request = new(11, 5, true);
 
         Assert.Equal("Write single coil 1 at address 5.", request.ToString());
     }
@@ -26,7 +26,7 @@ public class WriteSingleCoilRequestResponseFixture
     [Fact]
     public void ToString_False()
     {
-        WriteSingleCoilRequestResponse? request = new WriteSingleCoilRequestResponse(11, 5, false);
+        WriteSingleCoilRequestResponse? request = new(11, 5, false);
 
         Assert.Equal("Write single coil 0 at address 5.", request.ToString());
     }

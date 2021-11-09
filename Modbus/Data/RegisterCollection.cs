@@ -51,7 +51,7 @@ public class RegisterCollection : Collection<ushort>, IModbusMessageDataCollecti
     {
         get
         {
-            MemoryStream? bytes = new MemoryStream(ByteCount);
+            MemoryStream? bytes = new(ByteCount);
 
             foreach (ushort register in this)
             {

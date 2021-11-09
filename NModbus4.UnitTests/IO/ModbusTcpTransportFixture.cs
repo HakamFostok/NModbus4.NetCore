@@ -17,8 +17,8 @@ public class ModbusTcpTransportFixture
     [Fact]
     public void BuildMessageFrame()
     {
-        Mock<ModbusIpTransport>? mock = new Mock<ModbusIpTransport>(StreamResourceMock) { CallBase = true };
-        ReadCoilsInputsRequest? message = new ReadCoilsInputsRequest(Modbus.ReadCoils, 2, 10, 5);
+        Mock<ModbusIpTransport>? mock = new(StreamResourceMock) { CallBase = true };
+        ReadCoilsInputsRequest? message = new(Modbus.ReadCoils, 2, 10, 5);
 
         byte[] result = mock.Object.BuildMessageFrame(message);
         Assert.Equal(new byte[] { 0, 0, 0, 0, 0, 6, 2, 1, 0, 10, 0, 5 }, result);
@@ -28,7 +28,7 @@ public class ModbusTcpTransportFixture
     [Fact]
     public void GetMbapHeader()
     {
-        WriteMultipleRegistersRequest? message = new WriteMultipleRegistersRequest(3, 1, MessageUtility.CreateDefaultCollection<RegisterCollection, ushort>(0, 120));
+        WriteMultipleRegistersRequest? message = new(3, 1, MessageUtility.CreateDefaultCollection<RegisterCollection, ushort>(0, 120));
         message.TransactionId = 45;
         Assert.Equal(new byte[] { 0, 45, 0, 0, 0, 247, 3 }, ModbusIpTransport.GetMbapHeader(message));
     }
@@ -36,9 +36,9 @@ public class ModbusTcpTransportFixture
     [Fact]
     public void Write()
     {
-        Mock<IStreamResource>? streamMock = new Mock<IStreamResource>(MockBehavior.Strict);
-        Mock<ModbusIpTransport>? mock = new Mock<ModbusIpTransport>(streamMock.Object) { CallBase = true };
-        ReadCoilsInputsRequest? request = new ReadCoilsInputsRequest(Modbus.ReadCoils, 1, 1, 3);
+        Mock<IStreamResource>? streamMock = new(MockBehavior.Strict);
+        Mock<ModbusIpTransport>? mock = new(streamMock.Object) { CallBase = true };
+        ReadCoilsInputsRequest? request = new(Modbus.ReadCoils, 1, 1, 3);
 
         streamMock.Setup(s => s.Write(It.IsNotNull<byte[]>(), 0, 12));
 
@@ -55,8 +55,8 @@ public class ModbusTcpTransportFixture
     [Fact]
     public void ReadRequestResponse()
     {
-        Mock<IStreamResource>? mock = new Mock<IStreamResource>(MockBehavior.Strict);
-        ReadCoilsInputsRequest? request = new ReadCoilsInputsRequest(Modbus.ReadCoils, 1, 1, 3);
+        Mock<IStreamResource>? mock = new(MockBehavior.Strict);
+        ReadCoilsInputsRequest? request = new(Modbus.ReadCoils, 1, 1, 3);
         int calls = 0;
         byte[][] source =
         {
@@ -81,7 +81,7 @@ public class ModbusTcpTransportFixture
     [Fact]
     public void ReadRequestResponse_ConnectionAbortedWhileReadingMBAPHeader()
     {
-        Mock<IStreamResource>? mock = new Mock<IStreamResource>(MockBehavior.Strict);
+        Mock<IStreamResource>? mock = new(MockBehavior.Strict);
         mock.Setup(s => s.Read(It.Is<byte[]>(x => x.Length == 6), 0, 6)).Returns(3);
         mock.Setup(s => s.Read(It.Is<byte[]>(x => x.Length == 6), 3, 3)).Returns(0);
 
@@ -92,7 +92,7 @@ public class ModbusTcpTransportFixture
     [Fact]
     public void ReadRequestResponse_ConnectionAbortedWhileReadingMessageFrame()
     {
-        Mock<IStreamResource>? mock = new Mock<IStreamResource>(MockBehavior.Strict);
+        Mock<IStreamResource>? mock = new(MockBehavior.Strict);
 
         mock.Setup(s => s.Read(It.Is<byte[]>(x => x.Length == 6), 0, 6)).Returns(6);
         mock.Setup(s => s.Read(It.Is<byte[]>(x => x.Length == 6), 0, 6)).Returns(3);
@@ -105,7 +105,7 @@ public class ModbusTcpTransportFixture
     [Fact]
     public void GetNewTransactionId()
     {
-        ModbusIpTransport? transport = new ModbusIpTransport(StreamResourceMock);
+        ModbusIpTransport? transport = new(StreamResourceMock);
 
         Assert.Equal(1, transport.GetNewTransactionId());
         Assert.Equal(2, transport.GetNewTransactionId());
@@ -114,9 +114,9 @@ public class ModbusTcpTransportFixture
     [Fact]
     public void OnShouldRetryResponse_ReturnsTrue_IfWithinThreshold()
     {
-        ModbusIpTransport? transport = new ModbusIpTransport(StreamResourceMock);
-        ReadCoilsInputsRequest? request = new ReadCoilsInputsRequest(Modbus.ReadCoils, 1, 1, 1);
-        ReadCoilsInputsResponse? response = new ReadCoilsInputsResponse(Modbus.ReadCoils, 1, 1, null);
+        ModbusIpTransport? transport = new(StreamResourceMock);
+        ReadCoilsInputsRequest? request = new(Modbus.ReadCoils, 1, 1, 1);
+        ReadCoilsInputsResponse? response = new(Modbus.ReadCoils, 1, 1, null);
 
         request.TransactionId = 5;
         response.TransactionId = 4;
@@ -128,9 +128,9 @@ public class ModbusTcpTransportFixture
     [Fact]
     public void OnShouldRetryResponse_ReturnsFalse_IfThresholdDisabled()
     {
-        ModbusIpTransport? transport = new ModbusIpTransport(StreamResourceMock);
-        ReadCoilsInputsRequest? request = new ReadCoilsInputsRequest(Modbus.ReadCoils, 1, 1, 1);
-        ReadCoilsInputsResponse? response = new ReadCoilsInputsResponse(Modbus.ReadCoils, 1, 1, null);
+        ModbusIpTransport? transport = new(StreamResourceMock);
+        ReadCoilsInputsRequest? request = new(Modbus.ReadCoils, 1, 1, 1);
+        ReadCoilsInputsResponse? response = new(Modbus.ReadCoils, 1, 1, null);
 
         request.TransactionId = 5;
         response.TransactionId = 4;
@@ -142,9 +142,9 @@ public class ModbusTcpTransportFixture
     [Fact]
     public void OnShouldRetryResponse_ReturnsFalse_IfEqualTransactionId()
     {
-        ModbusIpTransport? transport = new ModbusIpTransport(StreamResourceMock);
-        ReadCoilsInputsRequest? request = new ReadCoilsInputsRequest(Modbus.ReadCoils, 1, 1, 1);
-        ReadCoilsInputsResponse? response = new ReadCoilsInputsResponse(Modbus.ReadCoils, 1, 1, null);
+        ModbusIpTransport? transport = new(StreamResourceMock);
+        ReadCoilsInputsRequest? request = new(Modbus.ReadCoils, 1, 1, 1);
+        ReadCoilsInputsResponse? response = new(Modbus.ReadCoils, 1, 1, null);
 
         request.TransactionId = 5;
         response.TransactionId = 5;
@@ -156,9 +156,9 @@ public class ModbusTcpTransportFixture
     [Fact]
     public void OnShouldRetryResponse_ReturnsFalse_IfOutsideThreshold()
     {
-        ModbusIpTransport? transport = new ModbusIpTransport(StreamResourceMock);
-        ReadCoilsInputsRequest? request = new ReadCoilsInputsRequest(Modbus.ReadCoils, 1, 1, 1);
-        ReadCoilsInputsResponse? response = new ReadCoilsInputsResponse(Modbus.ReadCoils, 1, 1, null);
+        ModbusIpTransport? transport = new(StreamResourceMock);
+        ReadCoilsInputsRequest? request = new(Modbus.ReadCoils, 1, 1, 1);
+        ReadCoilsInputsResponse? response = new(Modbus.ReadCoils, 1, 1, null);
 
         request.TransactionId = 5;
         response.TransactionId = 2;
@@ -170,11 +170,11 @@ public class ModbusTcpTransportFixture
     [Fact]
     public void ValidateResponse_MismatchingTransactionIds()
     {
-        ModbusIpTransport? transport = new ModbusIpTransport(StreamResourceMock);
+        ModbusIpTransport? transport = new(StreamResourceMock);
 
-        ReadCoilsInputsRequest? request = new ReadCoilsInputsRequest(Modbus.ReadCoils, 1, 1, 1);
+        ReadCoilsInputsRequest? request = new(Modbus.ReadCoils, 1, 1, 1);
         request.TransactionId = 5;
-        ReadCoilsInputsResponse? response = new ReadCoilsInputsResponse(Modbus.ReadCoils, 1, 1, null);
+        ReadCoilsInputsResponse? response = new(Modbus.ReadCoils, 1, 1, null);
         response.TransactionId = 6;
 
         Assert.Throws<IOException>(() => transport.ValidateResponse(request, response));
@@ -183,11 +183,11 @@ public class ModbusTcpTransportFixture
     [Fact]
     public void ValidateResponse()
     {
-        ModbusIpTransport? transport = new ModbusIpTransport(StreamResourceMock);
+        ModbusIpTransport? transport = new(StreamResourceMock);
 
-        ReadCoilsInputsRequest? request = new ReadCoilsInputsRequest(Modbus.ReadCoils, 1, 1, 1);
+        ReadCoilsInputsRequest? request = new(Modbus.ReadCoils, 1, 1, 1);
         request.TransactionId = 5;
-        ReadCoilsInputsResponse? response = new ReadCoilsInputsResponse(Modbus.ReadCoils, 1, 1, null);
+        ReadCoilsInputsResponse? response = new(Modbus.ReadCoils, 1, 1, null);
         response.TransactionId = 5;
 
         // no exception is thrown

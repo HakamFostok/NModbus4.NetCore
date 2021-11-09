@@ -40,7 +40,7 @@ public class ReadWriteMultipleRegistersRequest : AbstractModbusMessage, IModbusR
         {
             byte[] readPdu = _readRequest.ProtocolDataUnit;
             byte[] writePdu = _writeRequest.ProtocolDataUnit;
-            MemoryStream? stream = new MemoryStream(readPdu.Length + writePdu.Length);
+            MemoryStream? stream = new(readPdu.Length + writePdu.Length);
 
             stream.WriteByte(FunctionCode);
 

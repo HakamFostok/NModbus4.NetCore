@@ -57,7 +57,8 @@ public class ModbusTcpSlave : ModbusSlave
     /// <summary>
     ///     Gets the Modbus TCP Masters connected to this Modbus TCP Slave.
     /// </summary>
-    public ReadOnlyCollection<TcpClient> Masters => new ReadOnlyCollection<TcpClient>(_masters.Values.Select(mc => mc.TcpClient).ToList());
+    public ReadOnlyCollection<TcpClient> Masters => 
+        new(_masters.Values.Select(mc => mc.TcpClient).ToList());
 
     /// <summary>
     ///     Gets the server.
@@ -83,7 +84,7 @@ public class ModbusTcpSlave : ModbusSlave
     ///     Modbus TCP slave factory method.
     /// </summary>
     public static ModbusTcpSlave CreateTcp(byte unitId, TcpListener tcpListener) =>
-        new ModbusTcpSlave(unitId, tcpListener);
+        new(unitId, tcpListener);
 
 #if TIMER
         /// <summary>
@@ -108,7 +109,7 @@ public class ModbusTcpSlave : ModbusSlave
         while (true)
         {
             TcpClient client = await Server.AcceptTcpClientAsync().ConfigureAwait(false);
-            ModbusMasterTcpConnection? masterConnection = new ModbusMasterTcpConnection(client, this);
+            ModbusMasterTcpConnection? masterConnection = new(client, this);
             masterConnection.ModbusMasterTcpConnectionClosed += OnMasterConnectionClosedHandler;
             _masters.TryAdd(client.Client.RemoteEndPoint.ToString(), masterConnection);
         }

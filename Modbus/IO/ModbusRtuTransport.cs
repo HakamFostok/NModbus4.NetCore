@@ -109,7 +109,7 @@ internal class ModbusRtuTransport : ModbusSerialTransport
     {
         byte[]? messageFrame = message.MessageFrame;
         byte[]? crc = ModbusUtility.CalculateCrc(messageFrame);
-        MemoryStream? messageBody = new MemoryStream(messageFrame.Length + crc.Length);
+        MemoryStream? messageBody = new(messageFrame.Length + crc.Length);
 
         messageBody.Write(messageFrame, 0, messageFrame.Length);
         messageBody.Write(crc, 0, crc.Length);
