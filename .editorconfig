@@ -84,7 +84,7 @@ dotnet_style_predefined_type_for_member_access = true:suggestion
 #Style - Expression-level  preferences
 
 #prefer objects to be initialized using object initializers when possible
-dotnet_style_object_initializer = true:suggestion
+dotnet_style_object_initializer = true:warning
 
 #Style - implicit and explicit types
 
@@ -143,3 +143,6 @@ dotnet_diagnostic.IDE0090.severity = warning
 dotnet_style_allow_multiple_blank_lines_experimental=false:warning
 dotnet_style_readonly_field=true:warning
 dotnet_style_qualification_for_field=false:warning
+
+# IDE0017: Simplify object initialization
+dotnet_diagnostic.IDE0017.severity = warning

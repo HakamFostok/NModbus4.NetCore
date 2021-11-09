@@ -58,15 +58,19 @@ public abstract class ModbusMasterFixture : IDisposable
 
     public void SetupSlaveSerialPort()
     {
-        SlaveSerialPort = new SerialPort(DefaultSlaveSerialPortName);
-        SlaveSerialPort.Parity = Parity.None;
+        SlaveSerialPort = new SerialPort(DefaultSlaveSerialPortName)
+        {
+            Parity = Parity.None
+        };
         SlaveSerialPort.Open();
     }
 
     public void StartSlave()
     {
-        SlaveThread = new Thread(async () => await Slave.ListenAsync());
-        SlaveThread.IsBackground = true;
+        SlaveThread = new Thread(async () => await Slave.ListenAsync())
+        {
+            IsBackground = true
+        };
         SlaveThread.Start();
     }
 
