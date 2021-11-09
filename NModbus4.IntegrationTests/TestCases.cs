@@ -12,8 +12,8 @@ namespace Modbus.IntegrationTests
     {
         public static void Serial()
         {
-            using (var masterPort = new SerialPort("COM2"))
-            using (var slavePort = new SerialPort("COM1"))
+            using (SerialPort? masterPort = new SerialPort("COM2"))
+            using (SerialPort? slavePort = new SerialPort("COM1"))
             {
                 // configure serial ports
                 masterPort.BaudRate = slavePort.BaudRate = 9600;
@@ -23,12 +23,12 @@ namespace Modbus.IntegrationTests
                 masterPort.Open();
                 slavePort.Open();
 
-                using (var slave = ModbusSerialSlave.CreateRtu(1, slavePort))
+                using (ModbusSerialSlave? slave = ModbusSerialSlave.CreateRtu(1, slavePort))
                 {
                     StartSlave(slave);
 
                     // create modbus master
-                    using (var master = ModbusSerialMaster.CreateRtu(masterPort))
+                    using (ModbusSerialMaster? master = ModbusSerialMaster.CreateRtu(masterPort))
                     {
                         ReadRegisters(master);
                     }
@@ -38,15 +38,15 @@ namespace Modbus.IntegrationTests
 
         public static void Tcp()
         {
-            var slaveClient = new TcpListener(new IPAddress(new byte[] { 127, 0, 0, 1 }), 502);
-            using (var slave = ModbusTcpSlave.CreateTcp((byte)1, slaveClient))
+            TcpListener? slaveClient = new TcpListener(new IPAddress(new byte[] { 127, 0, 0, 1 }), 502);
+            using (ModbusTcpSlave? slave = ModbusTcpSlave.CreateTcp((byte)1, slaveClient))
             {
                 StartSlave(slave);
 
                 IPAddress address = new(new byte[] { 127, 0, 0, 1 });
-                var masterClient = new TcpClient(address.ToString(), 502);
+                TcpClient? masterClient = new TcpClient(address.ToString(), 502);
 
-                using (var master = ModbusIpMaster.CreateIp(masterClient))
+                using (ModbusIpMaster? master = ModbusIpMaster.CreateIp(masterClient))
                 {
                     ReadRegisters(master);
                 }
@@ -55,16 +55,16 @@ namespace Modbus.IntegrationTests
 
         public static void Udp()
         {
-            var slaveClient = new UdpClient(502);
-            using (var slave = ModbusUdpSlave.CreateUdp(slaveClient))
+            UdpClient? slaveClient = new UdpClient(502);
+            using (ModbusUdpSlave? slave = ModbusUdpSlave.CreateUdp(slaveClient))
             {
                 StartSlave(slave);
 
-                var masterClient = new UdpClient();
+                UdpClient? masterClient = new UdpClient();
                 IPEndPoint endPoint = new(new IPAddress(new byte[] { 127, 0, 0, 1 }), 502);
                 masterClient.Connect(endPoint);
 
-                using (var master = ModbusIpMaster.CreateIp(masterClient))
+                using (ModbusIpMaster? master = ModbusIpMaster.CreateIp(masterClient))
                 {
                     ReadRegisters(master);
                 }
@@ -74,13 +74,13 @@ namespace Modbus.IntegrationTests
         public static void StartSlave(ModbusSlave slave)
         {
             slave.DataStore = DataStoreFactory.CreateTestDataStore();
-            var slaveThread = new Thread(async () => await slave.ListenAsync());
+            Thread? slaveThread = new Thread(async () => await slave.ListenAsync());
             slaveThread.Start();
         }
 
         public static void ReadRegisters(IModbusMaster master)
         {
-            var result = master.ReadHoldingRegisters(1, 0, 5);
+            ushort[]? result = master.ReadHoldingRegisters(1, 0, 5);
 
             for (int i = 0; i < 5; i++)
             {

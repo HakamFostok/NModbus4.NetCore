@@ -25,7 +25,7 @@ namespace Modbus.Device
         {
             get
             {
-                var transport = Transport as ModbusSerialTransport;
+                ModbusSerialTransport? transport = Transport as ModbusSerialTransport;
 
                 if (transport == null)
                 {

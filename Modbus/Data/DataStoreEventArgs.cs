@@ -45,7 +45,7 @@ namespace Modbus.Data
 
             if (typeof(T) == typeof(bool))
             {
-                var a = new ReadOnlyCollection<bool>(data.Cast<bool>().ToArray());
+                ReadOnlyCollection<bool>? a = new ReadOnlyCollection<bool>(data.Cast<bool>().ToArray());
 
                 eventArgs = new DataStoreEventArgs(startAddress, modbusDataType)
                 {
@@ -54,7 +54,7 @@ namespace Modbus.Data
             }
             else if (typeof(T) == typeof(ushort))
             {
-                var b = new ReadOnlyCollection<ushort>(data.Cast<ushort>().ToArray());
+                ReadOnlyCollection<ushort>? b = new ReadOnlyCollection<ushort>(data.Cast<ushort>().ToArray());
 
                 eventArgs = new DataStoreEventArgs(startAddress, modbusDataType)
                 {

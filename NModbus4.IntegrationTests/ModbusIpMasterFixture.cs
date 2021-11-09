@@ -10,16 +10,16 @@ namespace Modbus.IntegrationTests
         [Fact]
         public void OverrideTimeoutOnTcpClient()
         {
-            var listener = new TcpListener(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
-            using (var slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, listener))
+            TcpListener? listener = new TcpListener(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
+            using (ModbusTcpSlave? slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, listener))
             {
-                var slaveThread = new Thread(async () => await slave.ListenAsync());
+                Thread? slaveThread = new Thread(async () => await slave.ListenAsync());
                 slaveThread.Start();
 
-                var client = new TcpClient(ModbusMasterFixture.TcpHost.ToString(), ModbusMasterFixture.Port);
+                TcpClient? client = new TcpClient(ModbusMasterFixture.TcpHost.ToString(), ModbusMasterFixture.Port);
                 client.ReceiveTimeout = 1500;
                 client.SendTimeout = 3000;
-                using (var master = ModbusIpMaster.CreateIp(client))
+                using (ModbusIpMaster? master = ModbusIpMaster.CreateIp(client))
                 {
                     Assert.Equal(1500, client.GetStream().ReadTimeout);
                     Assert.Equal(3000, client.GetStream().WriteTimeout);
@@ -30,16 +30,16 @@ namespace Modbus.IntegrationTests
         [Fact]
         public void OverrideTimeoutOnNetworkStream()
         {
-            var listener = new TcpListener(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
-            using (var slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, listener))
+            TcpListener? listener = new TcpListener(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
+            using (ModbusTcpSlave? slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, listener))
             {
-                var slaveThread = new Thread(async () => await slave.ListenAsync());
+                Thread? slaveThread = new Thread(async () => await slave.ListenAsync());
                 slaveThread.Start();
 
-                var client = new TcpClient(ModbusMasterFixture.TcpHost.ToString(), ModbusMasterFixture.Port);
+                TcpClient? client = new TcpClient(ModbusMasterFixture.TcpHost.ToString(), ModbusMasterFixture.Port);
                 client.GetStream().ReadTimeout = 1500;
                 client.GetStream().WriteTimeout = 3000;
-                using (var master = ModbusIpMaster.CreateIp(client))
+                using (ModbusIpMaster? master = ModbusIpMaster.CreateIp(client))
                 {
                     Assert.Equal(1500, client.GetStream().ReadTimeout);
                     Assert.Equal(3000, client.GetStream().WriteTimeout);

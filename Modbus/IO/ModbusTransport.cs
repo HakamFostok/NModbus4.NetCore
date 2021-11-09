@@ -126,7 +126,7 @@ namespace Modbus.IO
                         {
                             readAgain = false;
                             response = ReadResponse<T>();
-                            var exceptionResponse = response as SlaveExceptionResponse;
+                            SlaveExceptionResponse? exceptionResponse = response as SlaveExceptionResponse;
 
                             if (exceptionResponse != null)
                             {
@@ -229,7 +229,7 @@ namespace Modbus.IO
             }
 
             // message specific validation
-            var req = request as IModbusRequest;
+            IModbusRequest? req = request as IModbusRequest;
 
             if (req != null)
             {

@@ -33,7 +33,7 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void ToString_Test()
         {
-            var response = new WriteMultipleRegistersResponse(1, 2, 3);
+            WriteMultipleRegistersResponse? response = new WriteMultipleRegistersResponse(1, 2, 3);
 
             Assert.Equal("Wrote 3 holding registers starting at address 2.", response.ToString());
         }

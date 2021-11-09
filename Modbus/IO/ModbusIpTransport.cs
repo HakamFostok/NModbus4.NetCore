@@ -27,7 +27,7 @@ namespace Modbus.IO
         internal static byte[] ReadRequestResponse(IStreamResource streamResource)
         {
             // read header
-            var mbapHeader = new byte[6];
+            byte[]? mbapHeader = new byte[6];
             int numBytesRead = 0;
 
             while (numBytesRead != 6)
@@ -43,11 +43,11 @@ namespace Modbus.IO
             }
 
             Debug.WriteLine($"MBAP header: {string.Join(", ", mbapHeader)}");
-            var frameLength = (ushort)IPAddress.HostToNetworkOrder(BitConverter.ToInt16(mbapHeader, 4));
+            ushort frameLength = (ushort)IPAddress.HostToNetworkOrder(BitConverter.ToInt16(mbapHeader, 4));
             Debug.WriteLine($"{frameLength} bytes in PDU.");
 
             // read message
-            var messageFrame = new byte[frameLength];
+            byte[]? messageFrame = new byte[frameLength];
             numBytesRead = 0;
 
             while (numBytesRead != frameLength)
@@ -63,7 +63,7 @@ namespace Modbus.IO
             }
 
             Debug.WriteLine($"PDU: {frameLength}");
-            var frame = mbapHeader.Concat(messageFrame).ToArray();
+            byte[]? frame = mbapHeader.Concat(messageFrame).ToArray();
             Debug.WriteLine($"RX: {string.Join(", ", frame)}");
 
             return frame;
@@ -74,7 +74,7 @@ namespace Modbus.IO
             byte[] transactionId = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)message.TransactionId));
             byte[] length = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)(message.ProtocolDataUnit.Length + 1)));
 
-            var stream = new MemoryStream(7);
+            MemoryStream? stream = new MemoryStream(7);
             stream.Write(transactionId, 0, transactionId.Length);
             stream.WriteByte(0);
             stream.WriteByte(0);
@@ -113,7 +113,7 @@ namespace Modbus.IO
         {
             byte[] header = GetMbapHeader(message);
             byte[] pdu = message.ProtocolDataUnit;
-            var messageBody = new MemoryStream(header.Length + pdu.Length);
+            MemoryStream? messageBody = new MemoryStream(header.Length + pdu.Length);
 
             messageBody.Write(header, 0, header.Length);
             messageBody.Write(pdu, 0, pdu.Length);

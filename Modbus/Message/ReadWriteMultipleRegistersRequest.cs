@@ -40,7 +40,7 @@ namespace Modbus.Message
             {
                 byte[] readPdu = _readRequest.ProtocolDataUnit;
                 byte[] writePdu = _writeRequest.ProtocolDataUnit;
-                var stream = new MemoryStream(readPdu.Length + writePdu.Length);
+                MemoryStream? stream = new MemoryStream(readPdu.Length + writePdu.Length);
 
                 stream.WriteByte(FunctionCode);
 
@@ -63,8 +63,8 @@ namespace Modbus.Message
 
         public void ValidateResponse(IModbusMessage response)
         {
-            var typedResponse = (ReadHoldingInputRegistersResponse)response;
-            var expectedByteCount = ReadRequest.NumberOfPoints * 2;
+            ReadHoldingInputRegistersResponse? typedResponse = (ReadHoldingInputRegistersResponse)response;
+            int expectedByteCount = ReadRequest.NumberOfPoints * 2;
 
             if (expectedByteCount != typedResponse.ByteCount)
             {

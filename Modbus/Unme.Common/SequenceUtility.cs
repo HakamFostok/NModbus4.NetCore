@@ -13,7 +13,7 @@ namespace Modbus.Unme.Common
                 throw new ArgumentNullException(nameof(source));
             }
 
-            var enumerable = source as T[] ?? source.ToArray();
+            T[]? enumerable = source as T[] ?? source.ToArray();
             int num = enumerable.Count();
 
             if (startIndex < 0 || num < startIndex)

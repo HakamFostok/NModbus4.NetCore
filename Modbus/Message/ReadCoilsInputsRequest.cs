@@ -45,10 +45,10 @@ namespace Modbus.Message
 
         public void ValidateResponse(IModbusMessage response)
         {
-            var typedResponse = (ReadCoilsInputsResponse)response;
+            ReadCoilsInputsResponse? typedResponse = (ReadCoilsInputsResponse)response;
 
             // best effort validation - the same response for a request for 1 vs 6 coils (same byte count) will pass validation.
-            var expectedByteCount = (NumberOfPoints + 7) / 8;
+            int expectedByteCount = (NumberOfPoints + 7) / 8;
 
             if (expectedByteCount != typedResponse.ByteCount)
             {

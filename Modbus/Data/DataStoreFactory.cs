@@ -23,10 +23,10 @@
         /// <returns>New instance of Data store with defined inputs/outputs.</returns>
         public static DataStore CreateDefaultDataStore(ushort coilsCount, ushort inputsCount, ushort holdingRegistersCount, ushort inputRegistersCount)
         {
-            var coils = new bool[coilsCount];
-            var inputs = new bool[inputsCount];
-            var holdingRegs = new ushort[holdingRegistersCount];
-            var inputRegs = new ushort[inputRegistersCount];
+            bool[]? coils = new bool[coilsCount];
+            bool[]? inputs = new bool[inputsCount];
+            ushort[]? holdingRegs = new ushort[holdingRegistersCount];
+            ushort[]? inputRegs = new ushort[inputRegistersCount];
 
             return new DataStore(coils, inputs, holdingRegs, inputRegs);
         }

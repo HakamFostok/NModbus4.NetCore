@@ -34,7 +34,7 @@ namespace Modbus.Extensions.Enron
             ValidateNumberOfPoints(numberOfPoints, 62);
 
             // read 16 bit chunks and perform conversion
-            var rawRegisters = master.ReadHoldingRegisters(
+            ushort[]? rawRegisters = master.ReadHoldingRegisters(
                 slaveAddress,
                 startAddress,
                 (ushort)(numberOfPoints * 2));
@@ -63,7 +63,7 @@ namespace Modbus.Extensions.Enron
 
             ValidateNumberOfPoints(numberOfPoints, 62);
 
-            var rawRegisters = master.ReadInputRegisters(
+            ushort[]? rawRegisters = master.ReadInputRegisters(
                 slaveAddress,
                 startAddress,
                 (ushort)(numberOfPoints * 2));
@@ -128,7 +128,7 @@ namespace Modbus.Extensions.Enron
         /// </summary>
         private static IEnumerable<ushort> Convert(uint[] registers)
         {
-            foreach (var register in registers)
+            foreach (uint register in registers)
             {
                 // low order value
                 yield return BitConverter.ToUInt16(BitConverter.GetBytes(register), 0);

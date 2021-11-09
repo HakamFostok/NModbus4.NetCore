@@ -10,7 +10,7 @@ namespace Modbus.UnitTests.Data
         [Fact]
         public void CreateDataStoreEventArgs()
         {
-            var eventArgs = DataStoreEventArgs.CreateDataStoreEventArgs(5, ModbusDataType.HoldingRegister,
+            DataStoreEventArgs? eventArgs = DataStoreEventArgs.CreateDataStoreEventArgs(5, ModbusDataType.HoldingRegister,
                 new ushort[] { 1, 2, 3 });
             Assert.Equal(ModbusDataType.HoldingRegister, eventArgs.ModbusDataType);
             Assert.Equal(5, eventArgs.StartAddress);

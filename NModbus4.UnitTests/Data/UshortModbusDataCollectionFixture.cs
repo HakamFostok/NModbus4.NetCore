@@ -10,7 +10,7 @@ namespace Modbus.UnitTests.Data
         public void Remove_FromReadOnly()
         {
             ushort[] source = this.GetArray();
-            var col = new ModbusDataCollection<ushort>(new ReadOnlyCollection<ushort>(source));
+            ModbusDataCollection<ushort>? col = new ModbusDataCollection<ushort>(new ReadOnlyCollection<ushort>(source));
             int expectedCount = source.Length;
 
             Assert.False(col.Remove(this.GetNonExistentElement()));

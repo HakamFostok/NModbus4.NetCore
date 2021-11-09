@@ -68,7 +68,7 @@ namespace Modbus.Message
 
         public void ValidateResponse(IModbusMessage response)
         {
-            var typedResponse = (WriteMultipleCoilsResponse)response;
+            WriteMultipleCoilsResponse? typedResponse = (WriteMultipleCoilsResponse)response;
 
             if (StartAddress != typedResponse.StartAddress)
             {

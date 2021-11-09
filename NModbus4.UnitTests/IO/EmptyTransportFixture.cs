@@ -10,7 +10,7 @@ namespace Modbus.UnitTests.IO
         [Fact]
         public static void Negative()
         {
-            var transport = new EmptyTransport();
+            EmptyTransport? transport = new EmptyTransport();
             Assert.Throws<NotImplementedException>(() => transport.ReadRequest());
             Assert.Throws<NotImplementedException>(() => transport.ReadResponse<ReadCoilsInputsResponse>());
             Assert.Throws<NotImplementedException>(() => transport.BuildMessageFrame(null));

@@ -51,11 +51,11 @@ namespace Modbus.Data
         {
             get
             {
-                var bytes = new MemoryStream(ByteCount);
+                MemoryStream? bytes = new MemoryStream(ByteCount);
 
                 foreach (ushort register in this)
                 {
-                    var b = BitConverter.GetBytes((ushort)IPAddress.HostToNetworkOrder((short)register));
+                    byte[]? b = BitConverter.GetBytes((ushort)IPAddress.HostToNetworkOrder((short)register));
                     bytes.Write(b, 0, b.Length);
                 }
 

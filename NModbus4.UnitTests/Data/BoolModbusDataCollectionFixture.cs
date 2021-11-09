@@ -10,7 +10,7 @@ namespace Modbus.UnitTests.Data
         public void Remove_FromReadOnly()
         {
             bool[] source = { false, false, false, true, false, false };
-            var col = new ModbusDataCollection<bool>(new ReadOnlyCollection<bool>(source));
+            ModbusDataCollection<bool>? col = new ModbusDataCollection<bool>(new ReadOnlyCollection<bool>(source));
             int expectedCount = source.Length;
 
             Assert.True(col.Remove(source[3]));

@@ -221,7 +221,7 @@ namespace Modbus.IntegrationTests
             CustomReadHoldingRegistersRequest readRequest = new(3, SlaveAddress, testAddress, (ushort)testValues.Length);
             CustomWriteMultipleRegistersRequest writeRequest = new(16, SlaveAddress, testAddress, new RegisterCollection(testValues));
 
-            var response = Master.ExecuteCustomMessage<CustomReadHoldingRegistersResponse>(readRequest);
+            CustomReadHoldingRegistersResponse? response = Master.ExecuteCustomMessage<CustomReadHoldingRegistersResponse>(readRequest);
             ushort[] originalValues = response.Data;
             Master.ExecuteCustomMessage<CustomWriteMultipleRegistersResponse>(writeRequest);
             response = Master.ExecuteCustomMessage<CustomReadHoldingRegistersResponse>(readRequest);

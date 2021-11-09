@@ -45,8 +45,8 @@ namespace Modbus.Message
         {
             get
             {
-                var pdu = ProtocolDataUnit;
-                var frame = new MemoryStream(1 + pdu.Length);
+                byte[]? pdu = ProtocolDataUnit;
+                MemoryStream? frame = new MemoryStream(1 + pdu.Length);
 
                 frame.WriteByte(SlaveAddress);
                 frame.Write(pdu, 0, pdu.Length);

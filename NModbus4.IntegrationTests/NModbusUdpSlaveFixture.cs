@@ -14,11 +14,11 @@ namespace Modbus.IntegrationTests
         public void ModbusUdpSlave_EnsureTheSlaveShutsDownCleanly()
         {
             UdpClient client = new(ModbusMasterFixture.Port);
-            using (var slave = ModbusUdpSlave.CreateUdp(1, client))
+            using (ModbusUdpSlave? slave = ModbusUdpSlave.CreateUdp(1, client))
             {
-                var handle = new AutoResetEvent(false);
+                AutoResetEvent? handle = new AutoResetEvent(false);
 
-                var backgroundThread = new Thread(async (state) =>
+                Thread? backgroundThread = new Thread(async (state) =>
                 {
                     handle.Set();
                     await slave.ListenAsync();
@@ -94,13 +94,13 @@ namespace Modbus.IntegrationTests
         [Fact]
         public void ModbusUdpSlave_MultiThreaded()
         {
-            var dataStore = DataStoreFactory.CreateDefaultDataStore();
+            DataStore? dataStore = DataStoreFactory.CreateDefaultDataStore();
             dataStore.CoilDiscretes.Add(false);
 
-            using (var slave = CreateAndStartUdpSlave(502, dataStore))
+            using (UdpClient? slave = CreateAndStartUdpSlave(502, dataStore))
             {
-                var workerThread1 = new Thread(ReadThread);
-                var workerThread2 = new Thread(ReadThread);
+                Thread? workerThread1 = new Thread(ReadThread);
+                Thread? workerThread2 = new Thread(ReadThread);
                 workerThread1.Start();
                 workerThread2.Start();
 
@@ -136,13 +136,13 @@ namespace Modbus.IntegrationTests
 
         private static void ReadThread(object state)
         {
-            var masterClient = new UdpClient();
+            UdpClient? masterClient = new UdpClient();
             masterClient.Connect(ModbusMasterFixture.DefaultModbusIPEndPoint);
-            using (var master = ModbusIpMaster.CreateIp(masterClient))
+            using (ModbusIpMaster? master = ModbusIpMaster.CreateIp(masterClient))
             {
                 master.Transport.Retries = 0;
 
-                var random = new Random();
+                Random? random = new Random();
                 for (int i = 0; i < 5; i++)
                 {
                     bool[] coils = master.ReadCoils(1, 1);

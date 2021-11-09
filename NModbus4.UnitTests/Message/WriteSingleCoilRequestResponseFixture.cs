@@ -18,7 +18,7 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void ToString_True()
         {
-            var request = new WriteSingleCoilRequestResponse(11, 5, true);
+            WriteSingleCoilRequestResponse? request = new WriteSingleCoilRequestResponse(11, 5, true);
 
             Assert.Equal("Write single coil 1 at address 5.", request.ToString());
         }
@@ -26,7 +26,7 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void ToString_False()
         {
-            var request = new WriteSingleCoilRequestResponse(11, 5, false);
+            WriteSingleCoilRequestResponse? request = new WriteSingleCoilRequestResponse(11, 5, false);
 
             Assert.Equal("Write single coil 0 at address 5.", request.ToString());
         }

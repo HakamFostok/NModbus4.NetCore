@@ -7,8 +7,8 @@ namespace Modbus.IO
     {
         internal static string ReadLine(IStreamResource stream)
         {
-            var result = new StringBuilder();
-            var singleByteBuffer = new byte[1];
+            StringBuilder? result = new StringBuilder();
+            byte[]? singleByteBuffer = new byte[1];
 
             do
             {

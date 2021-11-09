@@ -87,7 +87,7 @@ namespace Modbus.Device
                 byte[] frame = _mbapHeader.Concat(_messageFrame).ToArray();
                 Debug.WriteLine($"RX from Master at {EndPoint}: {string.Join(", ", frame)}");
 
-                var request = ModbusMessageFactory.CreateModbusRequest(_messageFrame);
+                IModbusMessage? request = ModbusMessageFactory.CreateModbusRequest(_messageFrame);
                 request.TransactionId = (ushort)IPAddress.NetworkToHostOrder(BitConverter.ToInt16(frame, 0));
 
                 // perform action and build response

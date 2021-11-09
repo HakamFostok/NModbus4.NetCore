@@ -108,7 +108,7 @@ namespace Modbus.Device
             while (true)
             {
                 TcpClient client = await Server.AcceptTcpClientAsync().ConfigureAwait(false);
-                var masterConnection = new ModbusMasterTcpConnection(client, this);
+                ModbusMasterTcpConnection? masterConnection = new ModbusMasterTcpConnection(client, this);
                 masterConnection.ModbusMasterTcpConnectionClosed += OnMasterConnectionClosedHandler;
                 _masters.TryAdd(client.Client.RemoteEndPoint.ToString(), masterConnection);
             }
@@ -144,7 +144,7 @@ namespace Modbus.Device
                             }
 #endif
 
-                            foreach (var key in _masters.Keys)
+                            foreach (string? key in _masters.Keys)
                             {
                                 ModbusMasterTcpConnection connection;
 

@@ -21,7 +21,7 @@ namespace Modbus.UnitTests.Device
         [Fact]
         public void TcpConnectionEventArgs()
         {
-            var args = new TcpConnectionEventArgs("foo");
+            TcpConnectionEventArgs? args = new TcpConnectionEventArgs("foo");
 
             Assert.Equal("foo", args.EndPoint);
         }

@@ -107,9 +107,9 @@ namespace Modbus.IO
 
         internal override byte[] BuildMessageFrame(IModbusMessage message)
         {
-            var messageFrame = message.MessageFrame;
-            var crc = ModbusUtility.CalculateCrc(messageFrame);
-            var messageBody = new MemoryStream(messageFrame.Length + crc.Length);
+            byte[]? messageFrame = message.MessageFrame;
+            byte[]? crc = ModbusUtility.CalculateCrc(messageFrame);
+            MemoryStream? messageBody = new MemoryStream(messageFrame.Length + crc.Length);
 
             messageBody.Write(messageFrame, 0, messageFrame.Length);
             messageBody.Write(crc, 0, crc.Length);

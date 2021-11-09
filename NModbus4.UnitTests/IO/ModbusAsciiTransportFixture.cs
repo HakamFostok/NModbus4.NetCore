@@ -15,8 +15,8 @@ namespace Modbus.UnitTests.IO
         public void BuildMessageFrame()
         {
             byte[] expected = { 58, 48, 50, 48, 49, 48, 48, 48, 48, 48, 48, 48, 49, 70, 67, 13, 10 };
-            var request = new ReadCoilsInputsRequest(Modbus.ReadCoils, 2, 0, 1);
-            var actual = new ModbusAsciiTransport(StreamResource)
+            ReadCoilsInputsRequest? request = new ReadCoilsInputsRequest(Modbus.ReadCoils, 2, 0, 1);
+            byte[]? actual = new ModbusAsciiTransport(StreamResource)
                 .BuildMessageFrame(request);
 
             Assert.Equal(expected, actual);
@@ -25,9 +25,9 @@ namespace Modbus.UnitTests.IO
         [Fact]
         public void ReadRequestResponse()
         {
-            var mock = new Mock<IStreamResource>(MockBehavior.Strict);
+            Mock<IStreamResource>? mock = new Mock<IStreamResource>(MockBehavior.Strict);
             IStreamResource stream = mock.Object;
-            var transport = new ModbusAsciiTransport(stream);
+            ModbusAsciiTransport? transport = new ModbusAsciiTransport(stream);
             int calls = 0;
             byte[] bytes = Encoding.ASCII.GetBytes(":110100130025B6\r\n");
 
@@ -45,9 +45,9 @@ namespace Modbus.UnitTests.IO
         [Fact]
         public void ReadRequestResponseNotEnoughBytes()
         {
-            var mock = new Mock<IStreamResource>(MockBehavior.Strict);
+            Mock<IStreamResource>? mock = new Mock<IStreamResource>(MockBehavior.Strict);
             IStreamResource stream = mock.Object;
-            var transport = new ModbusAsciiTransport(stream);
+            ModbusAsciiTransport? transport = new ModbusAsciiTransport(stream);
             int calls = 0;
             byte[] bytes = Encoding.ASCII.GetBytes(":10\r\n");
 
@@ -65,8 +65,8 @@ namespace Modbus.UnitTests.IO
         [Fact]
         public void ChecksumsMatchSucceed()
         {
-            var transport = new ModbusAsciiTransport(StreamResource);
-            var message = new ReadCoilsInputsRequest(Modbus.ReadCoils, 17, 19, 37);
+            ModbusAsciiTransport? transport = new ModbusAsciiTransport(StreamResource);
+            ReadCoilsInputsRequest? message = new ReadCoilsInputsRequest(Modbus.ReadCoils, 17, 19, 37);
             byte[] frame = { 17, Modbus.ReadCoils, 0, 19, 0, 37, 182 };
 
             Assert.True(transport.ChecksumsMatch(message, frame));
@@ -75,8 +75,8 @@ namespace Modbus.UnitTests.IO
         [Fact]
         public void ChecksumsMatchFail()
         {
-            var transport = new ModbusAsciiTransport(StreamResource);
-            var message = new ReadCoilsInputsRequest(Modbus.ReadCoils, 17, 19, 37);
+            ModbusAsciiTransport? transport = new ModbusAsciiTransport(StreamResource);
+            ReadCoilsInputsRequest? message = new ReadCoilsInputsRequest(Modbus.ReadCoils, 17, 19, 37);
             byte[] frame = { 17, Modbus.ReadCoils, 0, 19, 0, 37, 181 };
 
             Assert.False(transport.ChecksumsMatch(message, frame));

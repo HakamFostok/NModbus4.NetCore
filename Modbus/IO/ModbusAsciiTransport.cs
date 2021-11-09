@@ -20,13 +20,13 @@ namespace Modbus.IO
 
         internal override byte[] BuildMessageFrame(IModbusMessage message)
         {
-            var msgFrame = message.MessageFrame;
+            byte[]? msgFrame = message.MessageFrame;
 
-            var msgFrameAscii = ModbusUtility.GetAsciiBytes(msgFrame);
-            var lrcAscii = ModbusUtility.GetAsciiBytes(ModbusUtility.CalculateLrc(msgFrame));
-            var nlAscii = Encoding.UTF8.GetBytes(Modbus.NewLine.ToCharArray());
+            byte[]? msgFrameAscii = ModbusUtility.GetAsciiBytes(msgFrame);
+            byte[]? lrcAscii = ModbusUtility.GetAsciiBytes(ModbusUtility.CalculateLrc(msgFrame));
+            byte[]? nlAscii = Encoding.UTF8.GetBytes(Modbus.NewLine.ToCharArray());
 
-            var frame = new MemoryStream(1 + msgFrameAscii.Length + lrcAscii.Length + nlAscii.Length);
+            MemoryStream? frame = new MemoryStream(1 + msgFrameAscii.Length + lrcAscii.Length + nlAscii.Length);
             frame.WriteByte((byte)':');
             frame.Write(msgFrameAscii, 0, msgFrameAscii.Length);
             frame.Write(lrcAscii, 0, lrcAscii.Length);

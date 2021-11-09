@@ -40,7 +40,7 @@ namespace Modbus.Message
 
         public void ValidateResponse(IModbusMessage response)
         {
-            var typedResponse = (WriteSingleRegisterRequestResponse)response;
+            WriteSingleRegisterRequestResponse? typedResponse = (WriteSingleRegisterRequestResponse)response;
 
             if (StartAddress != typedResponse.StartAddress)
             {

@@ -27,7 +27,7 @@ namespace Modbus.UnitTests.Message
         [Fact]
         public void ModbusMessageToStringOverriden()
         {
-            var messageTypes = from message in typeof(AbstractModbusMessage).GetTypeInfo().Assembly.GetTypes()
+            System.Collections.Generic.IEnumerable<Type>? messageTypes = from message in typeof(AbstractModbusMessage).GetTypeInfo().Assembly.GetTypes()
                                let typeInfo = message.GetTypeInfo()
                                where !typeInfo.IsAbstract && typeInfo.IsSubclassOf(typeof(AbstractModbusMessage))
                                select message;

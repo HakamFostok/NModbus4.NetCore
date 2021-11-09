@@ -19,7 +19,7 @@ namespace Modbus.IntegrationTests
         public void ModbusTcpSlave_ConnectionResetByPeer()
         {
             TcpListener slaveListener = new(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
-            using (var slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener))
+            using (ModbusTcpSlave? slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener))
             {
                 Thread slaveThread = new(async () => await slave.ListenAsync());
                 slaveThread.IsBackground = true;
@@ -48,14 +48,14 @@ namespace Modbus.IntegrationTests
         public void ModbusTcpSlave_ConnectionClosesGracefully()
         {
             TcpListener slaveListener = new(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
-            using (var slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener))
+            using (ModbusTcpSlave? slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener))
             {
                 Thread slaveThread = new(async () => await slave.ListenAsync());
                 slaveThread.IsBackground = true;
                 slaveThread.Start();
 
-                var masterClient = new TcpClient(ModbusMasterFixture.TcpHost.ToString(), ModbusMasterFixture.Port);
-                using (var master = ModbusIpMaster.CreateIp(masterClient))
+                TcpClient? masterClient = new TcpClient(ModbusMasterFixture.TcpHost.ToString(), ModbusMasterFixture.Port);
+                using (ModbusIpMaster? master = ModbusIpMaster.CreateIp(masterClient))
                 {
                     master.Transport.Retries = 0;
 
@@ -79,14 +79,14 @@ namespace Modbus.IntegrationTests
         public void ModbusTcpSlave_ConnectionSlowlyClosesGracefully()
         {
             TcpListener slaveListener = new(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
-            using (var slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener))
+            using (ModbusTcpSlave? slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener))
             {
                 Thread slaveThread = new(async () => await slave.ListenAsync());
                 slaveThread.IsBackground = true;
                 slaveThread.Start();
 
-                var masterClient = new TcpClient(ModbusMasterFixture.TcpHost.ToString(), ModbusMasterFixture.Port);
-                using (var master = ModbusIpMaster.CreateIp(masterClient))
+                TcpClient? masterClient = new TcpClient(ModbusMasterFixture.TcpHost.ToString(), ModbusMasterFixture.Port);
+                using (ModbusIpMaster? master = ModbusIpMaster.CreateIp(masterClient))
                 {
                     master.Transport.Retries = 0;
 
@@ -108,15 +108,15 @@ namespace Modbus.IntegrationTests
         [Fact]
         public void ModbusTcpSlave_MultiThreaded()
         {
-            var slaveListener = new TcpListener(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
-            using (var slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener))
+            TcpListener? slaveListener = new TcpListener(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
+            using (ModbusTcpSlave? slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener))
             {
                 Thread slaveThread = new(async () => await slave.ListenAsync());
                 slaveThread.IsBackground = true;
                 slaveThread.Start();
 
-                var workerThread1 = new Thread(Read);
-                var workerThread2 = new Thread(Read);
+                Thread? workerThread1 = new Thread(Read);
+                Thread? workerThread2 = new Thread(Read);
                 workerThread1.Start();
                 workerThread2.Start();
 
@@ -127,12 +127,12 @@ namespace Modbus.IntegrationTests
 
         private static void Read(object state)
         {
-            var masterClient = new TcpClient(ModbusMasterFixture.TcpHost.ToString(), ModbusMasterFixture.Port);
-            using (var master = ModbusIpMaster.CreateIp(masterClient))
+            TcpClient? masterClient = new TcpClient(ModbusMasterFixture.TcpHost.ToString(), ModbusMasterFixture.Port);
+            using (ModbusIpMaster? master = ModbusIpMaster.CreateIp(masterClient))
             {
                 master.Transport.Retries = 0;
 
-                var random = new Random();
+                Random? random = new Random();
                 for (int i = 0; i < 5; i++)
                 {
                     bool[] coils = master.ReadCoils(1, 1);

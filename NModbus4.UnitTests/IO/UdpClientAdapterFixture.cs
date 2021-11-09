@@ -10,7 +10,7 @@ namespace Modbus.UnitTests.IO
         [Fact]
         public void Read_ArgumentValidation()
         {
-            var adapter = new UdpClientAdapter(new UdpClient());
+            UdpClientAdapter? adapter = new UdpClientAdapter(new UdpClient());
 
             // buffer
             Assert.Throws<ArgumentNullException>(() => adapter.Read(null, 1, 1));
@@ -26,7 +26,7 @@ namespace Modbus.UnitTests.IO
         [Fact]
         public void Write_ArgumentValidation()
         {
-            var adapter = new UdpClientAdapter(new UdpClient());
+            UdpClientAdapter? adapter = new UdpClientAdapter(new UdpClient());
 
             // buffer
             Assert.Throws<ArgumentNullException>(() => adapter.Write(null, 1, 1));

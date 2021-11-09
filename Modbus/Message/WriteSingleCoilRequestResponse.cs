@@ -42,7 +42,7 @@ namespace Modbus.Message
 
         public void ValidateResponse(IModbusMessage response)
         {
-            var typedResponse = (WriteSingleCoilRequestResponse)response;
+            WriteSingleCoilRequestResponse? typedResponse = (WriteSingleCoilRequestResponse)response;
 
             if (StartAddress != typedResponse.StartAddress)
             {

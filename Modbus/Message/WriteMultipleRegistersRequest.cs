@@ -62,7 +62,7 @@ namespace Modbus.Message
 
         public void ValidateResponse(IModbusMessage response)
         {
-            var typedResponse = (WriteMultipleRegistersResponse)response;
+            WriteMultipleRegistersResponse? typedResponse = (WriteMultipleRegistersResponse)response;
 
             if (StartAddress != typedResponse.StartAddress)
             {
