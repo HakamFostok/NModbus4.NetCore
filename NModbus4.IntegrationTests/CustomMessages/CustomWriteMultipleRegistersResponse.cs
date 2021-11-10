@@ -6,12 +6,6 @@ using Modbus.Message;
 namespace Modbus.IntegrationTests.CustomMessages;
 public class CustomWriteMultipleRegistersResponse : IModbusMessage
 {
-    private byte _functionCode;
-    private byte _slaveAddress;
-    private ushort _startAddress;
-    private ushort _numberOfPoints;
-    private ushort _transactionId;
-
     public byte[] MessageFrame
     {
         get
@@ -38,47 +32,23 @@ public class CustomWriteMultipleRegistersResponse : IModbusMessage
         }
     }
 
-    public ushort TransactionId
-    {
-        get => _transactionId;
-        set => _transactionId = value;
-    }
+    public ushort TransactionId { get; set; }
 
-    public byte FunctionCode
-    {
-        get => _functionCode;
-        set => _functionCode = value;
-    }
+    public byte FunctionCode { get; set; }
 
-    public byte SlaveAddress
-    {
-        get => _slaveAddress;
-        set => _slaveAddress = value;
-    }
+    public byte SlaveAddress { get; set; }
 
-    public ushort StartAddress
-    {
-        get => _startAddress;
-        set => _startAddress = value;
-    }
+    public ushort StartAddress { get; set; }
 
-    public ushort NumberOfPoints
-    {
-        get => _numberOfPoints;
-        set => _numberOfPoints = value;
-    }
+    public ushort NumberOfPoints { get; set; }
 
     public void Initialize(byte[] frame)
     {
         if (frame == null)
-        {
             throw new ArgumentNullException(nameof(frame));
-        }
 
         if (frame.Length < 6)
-        {
             throw new FormatException("Message frame does not contain enough bytes.");
-        }
 
         SlaveAddress = frame[0];
         FunctionCode = frame[1];

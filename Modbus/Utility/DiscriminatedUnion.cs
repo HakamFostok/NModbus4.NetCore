@@ -30,7 +30,6 @@ public class DiscriminatedUnion<TA, TB>
 {
     private TA optionA;
     private TB optionB;
-    private DiscriminatedUnionOption option;
 
     /// <summary>
     ///     Gets the value of option A.
@@ -71,7 +70,7 @@ public class DiscriminatedUnion<TA, TB>
     /// <summary>
     ///     Gets the discriminated value option set for this instance.
     /// </summary>
-    public DiscriminatedUnionOption Option => option;
+    public DiscriminatedUnionOption Option { get; private set; }
 
     /// <summary>
     ///     Factory method for creating DiscriminatedUnion with option A set.
@@ -79,7 +78,7 @@ public class DiscriminatedUnion<TA, TB>
     [SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "Factory method.")]
     [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "0#a")]
     public static DiscriminatedUnion<TA, TB> CreateA(TA a) => 
-        new() { option = DiscriminatedUnionOption.A, optionA = a };
+        new() { Option = DiscriminatedUnionOption.A, optionA = a };
 
     /// <summary>
     ///     Factory method for creating DiscriminatedUnion with option B set.
@@ -87,7 +86,7 @@ public class DiscriminatedUnion<TA, TB>
     [SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "Factory method.")]
     [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "0#b")]
     public static DiscriminatedUnion<TA, TB> CreateB(TB b) => 
-        new() { option = DiscriminatedUnionOption.B, optionB = b };
+        new() { Option = DiscriminatedUnionOption.B, optionB = b };
 
     /// <summary>
     ///     Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.

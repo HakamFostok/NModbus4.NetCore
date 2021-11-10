@@ -7,9 +7,6 @@ namespace Modbus.Message;
 
 public class ReadWriteMultipleRegistersRequest : AbstractModbusMessage, IModbusRequest
 {
-    private ReadHoldingInputRegistersRequest _readRequest;
-    private WriteMultipleRegistersRequest _writeRequest;
-
     public ReadWriteMultipleRegistersRequest()
     {
     }
@@ -22,13 +19,13 @@ public class ReadWriteMultipleRegistersRequest : AbstractModbusMessage, IModbusR
         RegisterCollection writeData)
         : base(slaveAddress, Modbus.ReadWriteMultipleRegisters)
     {
-        _readRequest = new ReadHoldingInputRegistersRequest(
+        ReadRequest = new ReadHoldingInputRegistersRequest(
             Modbus.ReadHoldingRegisters,
             slaveAddress,
             startReadAddress,
             numberOfPointsToRead);
 
-        _writeRequest = new WriteMultipleRegistersRequest(
+        WriteRequest = new WriteMultipleRegistersRequest(
             slaveAddress,
             startWriteAddress,
             writeData);
@@ -38,8 +35,8 @@ public class ReadWriteMultipleRegistersRequest : AbstractModbusMessage, IModbusR
     {
         get
         {
-            byte[] readPdu = _readRequest.ProtocolDataUnit;
-            byte[] writePdu = _writeRequest.ProtocolDataUnit;
+            byte[] readPdu = ReadRequest.ProtocolDataUnit;
+            byte[] writePdu = WriteRequest.ProtocolDataUnit;
             MemoryStream? stream = new(readPdu.Length + writePdu.Length);
 
             stream.WriteByte(FunctionCode);
@@ -52,14 +49,14 @@ public class ReadWriteMultipleRegistersRequest : AbstractModbusMessage, IModbusR
         }
     }
 
-    public ReadHoldingInputRegistersRequest ReadRequest => _readRequest;
+    public ReadHoldingInputRegistersRequest ReadRequest { get; private set; }
 
-    public WriteMultipleRegistersRequest WriteRequest => _writeRequest;
+    public WriteMultipleRegistersRequest WriteRequest { get; private set; }
 
     public override int MinimumFrameSize => 11;
 
     public override string ToString() =>
-        $"Write {_writeRequest.NumberOfPoints} holding registers starting at address {_writeRequest.StartAddress}, and read {_readRequest.NumberOfPoints} registers starting at address {_readRequest.StartAddress}.";
+        $"Write {WriteRequest.NumberOfPoints} holding registers starting at address {WriteRequest.StartAddress}, and read {ReadRequest.NumberOfPoints} registers starting at address {ReadRequest.StartAddress}.";
 
     public void ValidateResponse(IModbusMessage response)
     {
@@ -89,7 +86,7 @@ public class ReadWriteMultipleRegistersRequest : AbstractModbusMessage, IModbusR
         Buffer.BlockCopy(frame, 2, readFrame, 2, 4);
         Buffer.BlockCopy(frame, 6, writeFrame, 2, frame.Length - 6);
 
-        _readRequest = ModbusMessageFactory.CreateModbusMessage<ReadHoldingInputRegistersRequest>(readFrame);
-        _writeRequest = ModbusMessageFactory.CreateModbusMessage<WriteMultipleRegistersRequest>(writeFrame);
+        ReadRequest = ModbusMessageFactory.CreateModbusMessage<ReadHoldingInputRegistersRequest>(readFrame);
+        WriteRequest = ModbusMessageFactory.CreateModbusMessage<WriteMultipleRegistersRequest>(writeFrame);
     }
 }

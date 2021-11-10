@@ -7,18 +7,12 @@ namespace Modbus.IntegrationTests.CustomMessages;
 
 public class CustomReadHoldingRegistersRequest : IModbusMessage
 {
-    private byte _functionCode;
-    private byte _slaveAddress;
-    private ushort _startAddress;
-    private ushort _numberOfPoints;
-    private ushort _transactionId;
-
     public CustomReadHoldingRegistersRequest(byte functionCode, byte slaveAddress, ushort startAddress, ushort numberOfPoints)
     {
-        _functionCode = functionCode;
-        _slaveAddress = slaveAddress;
-        _startAddress = startAddress;
-        _numberOfPoints = numberOfPoints;
+        FunctionCode = functionCode;
+        SlaveAddress = slaveAddress;
+        StartAddress = startAddress;
+        NumberOfPoints = numberOfPoints;
     }
 
     public byte[] MessageFrame
@@ -47,35 +41,15 @@ public class CustomReadHoldingRegistersRequest : IModbusMessage
         }
     }
 
-    public ushort TransactionId
-    {
-        get => _transactionId;
-        set => _transactionId = value;
-    }
+    public ushort TransactionId { get; set; }
 
-    public byte FunctionCode
-    {
-        get => _functionCode;
-        set => _functionCode = value;
-    }
+    public byte FunctionCode { get; set; }
 
-    public byte SlaveAddress
-    {
-        get => _slaveAddress;
-        set => _slaveAddress = value;
-    }
+    public byte SlaveAddress { get; set; }
 
-    public ushort StartAddress
-    {
-        get => _startAddress;
-        set => _startAddress = value;
-    }
+    public ushort StartAddress { get; set; }
 
-    public ushort NumberOfPoints
-    {
-        get => _numberOfPoints;
-        set => _numberOfPoints = value;
-    }
+    public ushort NumberOfPoints { get; set; }
 
     public void Initialize(byte[] frame)
     {

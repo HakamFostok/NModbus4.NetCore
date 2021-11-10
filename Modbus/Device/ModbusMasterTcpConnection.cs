@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-
 using Modbus.IO;
 using Modbus.Message;
 
@@ -16,9 +15,6 @@ namespace Modbus.Device;
 /// </summary>
 internal class ModbusMasterTcpConnection : ModbusDevice, IDisposable
 {
-    private readonly TcpClient _client;
-    private readonly string _endPoint;
-    private readonly Stream _stream;
     private readonly ModbusTcpSlave _slave;
     private readonly Task _requestHandlerTask;
 
@@ -28,11 +24,11 @@ internal class ModbusMasterTcpConnection : ModbusDevice, IDisposable
     public ModbusMasterTcpConnection(TcpClient client, ModbusTcpSlave slave)
         : base(new ModbusIpTransport(new TcpClientAdapter(client)))
     {
-        _client = client ?? throw new ArgumentNullException(nameof(client));
+        TcpClient = client ?? throw new ArgumentNullException(nameof(client));
         _slave = slave ?? throw new ArgumentNullException(nameof(slave));
 
-        _endPoint = client.Client.RemoteEndPoint.ToString();
-        _stream = client.GetStream();
+        EndPoint = client.Client.RemoteEndPoint.ToString();
+        Stream = client.GetStream();
         _requestHandlerTask = Task.Run((Func<Task>)HandleRequestAsync);
     }
 
@@ -41,17 +37,17 @@ internal class ModbusMasterTcpConnection : ModbusDevice, IDisposable
     /// </summary>
     public event EventHandler<TcpConnectionEventArgs> ModbusMasterTcpConnectionClosed;
 
-    public string EndPoint => _endPoint;
+    public string EndPoint { get; }
 
-    public Stream Stream => _stream;
+    public Stream Stream { get; }
 
-    public TcpClient TcpClient => _client;
+    public TcpClient TcpClient { get; }
 
     protected override void Dispose(bool disposing)
     {
         if (disposing)
         {
-            _stream.Dispose();
+            Stream.Dispose();
         }
 
         base.Dispose(disposing);

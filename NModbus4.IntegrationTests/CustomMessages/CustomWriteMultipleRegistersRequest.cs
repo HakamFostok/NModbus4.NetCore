@@ -9,22 +9,14 @@ namespace Modbus.IntegrationTests.CustomMessages;
 
 public class CustomWriteMultipleRegistersRequest : IModbusMessage
 {
-    private byte _functionCode;
-    private byte _slaveAddress;
-    private byte _byteCount;
-    private ushort _startAddress;
-    private ushort _numberOfPoints;
-    private ushort _transactionId;
-    private RegisterCollection _data;
-
     public CustomWriteMultipleRegistersRequest(byte functionCode, byte slaveAddress, ushort startAddress, RegisterCollection data)
     {
-        _functionCode = functionCode;
-        _slaveAddress = slaveAddress;
-        _startAddress = startAddress;
-        _numberOfPoints = (ushort)data.Count;
-        _byteCount = data.ByteCount;
-        _data = data;
+        FunctionCode = functionCode;
+        SlaveAddress = slaveAddress;
+        StartAddress = startAddress;
+        NumberOfPoints = (ushort)data.Count;
+        ByteCount = data.ByteCount;
+        Data = data;
     }
 
     public byte[] MessageFrame
@@ -55,47 +47,19 @@ public class CustomWriteMultipleRegistersRequest : IModbusMessage
         }
     }
 
-    public ushort TransactionId
-    {
-        get => _transactionId;
-        set => _transactionId = value;
-    }
+    public ushort TransactionId { get; set; }
 
-    public byte FunctionCode
-    {
-        get => _functionCode;
-        set => _functionCode = value;
-    }
+    public byte FunctionCode { get; set; }
 
-    public byte SlaveAddress
-    {
-        get => _slaveAddress;
-        set => _slaveAddress = value;
-    }
+    public byte SlaveAddress { get; set; }
 
-    public ushort StartAddress
-    {
-        get => _startAddress;
-        set => _startAddress = value;
-    }
+    public ushort StartAddress { get; set; }
 
-    public ushort NumberOfPoints
-    {
-        get => _numberOfPoints;
-        set => _numberOfPoints = value;
-    }
+    public ushort NumberOfPoints { get; set; }
 
-    public byte ByteCount
-    {
-        get => _byteCount;
-        set => _byteCount = value;
-    }
+    public byte ByteCount { get; set; }
 
-    public RegisterCollection Data
-    {
-        get => _data;
-        set => _data = value;
-    }
+    public RegisterCollection Data { get; set; }
 
     public void Initialize(byte[] frame)
     {

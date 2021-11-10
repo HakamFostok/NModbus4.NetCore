@@ -11,8 +11,6 @@ namespace Modbus.IO;
 /// </summary>
 public abstract class ModbusSerialTransport : ModbusTransport
 {
-    private bool _checkFrame = true;
-
     internal ModbusSerialTransport(IStreamResource streamResource)
         : base(streamResource)
     {
@@ -22,11 +20,7 @@ public abstract class ModbusSerialTransport : ModbusTransport
     /// <summary>
     ///     Gets or sets a value indicating whether LRC/CRC frame checking is performed on messages.
     /// </summary>
-    public bool CheckFrame
-    {
-        get => _checkFrame;
-        set => _checkFrame = value;
-    }
+    public bool CheckFrame { get; set; } = true;
 
     internal void DiscardInBuffer() =>
         StreamResource.DiscardInBuffer();

@@ -2,9 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-
 using Modbus.Message;
-
 using Modbus.Unme.Common;
 
 namespace Modbus.IO;
@@ -16,7 +14,6 @@ namespace Modbus.IO;
 public abstract class ModbusTransport : IDisposable
 {
     private readonly object _syncLock = new();
-    private int _retries = Modbus.DefaultRetries;
     private int _waitToRetryMilliseconds = Modbus.DefaultWaitToRetryMilliseconds;
     private IStreamResource _streamResource;
 
@@ -38,11 +35,7 @@ public abstract class ModbusTransport : IDisposable
     ///     Number of times to retry sending message after encountering a failure such as an IOException,
     ///     TimeoutException, or a corrupt message.
     /// </summary>
-    public int Retries
-    {
-        get => _retries;
-        set => _retries = value;
-    }
+    public int Retries { get; set; } = Modbus.DefaultRetries;
 
     /// <summary>
     /// If non-zero, this will cause a second reply to be read if the first is behind the sequence number of the
@@ -161,7 +154,7 @@ public abstract class ModbusTransport : IDisposable
                     throw;
                 }
 
-                if (SlaveBusyUsesRetryCount && attempt++ > _retries)
+                if (SlaveBusyUsesRetryCount && attempt++ > Retries)
                 {
                     throw;
                 }
@@ -176,9 +169,9 @@ public abstract class ModbusTransport : IDisposable
                     TimeoutException or
                     IOException)
                 {
-                    Debug.WriteLine($"{e.GetType().Name}, {(_retries - attempt + 1)} retries remaining - {e}");
+                    Debug.WriteLine($"{e.GetType().Name}, {(Retries - attempt + 1)} retries remaining - {e}");
 
-                    if (attempt++ > _retries)
+                    if (attempt++ > Retries)
                     {
                         throw;
                     }

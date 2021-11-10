@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-
 using Modbus.Unme.Common;
 
 namespace Modbus.Data;
@@ -14,8 +13,6 @@ namespace Modbus.Data;
 /// </summary>
 public class DataStore
 {
-    private readonly object _syncRoot = new();
-
     /// <summary>
     ///     Initializes a new instance of the <see cref="DataStore" /> class.
     /// </summary>
@@ -79,7 +76,7 @@ public class DataStore
     /// <summary>
     ///     An object that can be used to synchronize direct access to the DataStore collections.
     /// </summary>
-    public object SyncRoot => _syncRoot;
+    public object SyncRoot { get; } = new();
 
     /// <summary>
     ///     Retrieves subset of data from collection.

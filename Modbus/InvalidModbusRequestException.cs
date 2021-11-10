@@ -7,8 +7,6 @@ namespace Modbus;
 /// </summary>
 public class InvalidModbusRequestException : Exception
 {
-    private readonly byte _exceptionCode;
-
     /// <summary>
     ///     Initializes a new instance of the <see cref="InvalidModbusRequestException" /> class with a specified Modbus exception code.
     /// </summary>
@@ -47,13 +45,13 @@ public class InvalidModbusRequestException : Exception
     public InvalidModbusRequestException(string message, byte exceptionCode, Exception innerException)
         : base(message, innerException)
     {
-        _exceptionCode = exceptionCode;
+        ExceptionCode = exceptionCode;
     }
 
     /// <summary>
     ///     Gets the Modbus exception code to provide to the slave.
     /// </summary>
-    public byte ExceptionCode => _exceptionCode;
+    public byte ExceptionCode { get; }
 
     private static string GetMessage(byte exceptionCode) =>
         $"Modbus exception code {exceptionCode}.";

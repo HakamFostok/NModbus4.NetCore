@@ -7,14 +7,12 @@ namespace Modbus.Message;
 /// </summary>
 public abstract class AbstractModbusMessage
 {
-    private readonly ModbusMessageImpl _messageImpl;
-
     /// <summary>
     ///     Abstract Modbus message.
     /// </summary>
     internal AbstractModbusMessage()
     {
-        _messageImpl = new ModbusMessageImpl();
+        MessageImpl = new ModbusMessageImpl();
     }
 
     /// <summary>
@@ -22,36 +20,36 @@ public abstract class AbstractModbusMessage
     /// </summary>
     internal AbstractModbusMessage(byte slaveAddress, byte functionCode)
     {
-        _messageImpl = new ModbusMessageImpl(slaveAddress, functionCode);
+        MessageImpl = new ModbusMessageImpl(slaveAddress, functionCode);
     }
 
     public ushort TransactionId
     {
-        get => _messageImpl.TransactionId;
-        set => _messageImpl.TransactionId = value;
+        get => MessageImpl.TransactionId;
+        set => MessageImpl.TransactionId = value;
     }
 
     public byte FunctionCode
     {
-        get => _messageImpl.FunctionCode;
-        set => _messageImpl.FunctionCode = value;
+        get => MessageImpl.FunctionCode;
+        set => MessageImpl.FunctionCode = value;
     }
 
     public byte SlaveAddress
     {
-        get => _messageImpl.SlaveAddress;
-        set => _messageImpl.SlaveAddress = value;
+        get => MessageImpl.SlaveAddress;
+        set => MessageImpl.SlaveAddress = value;
     }
 
     public byte[] MessageFrame =>
-        _messageImpl.MessageFrame;
+        MessageImpl.MessageFrame;
 
     public virtual byte[] ProtocolDataUnit =>
-        _messageImpl.ProtocolDataUnit;
+        MessageImpl.ProtocolDataUnit;
 
     public abstract int MinimumFrameSize { get; }
 
-    internal ModbusMessageImpl MessageImpl => _messageImpl;
+    internal ModbusMessageImpl MessageImpl { get; }
 
     public void Initialize(byte[] frame)
     {
@@ -61,7 +59,7 @@ public abstract class AbstractModbusMessage
             throw new FormatException(msg);
         }
 
-        _messageImpl.Initialize(frame);
+        MessageImpl.Initialize(frame);
         InitializeUnique(frame);
     }
 
