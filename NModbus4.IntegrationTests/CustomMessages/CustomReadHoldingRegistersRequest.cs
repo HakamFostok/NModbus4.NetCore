@@ -54,14 +54,10 @@ public class CustomReadHoldingRegistersRequest : IModbusMessage
     public void Initialize(byte[] frame)
     {
         if (frame == null)
-        {
             throw new ArgumentNullException(nameof(frame));
-        }
 
         if (frame.Length != 6)
-        {
             throw new ArgumentException("Invalid frame.", nameof(frame));
-        }
 
         SlaveAddress = frame[0];
         FunctionCode = frame[1];

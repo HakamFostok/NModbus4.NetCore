@@ -64,14 +64,10 @@ public class CustomWriteMultipleRegistersRequest : IModbusMessage
     public void Initialize(byte[] frame)
     {
         if (frame == null)
-        {
             throw new ArgumentNullException(nameof(frame));
-        }
 
         if (frame.Length < 7 || frame.Length < 7 + frame[6])
-        {
             throw new FormatException("Message frame does not contain enough bytes.");
-        }
 
         SlaveAddress = frame[0];
         FunctionCode = frame[1];
