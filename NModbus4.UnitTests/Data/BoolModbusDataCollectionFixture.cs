@@ -18,7 +18,7 @@ public class BoolModbusDataCollectionFixture : ModbusDataCollectionFixture<bool>
         Assert.Equal(expectedCount, col.Count);
     }
 
-    protected override bool[] GetArray() => 
+    protected override bool[] GetArray() =>
         new[] { false, false, true, false, false };
 
     protected override bool GetNonExistentElement() => true;

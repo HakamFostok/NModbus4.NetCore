@@ -1,12 +1,13 @@
 ﻿using Modbus.Serial;
 using System.Diagnostics.CodeAnalysis;
-#if SERIAL
-using System.IO.Ports;
-#endif
 using System.Net.Sockets;
 using Modbus.Data;
 using Modbus.IO;
 using Modbus.Message;
+
+#if SERIAL
+using System.IO.Ports;
+#endif
 
 namespace Modbus.Device;
 
@@ -24,7 +25,7 @@ public class ModbusSerialMaster : ModbusMaster, IModbusSerialMaster
     ///     Gets the Modbus Transport.
     /// </summary>
     [SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")]
-    ModbusSerialTransport IModbusSerialMaster.Transport => 
+    ModbusSerialTransport IModbusSerialMaster.Transport =>
         (ModbusSerialTransport)Transport;
 
 #if SERIAL

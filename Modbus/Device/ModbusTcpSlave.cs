@@ -54,7 +54,7 @@ public class ModbusTcpSlave : ModbusSlave
     /// <summary>
     ///     Gets the Modbus TCP Masters connected to this Modbus TCP Slave.
     /// </summary>
-    public ReadOnlyCollection<TcpClient> Masters => 
+    public ReadOnlyCollection<TcpClient> Masters =>
         new(_masters.Values.Select(mc => mc.TcpClient).ToList());
 
     /// <summary>

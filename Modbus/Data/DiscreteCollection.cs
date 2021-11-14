@@ -12,6 +12,7 @@ public class DiscreteCollection : Collection<bool>, IModbusMessageDataCollection
     ///     Number of bits per byte.
     /// </summary>
     private const int BitsPerByte = 8;
+
     private readonly List<bool> _discretes;
 
     /// <summary>

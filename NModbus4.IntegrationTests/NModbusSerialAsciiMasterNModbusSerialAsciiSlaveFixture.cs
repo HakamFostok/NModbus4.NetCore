@@ -20,7 +20,7 @@ public class NModbusSerialAsciiMasterNModbusSerialAsciiSlaveFixture : ModbusSeri
         base.ReadCoils();
 
     [Fact]
-    public override void ReadInputs() => 
+    public override void ReadInputs() =>
         base.ReadInputs();
 
     [Fact]
@@ -32,7 +32,7 @@ public class NModbusSerialAsciiMasterNModbusSerialAsciiSlaveFixture : ModbusSeri
         base.ReadInputRegisters();
 
     [Fact]
-    public override void WriteSingleCoil() => 
+    public override void WriteSingleCoil() =>
         base.WriteSingleCoil();
 
     [Fact]
@@ -44,14 +44,14 @@ public class NModbusSerialAsciiMasterNModbusSerialAsciiSlaveFixture : ModbusSeri
         base.WriteSingleRegister();
 
     [Fact]
-    public override void WriteMultipleRegisters() => 
+    public override void WriteMultipleRegisters() =>
         base.WriteMultipleRegisters();
 
     [Fact]
-    public override void ReadWriteMultipleRegisters() => 
+    public override void ReadWriteMultipleRegisters() =>
         base.ReadWriteMultipleRegisters();
 
     [Fact]
-    public override void ReturnQueryData() => 
+    public override void ReturnQueryData() =>
         base.ReturnQueryData();
 }

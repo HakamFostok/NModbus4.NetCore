@@ -25,6 +25,5 @@ public class DataStoreEventArgsFixture
     [Fact]
     public void CreateDataStoreEventArgs_DataNull() =>
         Assert.Throws<ArgumentNullException>(() =>
-                                                         DataStoreEventArgs.CreateDataStoreEventArgs(5, ModbusDataType.HoldingRegister,
-                                                             default(ushort[])));
+            DataStoreEventArgs.CreateDataStoreEventArgs(5, ModbusDataType.HoldingRegister,default(ushort[])));
 }

@@ -62,7 +62,7 @@ public class CollectionUtilityFixture
     }
 
     [Fact]
-    public void CreateDefaultCollectionNegativeSize() => 
+    public void CreateDefaultCollectionNegativeSize() =>
         Assert.Throws<ArgumentOutOfRangeException>(() => MessageUtility.CreateDefaultCollection<RegisterCollection, ushort>(0, -1));
 
     [Fact]

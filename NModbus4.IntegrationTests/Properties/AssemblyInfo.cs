@@ -1,5 +1,4 @@
-﻿
-using Xunit;
+﻿using Xunit;
 
 //[assembly: AssemblyTitle("Modbus.IntegrationTests")]
 //[assembly: AssemblyProduct("NModbus")]

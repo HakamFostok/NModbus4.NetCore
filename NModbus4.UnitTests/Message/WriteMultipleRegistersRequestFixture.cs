@@ -12,6 +12,7 @@ public class WriteMultipleRegistersRequestFixture
     {
         RegisterCollection col = new(10, 20, 30, 40, 50);
         WriteMultipleRegistersRequest request = new(11, 34, col);
+
         Assert.Equal(Modbus.WriteMultipleRegisters, request.FunctionCode);
         Assert.Equal(11, request.SlaveAddress);
         Assert.Equal(34, request.StartAddress);
@@ -20,15 +21,17 @@ public class WriteMultipleRegistersRequestFixture
     }
 
     [Fact]
-    public void CreateWriteMultipleRegistersRequestTooMuchData() => Assert.Throws<ArgumentOutOfRangeException>(() =>
-                                                                      new WriteMultipleRegistersRequest(1, 2,
-                                                                      MessageUtility.CreateDefaultCollection<RegisterCollection, ushort>(3, Modbus.MaximumRegisterRequestResponseSize + 1)));
+    public void CreateWriteMultipleRegistersRequestTooMuchData() =>
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            new WriteMultipleRegistersRequest(1, 2,
+            MessageUtility.CreateDefaultCollection<RegisterCollection, ushort>(3, Modbus.MaximumRegisterRequestResponseSize + 1)));
 
     [Fact]
     public void CreateWriteMultipleRegistersRequestMaxSize()
     {
         WriteMultipleRegistersRequest request = new(1, 2,
             MessageUtility.CreateDefaultCollection<RegisterCollection, ushort>(3, Modbus.MaximumRegisterRequestResponseSize));
+        
         Assert.Equal(Modbus.MaximumRegisterRequestResponseSize, request.NumberOfPoints);
     }
 

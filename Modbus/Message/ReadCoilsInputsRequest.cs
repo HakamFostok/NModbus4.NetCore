@@ -1,4 +1,5 @@
 ﻿using System.Net;
+
 namespace Modbus.Message;
 
 public class ReadCoilsInputsRequest : AbstractModbusMessage, IModbusRequest

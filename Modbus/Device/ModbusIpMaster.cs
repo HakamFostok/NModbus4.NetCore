@@ -1,10 +1,11 @@
 ﻿using Modbus.Serial;
 using System.Diagnostics.CodeAnalysis;
+using System.Net.Sockets;
+using Modbus.IO;
+
 #if SERIAL
 using System.IO.Ports;
 #endif
-using System.Net.Sockets;
-using Modbus.IO;
 
 namespace Modbus.Device;
 

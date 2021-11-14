@@ -20,7 +20,7 @@ public class NModbusSerialRtuMasterNModbusSerialRtuSlaveFixture : ModbusSerialMa
         base.ReadCoils();
 
     [Fact]
-    public override void ReadHoldingRegisters() => 
+    public override void ReadHoldingRegisters() =>
         base.ReadHoldingRegisters();
 
     [Fact]
@@ -32,19 +32,19 @@ public class NModbusSerialRtuMasterNModbusSerialRtuSlaveFixture : ModbusSerialMa
         base.WriteSingleCoil();
 
     [Fact]
-    public override void WriteMultipleCoils() => 
+    public override void WriteMultipleCoils() =>
         base.WriteMultipleCoils();
 
     [Fact]
-    public override void WriteSingleRegister() => 
+    public override void WriteSingleRegister() =>
         base.WriteSingleRegister();
 
     [Fact]
-    public override void WriteMultipleRegisters() => 
+    public override void WriteMultipleRegisters() =>
         base.WriteMultipleRegisters();
 
     [Fact(Skip = "Need to fix RTU slave for this function code")]
-    public override void ReadWriteMultipleRegisters() => 
+    public override void ReadWriteMultipleRegisters() =>
         base.ReadWriteMultipleRegisters();
 
     [Fact]

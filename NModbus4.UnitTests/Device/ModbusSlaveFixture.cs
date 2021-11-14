@@ -1,6 +1,7 @@
 ﻿#if SERIAL
 using System.IO.Ports;
 #endif
+
 using System.Linq;
 using Modbus.Data;
 using Modbus.Device;

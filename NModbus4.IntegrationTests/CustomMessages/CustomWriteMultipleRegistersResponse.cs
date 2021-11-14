@@ -4,6 +4,7 @@ using System.Net;
 using Modbus.Message;
 
 namespace Modbus.IntegrationTests.CustomMessages;
+
 public class CustomWriteMultipleRegistersResponse : IModbusMessage
 {
     public byte[] MessageFrame

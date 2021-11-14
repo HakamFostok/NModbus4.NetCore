@@ -10,6 +10,7 @@ internal class UdpClientAdapter : IStreamResource
 {
     // strategy for cross platform r/w
     private const int MaxBufferSize = ushort.MaxValue;
+
     private UdpClient _udpClient;
     private readonly byte[] _buffer = new byte[MaxBufferSize];
     private int _bufferOffset;
