@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics;
-using System.IO;
 using System.Text;
-
 using Modbus.Message;
 using Modbus.Utility;
 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Net;
-
+﻿using System.Net;
 namespace Modbus.Message;
 
 public class ReadCoilsInputsRequest : AbstractModbusMessage, IModbusRequest

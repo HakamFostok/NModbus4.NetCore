@@ -1,8 +1,5 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Net.Sockets;
-using System.Threading;
-
 using Modbus.Unme.Common;
 
 namespace Modbus.IO;

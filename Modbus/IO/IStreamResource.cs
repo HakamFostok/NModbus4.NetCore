@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Modbus.IO;
+﻿namespace Modbus.IO;
 
 /// <summary>
 ///     Represents a serial resource.

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Net;
-
 using Modbus.Data;
-
 using Modbus.Unme.Common;
 
 namespace Modbus.Message;

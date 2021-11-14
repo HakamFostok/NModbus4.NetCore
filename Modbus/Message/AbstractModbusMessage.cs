@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Modbus.Message;
+﻿namespace Modbus.Message;
 
 /// <summary>
 ///     Abstract Modbus message.

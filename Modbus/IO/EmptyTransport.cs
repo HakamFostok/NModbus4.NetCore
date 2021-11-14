@@ -1,5 +1,4 @@
-﻿using System;
-using Modbus.Message;
+﻿using Modbus.Message;
 
 namespace Modbus.IO;
 

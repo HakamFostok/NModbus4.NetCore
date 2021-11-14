@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Modbus;
+﻿namespace Modbus;
 
 /// <summary>
 ///     An exception that provides the exception code that will be sent in response to an invalid Modbus request.

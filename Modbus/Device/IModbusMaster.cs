@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-using Modbus.IO;
+﻿using Modbus.IO;
 
 namespace Modbus.Device;
 

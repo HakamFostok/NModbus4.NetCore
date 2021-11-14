@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Modbus.Device;
+﻿namespace Modbus.Device;
 
 internal class TcpConnectionEventArgs : EventArgs
 {

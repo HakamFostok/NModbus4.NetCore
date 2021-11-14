@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Modbus.Unme.Common;
+﻿namespace Modbus.Unme.Common;
 
 internal static class DisposableUtility
 {

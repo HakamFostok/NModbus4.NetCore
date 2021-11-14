@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Modbus.Device;
+﻿using Modbus.Device;
 using Modbus.Utility;
 
 namespace Modbus.Extensions.Enron;

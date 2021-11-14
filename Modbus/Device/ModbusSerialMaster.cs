@@ -1,11 +1,9 @@
 ﻿using Modbus.Serial;
-using System;
 using System.Diagnostics.CodeAnalysis;
 #if SERIAL
 using System.IO.Ports;
 #endif
 using System.Net.Sockets;
-
 using Modbus.Data;
 using Modbus.IO;
 using Modbus.Message;

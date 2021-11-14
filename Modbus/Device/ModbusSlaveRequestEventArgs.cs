@@ -1,5 +1,4 @@
-﻿using System;
-using Modbus.Message;
+﻿using Modbus.Message;
 
 namespace Modbus.Device;
 
@@ -17,5 +16,4 @@ public class ModbusSlaveRequestEventArgs : EventArgs
     ///     Gets the message.
     /// </summary>
     public IModbusMessage Message { get; }
-
 }

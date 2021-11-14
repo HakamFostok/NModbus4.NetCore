@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics;
-using System.IO;
-
 using Modbus.Message;
 
 namespace Modbus.IO;
