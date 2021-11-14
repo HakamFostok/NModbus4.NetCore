@@ -76,7 +76,7 @@ public class DiscriminatedUnion<TA, TB>
     /// </summary>
     [SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "Factory method.")]
     [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "0#a")]
-    public static DiscriminatedUnion<TA, TB> CreateA(TA a) => 
+    public static DiscriminatedUnion<TA, TB> CreateA(TA a) =>
         new() { Option = DiscriminatedUnionOption.A, optionA = a };
 
     /// <summary>
@@ -84,7 +84,7 @@ public class DiscriminatedUnion<TA, TB>
     /// </summary>
     [SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "Factory method.")]
     [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "0#b")]
-    public static DiscriminatedUnion<TA, TB> CreateB(TB b) => 
+    public static DiscriminatedUnion<TA, TB> CreateB(TB b) =>
         new() { Option = DiscriminatedUnionOption.B, optionB = b };
 
     /// <summary>
@@ -93,20 +93,11 @@ public class DiscriminatedUnion<TA, TB>
     /// <returns>
     ///     A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
     /// </returns>
-    public override string ToString()
-    {
-        string value = null;
-
-        switch (Option)
+    public override string? ToString() =>
+        Option switch
         {
-            case DiscriminatedUnionOption.A:
-                value = A.ToString();
-                break;
-            case DiscriminatedUnionOption.B:
-                value = B.ToString();
-                break;
-        }
-
-        return value;
-    }
+            DiscriminatedUnionOption.A => A.ToString(),
+            DiscriminatedUnionOption.B => B.ToString(),
+            _ => null,
+        };
 }

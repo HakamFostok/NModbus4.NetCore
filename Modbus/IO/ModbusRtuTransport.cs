@@ -22,33 +22,31 @@ internal class ModbusRtuTransport : ModbusSerialTransport
     public static int RequestBytesToRead(byte[] frameStart)
     {
         byte functionCode = frameStart[1];
-        int numBytes;
-
-        switch (functionCode)
+        try
         {
-            case Modbus.ReadCoils:
-            case Modbus.ReadInputs:
-            case Modbus.ReadHoldingRegisters:
-            case Modbus.ReadInputRegisters:
-            case Modbus.WriteSingleCoil:
-            case Modbus.WriteSingleRegister:
-            case Modbus.Diagnostics:
-                numBytes = 1;
-                break;
+            return functionCode switch
+            {
+                Modbus.ReadCoils or
+                Modbus.ReadInputs or
+                Modbus.ReadHoldingRegisters or
+                Modbus.ReadInputRegisters or
+                Modbus.WriteSingleCoil or
+                Modbus.WriteSingleRegister or
+                Modbus.Diagnostics
+                    => 1,
 
-            case Modbus.WriteMultipleCoils:
-            case Modbus.WriteMultipleRegisters:
-                byte byteCount = frameStart[6];
-                numBytes = byteCount + 2;
-                break;
+                Modbus.WriteMultipleCoils or
+                Modbus.WriteMultipleRegisters
+                    => frameStart[6] + 2,
 
-            default:
-                string msg = $"Function code {functionCode} not supported.";
-                Debug.WriteLine(msg);
-                throw new NotImplementedException(msg);
+                _ => throw new NotImplementedException($"Function code {functionCode} not supported."),
+            };
         }
-
-        return numBytes;
+        catch (NotImplementedException ex)
+        {
+            Debug.WriteLine(ex.Message);
+            throw;
+        }
     }
 
     public static int ResponseBytesToRead(byte[] frameStart)
@@ -61,31 +59,31 @@ internal class ModbusRtuTransport : ModbusSerialTransport
             return 1;
         }
 
-        int numBytes;
-        switch (functionCode)
+        try
         {
-            case Modbus.ReadCoils:
-            case Modbus.ReadInputs:
-            case Modbus.ReadHoldingRegisters:
-            case Modbus.ReadInputRegisters:
-                numBytes = frameStart[2] + 1;
-                break;
+            return functionCode switch
+            {
+                Modbus.ReadCoils or
+                Modbus.ReadInputs or
+                Modbus.ReadHoldingRegisters or
+                Modbus.ReadInputRegisters
+                    => frameStart[2] + 1,
 
-            case Modbus.WriteSingleCoil:
-            case Modbus.WriteSingleRegister:
-            case Modbus.WriteMultipleCoils:
-            case Modbus.WriteMultipleRegisters:
-            case Modbus.Diagnostics:
-                numBytes = 4;
-                break;
+                Modbus.WriteSingleCoil or
+                Modbus.WriteSingleRegister or
+                Modbus.WriteMultipleCoils or
+                Modbus.WriteMultipleRegisters or
+                Modbus.Diagnostics
+                    => 4,
 
-            default:
-                string msg = $"Function code {functionCode} not supported.";
-                Debug.WriteLine(msg);
-                throw new NotImplementedException(msg);
+                _ => throw new NotImplementedException($"Function code {functionCode} not supported."),
+            };
         }
-
-        return numBytes;
+        catch (NotImplementedException ex)
+        {
+            Debug.WriteLine(ex.Message);
+            throw;
+        }
     }
 
     public virtual byte[] Read(int count)
