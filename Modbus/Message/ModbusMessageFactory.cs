@@ -33,55 +33,20 @@ public static class ModbusMessageFactory
     public static IModbusMessage CreateModbusRequest(byte[] frame)
     {
         if (frame.Length < MinRequestFrameLength)
-        {
-            string msg = $"Argument 'frame' must have a length of at least {MinRequestFrameLength} bytes.";
-            throw new FormatException(msg);
-        }
+            throw new FormatException($"Argument 'frame' must have a length of at least {MinRequestFrameLength} bytes.");
 
-        IModbusMessage request;
         byte functionCode = frame[1];
-
-        switch (functionCode)
+        return functionCode switch
         {
-            case Modbus.ReadCoils:
-            case Modbus.ReadInputs:
-                request = CreateModbusMessage<ReadCoilsInputsRequest>(frame);
-                break;
-
-            case Modbus.ReadHoldingRegisters:
-            case Modbus.ReadInputRegisters:
-                request = CreateModbusMessage<ReadHoldingInputRegistersRequest>(frame);
-                break;
-
-            case Modbus.WriteSingleCoil:
-                request = CreateModbusMessage<WriteSingleCoilRequestResponse>(frame);
-                break;
-
-            case Modbus.WriteSingleRegister:
-                request = CreateModbusMessage<WriteSingleRegisterRequestResponse>(frame);
-                break;
-
-            case Modbus.Diagnostics:
-                request = CreateModbusMessage<DiagnosticsRequestResponse>(frame);
-                break;
-
-            case Modbus.WriteMultipleCoils:
-                request = CreateModbusMessage<WriteMultipleCoilsRequest>(frame);
-                break;
-
-            case Modbus.WriteMultipleRegisters:
-                request = CreateModbusMessage<WriteMultipleRegistersRequest>(frame);
-                break;
-
-            case Modbus.ReadWriteMultipleRegisters:
-                request = CreateModbusMessage<ReadWriteMultipleRegistersRequest>(frame);
-                break;
-
-            default:
-                string msg = $"Unsupported function code {functionCode}";
-                throw new ArgumentException(msg, nameof(frame));
-        }
-
-        return request;
+            Modbus.ReadCoils or Modbus.ReadInputs => CreateModbusMessage<ReadCoilsInputsRequest>(frame),
+            Modbus.ReadHoldingRegisters or Modbus.ReadInputRegisters => CreateModbusMessage<ReadHoldingInputRegistersRequest>(frame),
+            Modbus.WriteSingleCoil => CreateModbusMessage<WriteSingleCoilRequestResponse>(frame),
+            Modbus.WriteSingleRegister => CreateModbusMessage<WriteSingleRegisterRequestResponse>(frame),
+            Modbus.Diagnostics => CreateModbusMessage<DiagnosticsRequestResponse>(frame),
+            Modbus.WriteMultipleCoils => CreateModbusMessage<WriteMultipleCoilsRequest>(frame),
+            Modbus.WriteMultipleRegisters => CreateModbusMessage<WriteMultipleRegistersRequest>(frame),
+            Modbus.ReadWriteMultipleRegisters => CreateModbusMessage<ReadWriteMultipleRegistersRequest>(frame),
+            _ => throw new ArgumentException($"Unsupported function code {functionCode}", nameof(frame)),
+        };
     }
 }
