@@ -38,6 +38,9 @@ jobs:
         run: |  
           dotnet pack -c Release -o out  
 
-      - name: Push generated package to GitHub registry
+      - name: Build solution and generate NuGet package
+        run: find ./Modbus
+
+      - name: Push generated package to GitHub registry      
         run: dotnet nuget push ./Modbus/*.nupkg --api-key ${{secrets.GITHUB_TOKEN}} --source https://api.nuget.org/v3/index.json
 
