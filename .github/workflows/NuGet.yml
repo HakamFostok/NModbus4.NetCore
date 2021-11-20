@@ -39,7 +39,5 @@ jobs:
           dotnet pack -c Release -o out  
 
       - name: Push generated package to GitHub registry
-        run: dotnet nuget push ./Modbus/out/*.nupkg --skip-duplicate --no-symbols true
-        env:
-          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: dotnet nuget push ./Modbus/out/*.nupkg --api-key ${{secrets.GITHUB_TOKEN}} --source https://api.nuget.org/v3/index.json
 
