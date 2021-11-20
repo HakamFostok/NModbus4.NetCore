@@ -49,13 +49,7 @@ or
 
 ## Roadmap
 The followings are the enhancement that I plan to add
-1. Use the latest C# constructs
-2. Add CI/CD by using Github action to automatically publish Nuget Package
-3. Add Coverage badge and Nuget badge
-4. Visual Studio now support the debugging of the Open source library<br/>
-   I added this feature but I did not publish it to the Nuget, <br/>
-   I will publish that ASAP
-
+Add Coverage badge and Nuget badge
 
 ## Contributaions
 1. PRs is more than Welcome.
