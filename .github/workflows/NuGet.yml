@@ -40,5 +40,5 @@ jobs:
           dotnet pack -c Release -o out  
 
       - name: Push generated package to Nuget      
-        run: dotnet nuget push ./out/NModbus4.NetCore.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.NUGET_TOKEN}} 
+        run: dotnet nuget push ./out/NModbus4.NetCore.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.NUGET_TOKEN}} --skip-duplicate
 
