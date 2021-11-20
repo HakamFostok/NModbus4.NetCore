@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<!--<GeneratePackageOnBuild>true</GeneratePackageOnBuild>-->
 		<PackageId>NModbus4.NetCore</PackageId>
 		<Authors>Hakan FISTIK</Authors>
 		<Description>This library is driven from this library https://github.com/NModbus4/NModbus4. It just target .NET Core instead of .NET Framework</Description>
