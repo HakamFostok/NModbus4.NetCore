@@ -32,16 +32,15 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.x.x'
-        env:
-          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
+       
       # Runs a set of commands using the runners shell
       - name: Build solution and generate NuGet package
         run: |  
-          cd find src
           cd ./Modbus
           dotnet pack -c Release -o out  
 
       - name: Push generated package to GitHub registry
         run: dotnet nuget push ./Modbus/out/*.nupkg --skip-duplicate --no-symbols true
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
