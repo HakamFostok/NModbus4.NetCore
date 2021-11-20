@@ -42,5 +42,5 @@ jobs:
         run: find .
 
       - name: Push generated package to GitHub registry      
-        run: dotnet nuget push ./out/NModbus4.NetCore.*.nupkg --api-key ${{secrets.GITHUB_TOKEN}} --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push ./out/NModbus4.NetCore.*.nupkg --api-key ${{secrets.NUGET_TOKEN}} --source https://api.nuget.org/v3/index.json
 
