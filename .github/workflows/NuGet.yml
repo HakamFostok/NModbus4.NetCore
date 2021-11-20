@@ -38,8 +38,8 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Build solution and generate NuGet package
         run: |  
-          cd ..
-          cd Modbus
+          cd find src
+          cd ./Modbus
           dotnet pack -c Release -o out  
 
       - name: Push generated package to GitHub registry
