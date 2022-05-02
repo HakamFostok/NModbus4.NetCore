@@ -13,7 +13,7 @@ public abstract class ModbusDataCollectionFixture<TData>
     {
         ModbusDataCollection<TData>? col = new();
         Assert.NotEmpty(col);
-        Assert.Equal(1, col.Count);
+        Assert.Single(col);
 
         col.Add(default(TData));
         Assert.Equal(2, col.Count);
@@ -90,7 +90,7 @@ public abstract class ModbusDataCollectionFixture<TData>
         ModbusDataCollection<TData>? col = new(GetArray());
         col.Clear();
 
-        Assert.Equal(1, col.Count);
+        Assert.Single(col);
     }
 
     [Fact]

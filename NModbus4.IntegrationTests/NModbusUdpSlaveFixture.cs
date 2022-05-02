@@ -139,7 +139,7 @@ public class NModbusUdpSlaveFixture
         for (int i = 0; i < 5; i++)
         {
             bool[] coils = master.ReadCoils(1, 1);
-            Assert.Equal(1, coils.Length);
+            Assert.Single(coils);
             Debug.WriteLine($"{Thread.CurrentThread.ManagedThreadId}: Reading coil value");
             Thread.Sleep(random.Next(100));
         }

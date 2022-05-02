@@ -35,7 +35,7 @@ public class NModbusTcpSlaveFixture
         }
 
         Thread.Sleep(2000);
-        Assert.Equal(0, slave.Masters.Count);
+        Assert.Empty(slave.Masters);
     }
 
     /// <summary>
@@ -57,15 +57,15 @@ public class NModbusTcpSlaveFixture
             master.Transport.Retries = 0;
 
             bool[] coils = master.ReadCoils(1, 1);
-            Assert.Equal(1, coils.Length);
 
-            Assert.Equal(1, slave.Masters.Count);
+            Assert.Single(coils);
+            Assert.Single(slave.Masters);
         }
 
         // give the slave some time to remove the master
         Thread.Sleep(50);
 
-        Assert.Equal(0, slave.Masters.Count);
+        Assert.Empty(slave.Masters);
     }
 
     /// <summary>
@@ -86,9 +86,9 @@ public class NModbusTcpSlaveFixture
             master.Transport.Retries = 0;
 
             bool[] coils = master.ReadCoils(1, 1);
-            Assert.Equal(1, coils.Length);
+            Assert.Single(coils);
 
-            Assert.Equal(1, slave.Masters.Count);
+            Assert.Single(slave.Masters);
 
             // wait a bit to let slave move on to read header
             Thread.Sleep(50);
@@ -96,7 +96,7 @@ public class NModbusTcpSlaveFixture
 
         // give the slave some time to remove the master
         Thread.Sleep(50);
-        Assert.Equal(0, slave.Masters.Count);
+        Assert.Empty(slave.Masters);
     }
 
     [Fact]
@@ -127,7 +127,7 @@ public class NModbusTcpSlaveFixture
         for (int i = 0; i < 5; i++)
         {
             bool[] coils = master.ReadCoils(1, 1);
-            Assert.Equal(1, coils.Length);
+            Assert.Single(coils);
             Debug.WriteLine($"{Thread.CurrentThread.ManagedThreadId}: Reading coil value");
             Thread.Sleep(random.Next(100));
         }

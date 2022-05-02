@@ -33,7 +33,7 @@ public class DiscreteCollectionFixture
     {
         DiscreteCollection col = new(true, true, true);
         Assert.Equal(3, col.Count);
-        Assert.False(col.Contains(false));
+        Assert.DoesNotContain(false, col);
     }
 
     [Fact]
@@ -62,7 +62,7 @@ public class DiscreteCollectionFixture
     public void CreateNewDiscreteCollectionFromBytesParams_ZeroLengthArray()
     {
         DiscreteCollection col = new(Array.Empty<byte>());
-        Assert.Equal(0, col.Count);
+        Assert.Empty(col);
     }
 
     [Fact]
@@ -110,8 +110,9 @@ public class DiscreteCollectionFixture
     public void AddCoil()
     {
         DiscreteCollection col = new();
-        Assert.Equal(0, col.Count);
+        Assert.Empty(col);
+
         col.Add(true);
-        Assert.Equal(1, col.Count);
+        Assert.Single(col);
     }
 }

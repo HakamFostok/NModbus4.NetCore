@@ -27,7 +27,7 @@ public class DiscriminatedUnionFixture
     {
         DiscriminatedUnion<object, object>? du = DiscriminatedUnion<object, object>.CreateB(null);
         Assert.Equal(DiscriminatedUnionOption.B, du.Option);
-        Assert.Equal(null, du.B);
+        Assert.Null(du.B);
     }
 
     [Fact]
@@ -48,6 +48,6 @@ public class DiscriminatedUnionFixture
     public void DiscriminatedUnion_ToString()
     {
         DiscriminatedUnion<string, string>? du = DiscriminatedUnion<string, string>.CreateA("foo");
-        Assert.Equal(du.ToString(), "foo");
+        Assert.Equal("foo", du.ToString());
     }
 }
