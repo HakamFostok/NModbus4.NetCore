@@ -20,6 +20,6 @@ internal static class StreamResourceUtility
         }
         while (!result.ToString().EndsWith(Modbus.NewLine));
 
-        return result.ToString().Substring(0, result.Length - Modbus.NewLine.Length);
+        return result.ToString()[..(result.Length - Modbus.NewLine.Length)];
     }
 }

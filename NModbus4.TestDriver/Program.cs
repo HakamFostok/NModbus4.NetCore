@@ -7,7 +7,7 @@ try
     using TcpClient client = new("127.0.0.1", 502);
     client.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
 
-    ModbusIpMaster? master = ModbusIpMaster.CreateIp(client);
+    ModbusIpMaster master = ModbusIpMaster.CreateIp(client);
     // read five input values
     ushort startAddress = 100;
     ushort numInputs = 5;

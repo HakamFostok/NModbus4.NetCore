@@ -2,7 +2,7 @@
 
 [module:
     SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace",
-        Target = "Modbus")]
+        Target = "~N:Modbus")]
 [module:
     SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace",
-        Target = "Modbus.Utility")]
+        Target = "~N:Modbus.Utility")] 

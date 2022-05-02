@@ -122,36 +122,30 @@ public class ModbusTcpSlave : ModbusSlave
     /// <remarks>Dispose is thread-safe.</remarks>
     protected override void Dispose(bool disposing)
     {
-        if (disposing)
+        if (!disposing || _server == null)
+            return;
+
+        lock (_serverLock)
         {
-            // double-check locking
             if (_server != null)
             {
-                lock (_serverLock)
-                {
-                    if (_server != null)
-                    {
-                        _server.Stop();
-                        _server = null;
+                _server.Stop();
+                _server = null;
 
 #if TIMER
-                            if (_timer != null)
-                            {
-                                _timer.Dispose();
-                                _timer = null;
-                            }
+                if (_timer != null)
+                {
+                    _timer.Dispose();
+                    _timer = null;
+                }
 #endif
 
-                        foreach (string? key in _masters.Keys)
-                        {
-                            ModbusMasterTcpConnection connection;
-
-                            if (_masters.TryRemove(key, out connection))
-                            {
-                                connection.ModbusMasterTcpConnectionClosed -= OnMasterConnectionClosedHandler;
-                                connection.Dispose();
-                            }
-                        }
+                foreach (string? key in _masters.Keys)
+                {
+                    if (_masters.TryRemove(key, out ModbusMasterTcpConnection connection))
+                    {
+                        connection.ModbusMasterTcpConnectionClosed -= OnMasterConnectionClosedHandler;
+                        connection.Dispose();
                     }
                 }
             }
@@ -179,9 +173,7 @@ public class ModbusTcpSlave : ModbusSlave
 #endif
     private void OnMasterConnectionClosedHandler(object sender, TcpConnectionEventArgs e)
     {
-        ModbusMasterTcpConnection connection;
-
-        if (!_masters.TryRemove(e.EndPoint, out connection))
+        if (!_masters.TryRemove(e.EndPoint, out ModbusMasterTcpConnection _))
         {
             string msg = $"EndPoint {e.EndPoint} cannot be removed, it does not exist.";
             throw new ArgumentException(msg);
