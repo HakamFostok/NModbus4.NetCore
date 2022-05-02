@@ -27,10 +27,7 @@ public class ModbusTcpSlave : ModbusSlave
     private ModbusTcpSlave(byte unitId, TcpListener tcpListener)
         : base(unitId, new EmptyTransport())
     {
-        if (tcpListener == null)
-        {
-            throw new ArgumentNullException(nameof(tcpListener));
-        }
+        ArgumentNullException.ThrowIfNull(tcpListener);
 
         _server = tcpListener;
     }
@@ -39,10 +36,7 @@ public class ModbusTcpSlave : ModbusSlave
         private ModbusTcpSlave(byte unitId, TcpListener tcpListener, double timeInterval)
             : base(unitId, new EmptyTransport())
         {
-            if (tcpListener == null)
-            {
-                throw new ArgumentNullException(nameof(tcpListener));
-            }
+            ArgumentNullException.ThrowIfNull(tcpListener);
 
             _server = tcpListener;
             _timer = new Timer(timeInterval);

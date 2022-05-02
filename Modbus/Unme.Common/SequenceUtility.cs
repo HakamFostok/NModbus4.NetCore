@@ -4,10 +4,7 @@ internal static class SequenceUtility
 {
     public static IEnumerable<T> Slice<T>(this IEnumerable<T> source, int startIndex, int size)
     {
-        if (source == null)
-        {
-            throw new ArgumentNullException(nameof(source));
-        }
+        ArgumentNullException.ThrowIfNull(source);
 
         T[]? enumerable = source as T[] ?? source.ToArray();
         int num = enumerable.Length;

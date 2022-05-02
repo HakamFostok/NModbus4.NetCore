@@ -17,10 +17,7 @@ internal class UdpClientAdapter : IStreamResource
 
     public UdpClientAdapter(UdpClient udpClient)
     {
-        if (udpClient == null)
-        {
-            throw new ArgumentNullException(nameof(udpClient));
-        }
+        ArgumentNullException.ThrowIfNull(udpClient);
 
         _udpClient = udpClient;
     }
@@ -46,10 +43,7 @@ internal class UdpClientAdapter : IStreamResource
 
     public int Read(byte[] buffer, int offset, int count)
     {
-        if (buffer == null)
-        {
-            throw new ArgumentNullException(nameof(buffer));
-        }
+        ArgumentNullException.ThrowIfNull(buffer);
 
         if (offset < 0)
         {
@@ -98,10 +92,7 @@ internal class UdpClientAdapter : IStreamResource
 
     public void Write(byte[] buffer, int offset, int count)
     {
-        if (buffer == null)
-        {
-            throw new ArgumentNullException(nameof(buffer));
-        }
+        ArgumentNullException.ThrowIfNull(buffer);
 
         if (offset < 0)
         {

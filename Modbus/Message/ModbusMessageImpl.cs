@@ -95,10 +95,7 @@ internal class ModbusMessageImpl
 
     public void Initialize(byte[] frame)
     {
-        if (frame == null)
-        {
-            throw new ArgumentNullException(nameof(frame), "Argument frame cannot be null.");
-        }
+        ArgumentNullException.ThrowIfNull(frame);
 
         if (frame.Length < Modbus.MinimumFrameSize)
         {

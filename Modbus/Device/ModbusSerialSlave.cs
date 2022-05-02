@@ -39,10 +39,7 @@ public class ModbusSerialSlave : ModbusSlave
     /// </summary>
     public static ModbusSerialSlave CreateAscii(byte unitId, SerialPort serialPort)
     {
-        if (serialPort == null)
-        {
-            throw new ArgumentNullException(nameof(serialPort));
-        }
+        ArgumentNullException.ThrowIfNull(serialPort);
 
         return CreateAscii(unitId, new SerialPortAdapter(serialPort));
     }
@@ -53,10 +50,7 @@ public class ModbusSerialSlave : ModbusSlave
     /// </summary>
     public static ModbusSerialSlave CreateAscii(byte unitId, IStreamResource streamResource)
     {
-        if (streamResource == null)
-        {
-            throw new ArgumentNullException(nameof(streamResource));
-        }
+        ArgumentNullException.ThrowIfNull(streamResource);
 
         return new ModbusSerialSlave(unitId, new ModbusAsciiTransport(streamResource));
     }
@@ -67,10 +61,7 @@ public class ModbusSerialSlave : ModbusSlave
     /// </summary>
     public static ModbusSerialSlave CreateRtu(byte unitId, SerialPort serialPort)
     {
-        if (serialPort == null)
-        {
-            throw new ArgumentNullException(nameof(serialPort));
-        }
+        ArgumentNullException.ThrowIfNull(serialPort);
 
         return CreateRtu(unitId, new SerialPortAdapter(serialPort));
     }
@@ -81,10 +72,7 @@ public class ModbusSerialSlave : ModbusSlave
     /// </summary>
     public static ModbusSerialSlave CreateRtu(byte unitId, IStreamResource streamResource)
     {
-        if (streamResource == null)
-        {
-            throw new ArgumentNullException(nameof(streamResource));
-        }
+        ArgumentNullException.ThrowIfNull(streamResource);
 
         return new ModbusSerialSlave(unitId, new ModbusRtuTransport(streamResource));
     }

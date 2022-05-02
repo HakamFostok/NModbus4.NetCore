@@ -369,10 +369,7 @@ public abstract class ModbusMaster : ModbusDevice, IModbusMaster
 
     private static void ValidateData<T>(string argumentName, T[] data, int maxDataLength)
     {
-        if (data == null)
-        {
-            throw new ArgumentNullException(nameof(data));
-        }
+        ArgumentNullException.ThrowIfNull(data);
 
         if (data.Length == 0 || data.Length > maxDataLength)
         {

@@ -113,10 +113,7 @@ public static class ModbusUtility
     /// <returns>The host order ushort array.</returns>
     public static ushort[] NetworkBytesToHostUInt16(byte[] networkBytes)
     {
-        if (networkBytes == null)
-        {
-            throw new ArgumentNullException(nameof(networkBytes));
-        }
+        ArgumentNullException.ThrowIfNull(networkBytes);
 
         if (networkBytes.Length % 2 != 0)
         {
@@ -140,10 +137,7 @@ public static class ModbusUtility
     /// <returns>Array of bytes.</returns>
     public static byte[] HexToBytes(string hex)
     {
-        if (hex == null)
-        {
-            throw new ArgumentNullException(nameof(hex));
-        }
+        ArgumentNullException.ThrowIfNull(hex);
 
         if (hex.Length % 2 != 0)
         {
@@ -167,10 +161,7 @@ public static class ModbusUtility
     /// <returns>LRC value.</returns>
     public static byte CalculateLrc(byte[] data)
     {
-        if (data == null)
-        {
-            throw new ArgumentNullException(nameof(data));
-        }
+        ArgumentNullException.ThrowIfNull(data);
 
         byte lrc = 0;
 
@@ -191,10 +182,7 @@ public static class ModbusUtility
     /// <returns>CRC value.</returns>
     public static byte[] CalculateCrc(byte[] data)
     {
-        if (data == null)
-        {
-            throw new ArgumentNullException(nameof(data));
-        }
+        ArgumentNullException.ThrowIfNull(data);
 
         ushort crc = ushort.MaxValue;
 

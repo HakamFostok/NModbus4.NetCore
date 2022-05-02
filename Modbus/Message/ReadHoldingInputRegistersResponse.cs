@@ -12,10 +12,7 @@ public class ReadHoldingInputRegistersResponse : AbstractModbusMessageWithData<R
     public ReadHoldingInputRegistersResponse(byte functionCode, byte slaveAddress, RegisterCollection data)
         : base(slaveAddress, functionCode)
     {
-        if (data == null)
-        {
-            throw new ArgumentNullException(nameof(data));
-        }
+        ArgumentNullException.ThrowIfNull(data);
 
         ByteCount = data.ByteCount;
         Data = data;

@@ -39,10 +39,7 @@ public class DiscreteCollection : Collection<bool>, IModbusMessageDataCollection
     public DiscreteCollection(params byte[] bytes)
         : this()
     {
-        if (bytes == null)
-        {
-            throw new ArgumentNullException(nameof(bytes));
-        }
+        ArgumentNullException.ThrowIfNull(nameof(bytes));
 
         _discretes.Capacity = bytes.Length * BitsPerByte;
 

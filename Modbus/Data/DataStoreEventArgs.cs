@@ -33,10 +33,7 @@ public class DataStoreEventArgs : EventArgs
 
     internal static DataStoreEventArgs CreateDataStoreEventArgs<T>(ushort startAddress, ModbusDataType modbusDataType, IEnumerable<T> data)
     {
-        if (data == null)
-        {
-            throw new ArgumentNullException(nameof(data));
-        }
+        ArgumentNullException.ThrowIfNull(data);
 
         DataStoreEventArgs eventArgs;
 

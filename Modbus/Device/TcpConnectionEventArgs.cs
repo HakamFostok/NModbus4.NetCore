@@ -4,10 +4,7 @@ internal class TcpConnectionEventArgs : EventArgs
 {
     public TcpConnectionEventArgs(string endPoint)
     {
-        if (endPoint == null)
-        {
-            throw new ArgumentNullException(nameof(endPoint));
-        }
+        ArgumentNullException.ThrowIfNull(endPoint);
 
         if (endPoint == string.Empty)
         {

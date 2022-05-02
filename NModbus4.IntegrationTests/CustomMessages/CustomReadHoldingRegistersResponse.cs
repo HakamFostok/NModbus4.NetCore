@@ -48,8 +48,7 @@ public class CustomReadHoldingRegistersResponse : IModbusMessage
 
     public void Initialize(byte[] frame)
     {
-        if (frame == null)
-            throw new ArgumentNullException(nameof(frame));
+        ArgumentNullException.ThrowIfNull(frame);
 
         if (frame.Length < 3 || frame.Length < 3 + frame[2])
             throw new ArgumentException("Message frame does not contain enough bytes.", nameof(frame));

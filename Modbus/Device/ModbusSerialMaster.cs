@@ -34,10 +34,7 @@ public class ModbusSerialMaster : ModbusMaster, IModbusSerialMaster
     /// </summary>
     public static ModbusSerialMaster CreateAscii(SerialPort serialPort)
     {
-        if (serialPort == null)
-        {
-            throw new ArgumentNullException(nameof(serialPort));
-        }
+        ArgumentNullException.ThrowIfNull(serialPort);
 
         return CreateAscii(new SerialPortAdapter(serialPort));
     }
@@ -48,10 +45,7 @@ public class ModbusSerialMaster : ModbusMaster, IModbusSerialMaster
     /// </summary>
     public static ModbusSerialMaster CreateAscii(TcpClient tcpClient)
     {
-        if (tcpClient == null)
-        {
-            throw new ArgumentNullException(nameof(tcpClient));
-        }
+        ArgumentNullException.ThrowIfNull(tcpClient);
 
         return CreateAscii(new TcpClientAdapter(tcpClient));
     }
@@ -61,10 +55,7 @@ public class ModbusSerialMaster : ModbusMaster, IModbusSerialMaster
     /// </summary>
     public static ModbusSerialMaster CreateAscii(UdpClient udpClient)
     {
-        if (udpClient == null)
-        {
-            throw new ArgumentNullException(nameof(udpClient));
-        }
+        ArgumentNullException.ThrowIfNull(udpClient);
 
         if (!udpClient.Client.Connected)
         {
@@ -79,10 +70,7 @@ public class ModbusSerialMaster : ModbusMaster, IModbusSerialMaster
     /// </summary>
     public static ModbusSerialMaster CreateAscii(IStreamResource streamResource)
     {
-        if (streamResource == null)
-        {
-            throw new ArgumentNullException(nameof(streamResource));
-        }
+        ArgumentNullException.ThrowIfNull(streamResource);
 
         return new ModbusSerialMaster(new ModbusAsciiTransport(streamResource));
     }
@@ -93,10 +81,7 @@ public class ModbusSerialMaster : ModbusMaster, IModbusSerialMaster
     /// </summary>
     public static ModbusSerialMaster CreateRtu(SerialPort serialPort)
     {
-        if (serialPort == null)
-        {
-            throw new ArgumentNullException(nameof(serialPort));
-        }
+        ArgumentNullException.ThrowIfNull(serialPort);
 
         return CreateRtu(new SerialPortAdapter(serialPort));
     }
@@ -107,10 +92,7 @@ public class ModbusSerialMaster : ModbusMaster, IModbusSerialMaster
     /// </summary>
     public static ModbusSerialMaster CreateRtu(TcpClient tcpClient)
     {
-        if (tcpClient == null)
-        {
-            throw new ArgumentNullException(nameof(tcpClient));
-        }
+        ArgumentNullException.ThrowIfNull(tcpClient);
 
         return CreateRtu(new TcpClientAdapter(tcpClient));
     }
@@ -120,10 +102,7 @@ public class ModbusSerialMaster : ModbusMaster, IModbusSerialMaster
     /// </summary>
     public static ModbusSerialMaster CreateRtu(UdpClient udpClient)
     {
-        if (udpClient == null)
-        {
-            throw new ArgumentNullException(nameof(udpClient));
-        }
+        ArgumentNullException.ThrowIfNull(udpClient);
 
         if (!udpClient.Client.Connected)
         {
@@ -138,10 +117,7 @@ public class ModbusSerialMaster : ModbusMaster, IModbusSerialMaster
     /// </summary>
     public static ModbusSerialMaster CreateRtu(IStreamResource streamResource)
     {
-        if (streamResource == null)
-        {
-            throw new ArgumentNullException(nameof(streamResource));
-        }
+        ArgumentNullException.ThrowIfNull(streamResource);
 
         return new ModbusSerialMaster(new ModbusRtuTransport(streamResource));
     }

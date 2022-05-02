@@ -22,10 +22,7 @@ public static class EnronModbus
         ushort startAddress,
         ushort numberOfPoints)
     {
-        if (master == null)
-        {
-            throw new ArgumentNullException(nameof(master));
-        }
+        ArgumentNullException.ThrowIfNull(master);
 
         ValidateNumberOfPoints(numberOfPoints, 62);
 
@@ -52,10 +49,7 @@ public static class EnronModbus
         ushort startAddress,
         ushort numberOfPoints)
     {
-        if (master == null)
-        {
-            throw new ArgumentNullException(nameof(master));
-        }
+        ArgumentNullException.ThrowIfNull(master);
 
         ValidateNumberOfPoints(numberOfPoints, 62);
 
@@ -80,10 +74,7 @@ public static class EnronModbus
         ushort registerAddress,
         uint value)
     {
-        if (master == null)
-        {
-            throw new ArgumentNullException(nameof(master));
-        }
+        ArgumentNullException.ThrowIfNull(master);
 
         master.WriteMultipleRegisters32(slaveAddress, registerAddress, new[] { value });
     }
@@ -101,15 +92,9 @@ public static class EnronModbus
         ushort startAddress,
         uint[] data)
     {
-        if (master == null)
-        {
-            throw new ArgumentNullException(nameof(master));
-        }
+        ArgumentNullException.ThrowIfNull(master);
 
-        if (data == null)
-        {
-            throw new ArgumentNullException(nameof(data));
-        }
+        ArgumentNullException.ThrowIfNull(data);
 
         if (data.Length is 0 or > 61)
         {

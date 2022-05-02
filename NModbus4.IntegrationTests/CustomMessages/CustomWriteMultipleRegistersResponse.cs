@@ -45,8 +45,7 @@ public class CustomWriteMultipleRegistersResponse : IModbusMessage
 
     public void Initialize(byte[] frame)
     {
-        if (frame == null)
-            throw new ArgumentNullException(nameof(frame));
+        ArgumentNullException.ThrowIfNull(frame);
 
         if (frame.Length < 6)
             throw new FormatException("Message frame does not contain enough bytes.");
