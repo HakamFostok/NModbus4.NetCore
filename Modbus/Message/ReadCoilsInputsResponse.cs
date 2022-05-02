@@ -25,7 +25,7 @@ public class ReadCoilsInputsResponse : AbstractModbusMessageWithData<DiscreteCol
     public override int MinimumFrameSize => 3;
 
     public override string ToString() =>
-        $"Read {Data.Count()} {(FunctionCode == Modbus.ReadInputs ? "inputs" : "coils")} - {Data}.";
+        $"Read {Data.Count} {(FunctionCode == Modbus.ReadInputs ? "inputs" : "coils")} - {Data}.";
 
     protected override void InitializeUnique(byte[] frame)
     {

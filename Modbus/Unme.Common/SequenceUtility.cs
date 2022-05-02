@@ -10,7 +10,7 @@ internal static class SequenceUtility
         }
 
         T[]? enumerable = source as T[] ?? source.ToArray();
-        int num = enumerable.Count();
+        int num = enumerable.Length;
 
         if (startIndex < 0 || num < startIndex)
         {

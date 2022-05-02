@@ -28,7 +28,7 @@ public class WriteSingleRegisterRequestResponse : AbstractModbusMessageWithData<
     public override string ToString()
     {
         Debug.Assert(Data != null, "Argument Data cannot be null.");
-        Debug.Assert(Data.Count() == 1, "Data should have a count of 1.");
+        Debug.Assert(Data.Count == 1, "Data should have a count of 1.");
 
         string msg = $"Write single holding register {Data[0]} at address {StartAddress}.";
         return msg;
