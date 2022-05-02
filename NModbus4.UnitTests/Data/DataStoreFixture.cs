@@ -123,7 +123,7 @@ public class DataStoreFixture
         {
             readFromEventFired = true;
             Assert.Equal(4, e.StartAddress);
-            Assert.Equal(new ushort[] { }, e.Data.B.ToArray());
+            Assert.Equal(System.Array.Empty<ushort>(), e.Data.B.ToArray());
             Assert.Equal(ModbusDataType.InputRegister, e.ModbusDataType);
         };
 

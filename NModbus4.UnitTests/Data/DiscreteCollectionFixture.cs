@@ -61,7 +61,7 @@ public class DiscreteCollectionFixture
     [Fact]
     public void CreateNewDiscreteCollectionFromBytesParams_ZeroLengthArray()
     {
-        DiscreteCollection col = new(new byte[0]);
+        DiscreteCollection col = new(Array.Empty<byte>());
         Assert.Equal(0, col.Count);
     }
 

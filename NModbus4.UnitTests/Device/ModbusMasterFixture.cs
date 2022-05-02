@@ -45,7 +45,7 @@ public class ModbusMasterFixture
     public void WriteMultipleRegisters()
     {
         Assert.Throws<ArgumentNullException>(() => Master.WriteMultipleRegisters(1, 1, null));
-        Assert.Throws<ArgumentException>(() => Master.WriteMultipleRegisters(1, 1, new ushort[0]));
+        Assert.Throws<ArgumentException>(() => Master.WriteMultipleRegisters(1, 1, Array.Empty<ushort>()));
         Assert.Throws<ArgumentException>(() => Master.WriteMultipleRegisters(1, 1, Enumerable.Repeat<ushort>(1, 124).ToArray()));
     }
 
@@ -53,7 +53,7 @@ public class ModbusMasterFixture
     public void WriteMultipleCoils()
     {
         Assert.Throws<ArgumentNullException>(() => Master.WriteMultipleCoils(1, 1, null));
-        Assert.Throws<ArgumentException>(() => Master.WriteMultipleCoils(1, 1, new bool[0]));
+        Assert.Throws<ArgumentException>(() => Master.WriteMultipleCoils(1, 1, Array.Empty<bool>()));
         Assert.Throws<ArgumentException>(() => Master.WriteMultipleCoils(1, 1, Enumerable.Repeat(false, 1969).ToArray()));
     }
 
@@ -66,7 +66,7 @@ public class ModbusMasterFixture
 
         // validate writeData
         Assert.Throws<ArgumentNullException>(() => Master.ReadWriteMultipleRegisters(1, 1, 1, 1, null));
-        Assert.Throws<ArgumentException>(() => Master.ReadWriteMultipleRegisters(1, 1, 1, 1, new ushort[0]));
+        Assert.Throws<ArgumentException>(() => Master.ReadWriteMultipleRegisters(1, 1, 1, 1, Array.Empty<ushort>()));
         Assert.Throws<ArgumentException>(() => Master.ReadWriteMultipleRegisters(1, 1, 1, 1, Enumerable.Repeat<ushort>(1, 122).ToArray()));
     }
 }
