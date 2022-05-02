@@ -92,7 +92,7 @@ public abstract class ModbusMasterFixture : IDisposable
 
         Slave?.Dispose();
 
-        if (Jamod != null)
+        if (Jamod is not null)
         {
             Jamod.Kill();
             Thread.Sleep(4000);

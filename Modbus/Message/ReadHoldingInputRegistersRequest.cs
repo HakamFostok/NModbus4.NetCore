@@ -45,7 +45,7 @@ public class ReadHoldingInputRegistersRequest : AbstractModbusMessage, IModbusRe
     public void ValidateResponse(IModbusMessage response)
     {
         ReadHoldingInputRegistersResponse? typedResponse = response as ReadHoldingInputRegistersResponse;
-        Debug.Assert(typedResponse != null, "Argument response should be of type ReadHoldingInputRegistersResponse.");
+        Debug.Assert(typedResponse is not null, "Argument response should be of type ReadHoldingInputRegistersResponse.");
         int expectedByteCount = NumberOfPoints * 2;
 
         if (expectedByteCount != typedResponse.ByteCount)

@@ -13,7 +13,7 @@ internal class ModbusAsciiTransport : ModbusSerialTransport
     internal ModbusAsciiTransport(IStreamResource streamResource)
         : base(streamResource)
     {
-        Debug.Assert(streamResource != null, "Argument streamResource cannot be null.");
+        Debug.Assert(streamResource is not null, "Argument streamResource cannot be null.");
     }
 
     internal override byte[] BuildMessageFrame(IModbusMessage message)

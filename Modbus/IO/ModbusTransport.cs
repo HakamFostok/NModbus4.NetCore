@@ -23,7 +23,7 @@ public abstract class ModbusTransport : IDisposable
 
     internal ModbusTransport(IStreamResource streamResource)
     {
-        Debug.Assert(streamResource != null, "Argument streamResource cannot be null.");
+        Debug.Assert(streamResource is not null, "Argument streamResource cannot be null.");
 
         _streamResource = streamResource;
     }
@@ -118,7 +118,7 @@ public abstract class ModbusTransport : IDisposable
                         response = ReadResponse<T>();
                         SlaveExceptionResponse? exceptionResponse = response as SlaveExceptionResponse;
 
-                        if (exceptionResponse != null)
+                        if (exceptionResponse is not null)
                         {
                             // if SlaveExceptionCode == ACKNOWLEDGE we retry reading the response without resubmitting request
                             readAgain = exceptionResponse.SlaveExceptionCode == Modbus.Acknowledge;
@@ -221,7 +221,7 @@ public abstract class ModbusTransport : IDisposable
         // message specific validation
         IModbusRequest? req = request as IModbusRequest;
 
-        if (req != null)
+        if (req is not null)
         {
             req.ValidateResponse(response);
         }

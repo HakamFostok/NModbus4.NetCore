@@ -16,7 +16,7 @@ internal class ModbusRtuTransport : ModbusSerialTransport
     internal ModbusRtuTransport(IStreamResource streamResource)
         : base(streamResource)
     {
-        Debug.Assert(streamResource != null, "Argument streamResource cannot be null.");
+        Debug.Assert(streamResource is not null, "Argument streamResource cannot be null.");
     }
 
     public static int RequestBytesToRead(byte[] frameStart)

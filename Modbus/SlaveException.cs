@@ -63,7 +63,7 @@ public class SlaveException : Exception
         get
         {
             string responseString;
-            responseString = _slaveExceptionResponse != null ? string.Concat(Environment.NewLine, _slaveExceptionResponse) : string.Empty;
+            responseString = _slaveExceptionResponse is not null ? string.Concat(Environment.NewLine, _slaveExceptionResponse) : string.Empty;
             return string.Concat(base.Message, responseString);
         }
     }
@@ -73,19 +73,19 @@ public class SlaveException : Exception
     /// </summary>
     /// <value>The function code.</value>
     public byte FunctionCode =>
-        _slaveExceptionResponse != null ? _slaveExceptionResponse.FunctionCode : (byte)0;
+        _slaveExceptionResponse is not null ? _slaveExceptionResponse.FunctionCode : (byte)0;
 
     /// <summary>
     ///     Gets the slave exception code, or 0.
     /// </summary>
     /// <value>The slave exception code.</value>
     public byte SlaveExceptionCode =>
-        _slaveExceptionResponse != null ? _slaveExceptionResponse.SlaveExceptionCode : (byte)0;
+        _slaveExceptionResponse is not null ? _slaveExceptionResponse.SlaveExceptionCode : (byte)0;
 
     /// <summary>
     ///     Gets the slave address, or 0.
     /// </summary>
     /// <value>The slave address.</value>
     public byte SlaveAddress =>
-        _slaveExceptionResponse != null ? _slaveExceptionResponse.SlaveAddress : (byte)0;
+        _slaveExceptionResponse is not null ? _slaveExceptionResponse.SlaveAddress : (byte)0;
 }

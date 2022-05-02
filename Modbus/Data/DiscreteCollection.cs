@@ -72,7 +72,7 @@ public class DiscreteCollection : Collection<bool>, IModbusMessageDataCollection
     internal DiscreteCollection(List<bool> bits)
         : base(bits)
     {
-        Debug.Assert(bits != null, "Discrete bits is null.");
+        Debug.Assert(bits is not null, "Discrete bits is null.");
         _discretes = bits;
     }
 

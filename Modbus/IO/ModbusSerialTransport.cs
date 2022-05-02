@@ -12,7 +12,7 @@ public abstract class ModbusSerialTransport : ModbusTransport
     internal ModbusSerialTransport(IStreamResource streamResource)
         : base(streamResource)
     {
-        Debug.Assert(streamResource != null, "Argument streamResource cannot be null.");
+        Debug.Assert(streamResource is not null, "Argument streamResource cannot be null.");
     }
 
     /// <summary>

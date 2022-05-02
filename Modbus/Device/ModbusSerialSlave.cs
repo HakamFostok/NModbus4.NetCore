@@ -24,7 +24,7 @@ public class ModbusSerialSlave : ModbusSlave
         {
             ModbusSerialTransport? transport = Transport as ModbusSerialTransport;
 
-            if (transport == null)
+            if (transport is null)
             {
                 throw new ObjectDisposedException("SerialTransport");
             }

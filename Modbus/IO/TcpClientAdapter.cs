@@ -13,7 +13,7 @@ internal class TcpClientAdapter : IStreamResource
 
     public TcpClientAdapter(TcpClient tcpClient)
     {
-        Debug.Assert(tcpClient != null, "Argument tcpClient cannot be null.");
+        Debug.Assert(tcpClient is not null, "Argument tcpClient cannot be null.");
 
         _tcpClient = tcpClient;
     }

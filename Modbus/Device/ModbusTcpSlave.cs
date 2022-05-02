@@ -62,7 +62,7 @@ public class ModbusTcpSlave : ModbusSlave
     {
         get
         {
-            if (_server == null)
+            if (_server is null)
             {
                 throw new ObjectDisposedException("Server");
             }
@@ -116,18 +116,18 @@ public class ModbusTcpSlave : ModbusSlave
     /// <remarks>Dispose is thread-safe.</remarks>
     protected override void Dispose(bool disposing)
     {
-        if (!disposing || _server == null)
+        if (!disposing || _server is null)
             return;
 
         lock (_serverLock)
         {
-            if (_server != null)
+            if (_server is not null)
             {
                 _server.Stop();
                 _server = null;
 
 #if TIMER
-                if (_timer != null)
+                if (_timer is not null)
                 {
                     _timer.Dispose();
                     _timer = null;

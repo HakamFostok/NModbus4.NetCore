@@ -84,7 +84,7 @@ internal class ModbusMessageImpl
                 pdu.Add(ByteCount.Value);
             }
 
-            if (Data != null)
+            if (Data is not null)
             {
                 pdu.AddRange(Data.NetworkBytes);
             }

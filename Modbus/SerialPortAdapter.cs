@@ -14,7 +14,7 @@ public class SerialPortAdapter : IStreamResource
 
     public SerialPortAdapter(SerialPort serialPort)
     {
-        Debug.Assert(serialPort != null, "Argument serialPort cannot be null.");
+        Debug.Assert(serialPort is not null, "Argument serialPort cannot be null.");
 
         _serialPort = serialPort;
         _serialPort.NewLine = NewLine;
