@@ -11,6 +11,6 @@ internal static class DisposableUtility
         }
 
         item.Dispose();
-        item = default(T);
+        item = default;
     }
 }

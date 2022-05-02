@@ -15,7 +15,7 @@ public abstract class ModbusDataCollectionFixture<TData>
         Assert.NotEmpty(col);
         Assert.Single(col);
 
-        col.Add(default(TData));
+        col.Add(default);
         Assert.Equal(2, col.Count);
     }
 
@@ -27,7 +27,7 @@ public abstract class ModbusDataCollectionFixture<TData>
         Assert.Equal(source.Length + 1, col.Count);
         Assert.NotEmpty(col);
 
-        col.Add(default(TData));
+        col.Add(default);
         Assert.Equal(source.Length + 2, col.Count);
     }
 
@@ -42,7 +42,7 @@ public abstract class ModbusDataCollectionFixture<TData>
         Assert.Equal(expectedCount + 1, source.Count);
         Assert.Equal(expectedCount + 1, col.Count);
 
-        source.Insert(0, default(TData));
+        source.Insert(0, default);
         Assert.Equal(source, col);
     }
 
@@ -58,7 +58,7 @@ public abstract class ModbusDataCollectionFixture<TData>
         Assert.Equal(expectedCount, source.Count);
         Assert.Equal(expectedCount + 1, col.Count);
 
-        source.Insert(0, default(TData));
+        source.Insert(0, default);
         Assert.Equal(source, col);
     }
 
@@ -81,7 +81,7 @@ public abstract class ModbusDataCollectionFixture<TData>
         Assert.Throws<ArgumentOutOfRangeException>(() => col.RemoveAt(0));
 
         // Remove forst zero/false
-        Assert.Throws<ArgumentOutOfRangeException>(() => col.Remove(default(TData)));
+        Assert.Throws<ArgumentOutOfRangeException>(() => col.Remove(default));
     }
 
     [Fact]

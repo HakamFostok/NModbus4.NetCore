@@ -119,7 +119,7 @@ public class ModbusDataCollection<TData> : Collection<TData>
     /// <param name="data">The data.</param>
     private static IList<TData> AddDefault(IList<TData> data)
     {
-        data.Insert(0, default(TData));
+        data.Insert(0, default);
         return data;
     }
 }
