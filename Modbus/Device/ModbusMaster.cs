@@ -407,9 +407,6 @@ public abstract class ModbusMaster : ModbusDevice, IModbusMaster
         return response.Data.Take(request.NumberOfPoints).ToArray();
     }
 
-    private Task<ushort[]> PerformReadRegistersAsync(ReadHoldingInputRegistersRequest request) =>
-        Task.Factory.StartNew(() => PerformReadRegisters(request));
-
     private ushort[] PerformReadRegisters(ReadWriteMultipleRegistersRequest request)
     {
         ReadHoldingInputRegistersResponse response =
@@ -417,6 +414,9 @@ public abstract class ModbusMaster : ModbusDevice, IModbusMaster
 
         return response.Data.Take(request.ReadRequest.NumberOfPoints).ToArray();
     }
+
+    private Task<ushort[]> PerformReadRegistersAsync(ReadHoldingInputRegistersRequest request) =>
+        Task.Factory.StartNew(() => PerformReadRegisters(request));
 
     private Task<ushort[]> PerformReadRegistersAsync(ReadWriteMultipleRegistersRequest request) =>
         Task.Factory.StartNew(() => PerformReadRegisters(request));

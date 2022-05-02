@@ -13,7 +13,7 @@ public static class MessageUtility
     {
         if (size < 0)
         {
-            throw new ArgumentOutOfRangeException("Collection size cannot be less than 0.");
+            throw new ArgumentOutOfRangeException(nameof(size), "Collection size cannot be less than 0.");
         }
 
         T col = new();

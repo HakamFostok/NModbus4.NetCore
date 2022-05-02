@@ -32,11 +32,11 @@ internal class TcpClientAdapter : IStreamResource
         set => _tcpClient.GetStream().WriteTimeout = value;
     }
 
-    public void Write(byte[] buffer, int offset, int size) =>
-        _tcpClient.GetStream().Write(buffer, offset, size);
+    public void Write(byte[] buffer, int offset, int count) =>
+        _tcpClient.GetStream().Write(buffer, offset, count);
 
-    public int Read(byte[] buffer, int offset, int size) =>
-        _tcpClient.GetStream().Read(buffer, offset, size);
+    public int Read(byte[] buffer, int offset, int count) =>
+        _tcpClient.GetStream().Read(buffer, offset, count);
 
     public void DiscardInBuffer() =>
         _tcpClient.GetStream().Flush();
