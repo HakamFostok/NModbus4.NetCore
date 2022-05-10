@@ -15,8 +15,8 @@ public class ModbusAsciiTransportFixture
     public void BuildMessageFrame()
     {
         byte[] expected = { 58, 48, 50, 48, 49, 48, 48, 48, 48, 48, 48, 48, 49, 70, 67, 13, 10 };
-        ReadCoilsInputsRequest? request = new(Modbus.ReadCoils, 2, 0, 1);
-        byte[]? actual = new ModbusAsciiTransport(StreamResource)
+        ReadCoilsInputsRequest request = new(Modbus.ReadCoils, 2, 0, 1);
+        byte[] actual = new ModbusAsciiTransport(StreamResource)
             .BuildMessageFrame(request);
 
         Assert.Equal(expected, actual);
@@ -25,9 +25,9 @@ public class ModbusAsciiTransportFixture
     [Fact]
     public void ReadRequestResponse()
     {
-        Mock<IStreamResource>? mock = new(MockBehavior.Strict);
+        Mock<IStreamResource> mock = new(MockBehavior.Strict);
         IStreamResource stream = mock.Object;
-        ModbusAsciiTransport? transport = new(stream);
+        ModbusAsciiTransport transport = new(stream);
         int calls = 0;
         byte[] bytes = Encoding.ASCII.GetBytes(":110100130025B6\r\n");
 
@@ -45,9 +45,9 @@ public class ModbusAsciiTransportFixture
     [Fact]
     public void ReadRequestResponseNotEnoughBytes()
     {
-        Mock<IStreamResource>? mock = new(MockBehavior.Strict);
+        Mock<IStreamResource> mock = new(MockBehavior.Strict);
         IStreamResource stream = mock.Object;
-        ModbusAsciiTransport? transport = new(stream);
+        ModbusAsciiTransport transport = new(stream);
         int calls = 0;
         byte[] bytes = Encoding.ASCII.GetBytes(":10\r\n");
 
@@ -65,8 +65,8 @@ public class ModbusAsciiTransportFixture
     [Fact]
     public void ChecksumsMatchSucceed()
     {
-        ModbusAsciiTransport? transport = new(StreamResource);
-        ReadCoilsInputsRequest? message = new(Modbus.ReadCoils, 17, 19, 37);
+        ModbusAsciiTransport transport = new(StreamResource);
+        ReadCoilsInputsRequest message = new(Modbus.ReadCoils, 17, 19, 37);
         byte[] frame = { 17, Modbus.ReadCoils, 0, 19, 0, 37, 182 };
 
         Assert.True(transport.ChecksumsMatch(message, frame));
@@ -75,8 +75,8 @@ public class ModbusAsciiTransportFixture
     [Fact]
     public void ChecksumsMatchFail()
     {
-        ModbusAsciiTransport? transport = new(StreamResource);
-        ReadCoilsInputsRequest? message = new(Modbus.ReadCoils, 17, 19, 37);
+        ModbusAsciiTransport transport = new(StreamResource);
+        ReadCoilsInputsRequest message = new(Modbus.ReadCoils, 17, 19, 37);
         byte[] frame = { 17, Modbus.ReadCoils, 0, 19, 0, 37, 181 };
 
         Assert.False(transport.ChecksumsMatch(message, frame));

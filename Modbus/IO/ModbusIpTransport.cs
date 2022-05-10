@@ -23,7 +23,7 @@ internal class ModbusIpTransport : ModbusTransport
     internal static byte[] ReadRequestResponse(IStreamResource streamResource)
     {
         // read header
-        byte[]? mbapHeader = new byte[6];
+        byte[] mbapHeader = new byte[6];
         int numBytesRead = 0;
 
         while (numBytesRead != 6)
@@ -43,7 +43,7 @@ internal class ModbusIpTransport : ModbusTransport
         Debug.WriteLine($"{frameLength} bytes in PDU.");
 
         // read message
-        byte[]? messageFrame = new byte[frameLength];
+        byte[] messageFrame = new byte[frameLength];
         numBytesRead = 0;
 
         while (numBytesRead != frameLength)
@@ -59,7 +59,7 @@ internal class ModbusIpTransport : ModbusTransport
         }
 
         Debug.WriteLine($"PDU: {frameLength}");
-        byte[]? frame = mbapHeader.Concat(messageFrame).ToArray();
+        byte[] frame = mbapHeader.Concat(messageFrame).ToArray();
         Debug.WriteLine($"RX: {string.Join(", ", frame)}");
 
         return frame;
@@ -70,7 +70,7 @@ internal class ModbusIpTransport : ModbusTransport
         byte[] transactionId = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)message.TransactionId));
         byte[] length = BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)(message.ProtocolDataUnit.Length + 1)));
 
-        MemoryStream? stream = new(7);
+        MemoryStream stream = new(7);
         stream.Write(transactionId, 0, transactionId.Length);
         stream.WriteByte(0);
         stream.WriteByte(0);
@@ -109,7 +109,7 @@ internal class ModbusIpTransport : ModbusTransport
     {
         byte[] header = GetMbapHeader(message);
         byte[] pdu = message.ProtocolDataUnit;
-        MemoryStream? messageBody = new(header.Length + pdu.Length);
+        MemoryStream messageBody = new(header.Length + pdu.Length);
 
         messageBody.Write(header, 0, header.Length);
         messageBody.Write(pdu, 0, pdu.Length);

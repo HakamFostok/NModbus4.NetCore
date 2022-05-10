@@ -156,7 +156,7 @@ public class ModbusSlaveFixture
         // 0, false initialized data store
         DataStore? dataStore = DataStoreFactory.CreateDefaultDataStore();
 
-        WriteMultipleCoilsRequest? request = new(1, 0,
+        WriteMultipleCoilsRequest request = new(1, 0,
             new DiscreteCollection(Enumerable.Repeat(true, 8).ToArray()))
         { NumberOfPoints = 2 };
         ModbusSlave.WriteMultipleCoils(request, dataStore, dataStore.CoilDiscretes);

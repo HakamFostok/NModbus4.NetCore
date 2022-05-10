@@ -17,8 +17,8 @@ public class ModbusSerialTransportFixture
     [Fact]
     public void CreateResponse()
     {
-        ModbusAsciiTransport? transport = new(StreamResource);
-        ReadCoilsInputsResponse? expectedResponse = new(Modbus.ReadCoils, 2, 1, new DiscreteCollection(true, false, false, false, false, false, false, true));
+        ModbusAsciiTransport transport = new(StreamResource);
+        ReadCoilsInputsResponse expectedResponse = new(Modbus.ReadCoils, 2, 1, new DiscreteCollection(true, false, false, false, false, false, false, true));
         byte lrc = ModbusUtility.CalculateLrc(expectedResponse.MessageFrame);
         IModbusMessage? response = transport.CreateResponse<ReadCoilsInputsResponse>(new byte[] { 2, Modbus.ReadCoils, 1, 129, lrc });
 
@@ -29,8 +29,8 @@ public class ModbusSerialTransportFixture
     [Fact]
     public void CreateResponseErroneousLrc()
     {
-        ModbusAsciiTransport? transport = new(StreamResource) { CheckFrame = true };
-        byte[]? frame = new byte[] { 19, Modbus.ReadCoils, 0, 0, 0, 2, 115 };
+        ModbusAsciiTransport transport = new(StreamResource) { CheckFrame = true };
+        byte[] frame = new byte[] { 19, Modbus.ReadCoils, 0, 0, 0, 2, 115 };
 
         Assert.Throws<IOException>(
             () => transport.CreateResponse<ReadCoilsInputsResponse>(frame));
@@ -39,7 +39,7 @@ public class ModbusSerialTransportFixture
     [Fact]
     public void CreateResponseErroneousLrcDoNotCheckFrame()
     {
-        ModbusAsciiTransport? transport = new(StreamResource) { CheckFrame = false };
+        ModbusAsciiTransport transport = new(StreamResource) { CheckFrame = false };
 
         transport.CreateResponse<ReadCoilsInputsResponse>(new byte[] { 19, Modbus.ReadCoils, 0, 0, 0, 2, 115 });
     }
@@ -51,9 +51,9 @@ public class ModbusSerialTransportFixture
     [Fact]
     public void UnicastMessage_PurgeReceiveBuffer()
     {
-        Mock<IStreamResource>? mock = new(MockBehavior.Strict);
+        Mock<IStreamResource> mock = new(MockBehavior.Strict);
         IStreamResource serialResource = mock.Object;
-        ModbusRtuTransport? transport = new(serialResource);
+        ModbusRtuTransport transport = new(serialResource);
 
         mock.Setup(s => s.DiscardInBuffer());
         mock.Setup(s => s.Write(It.IsAny<byte[]>(), 0, 0));
@@ -68,7 +68,7 @@ public class ModbusSerialTransportFixture
         serialResource.Write(null, 0, 0);
 
         // normal response
-        ReadCoilsInputsResponse? response = new(Modbus.ReadCoils, 2, 1, new DiscreteCollection(true, false, true, false, false, false, false, false));
+        ReadCoilsInputsResponse response = new(Modbus.ReadCoils, 2, 1, new DiscreteCollection(true, false, true, false, false, false, false, false));
 
         // write request
         mock.Setup(s => s.Write(It.Is<byte[]>(x => x.Length == 8), 0, 8));
@@ -89,7 +89,7 @@ public class ModbusSerialTransportFixture
                 return 2;
             });
 
-        ReadCoilsInputsRequest? request = new(Modbus.ReadCoils, 2, 3, 4);
+        ReadCoilsInputsRequest request = new(Modbus.ReadCoils, 2, 3, 4);
         ReadCoilsInputsResponse? actualResponse = transport.UnicastMessage<ReadCoilsInputsResponse>(request);
 
         ModbusMessageFixture.AssertModbusMessagePropertiesAreEqual(response, actualResponse);

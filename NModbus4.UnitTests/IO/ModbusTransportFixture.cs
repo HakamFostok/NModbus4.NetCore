@@ -15,12 +15,12 @@ public class ModbusTransportFixture
     [Fact]
     public void Dispose_MultipleTimes_ShouldNotThrow()
     {
-        Mock<IStreamResource>? streamMock = new(MockBehavior.Strict);
+        Mock<IStreamResource> streamMock = new(MockBehavior.Strict);
         streamMock.Setup(s => s.Dispose());
 
-        Mock<ModbusTransport>? mock = new(streamMock.Object) { CallBase = true };
+        Mock<ModbusTransport> mock = new(streamMock.Object) { CallBase = true };
 
-        using ModbusTransport? transport = mock.Object;
+        using ModbusTransport transport = mock.Object;
         Assert.NotNull(transport.StreamResource);
         transport.Dispose();
         Assert.Null(transport.StreamResource);
@@ -31,12 +31,12 @@ public class ModbusTransportFixture
     {
         const int expectedReadTimeout = 42;
         const int expectedWriteTimeout = 33;
-        Mock<IStreamResource>? mock = new(MockBehavior.Strict);
+        Mock<IStreamResource> mock = new(MockBehavior.Strict);
 
         mock.SetupProperty(s => s.ReadTimeout, expectedReadTimeout);
         mock.SetupProperty(s => s.WriteTimeout, expectedWriteTimeout);
 
-        ModbusTransport? transport = new Mock<ModbusTransport>(MockBehavior.Strict, mock.Object) { CallBase = true }.Object;
+        ModbusTransport transport = new Mock<ModbusTransport>(MockBehavior.Strict, mock.Object) { CallBase = true }.Object;
 
         Assert.Equal(expectedReadTimeout, transport.ReadTimeout);
         Assert.Equal(expectedWriteTimeout, transport.WriteTimeout);
@@ -54,8 +54,8 @@ public class ModbusTransportFixture
     [Fact]
     public void WaitToRetryMilliseconds()
     {
-        Mock<ModbusTransport>? mock = new(MockBehavior.Strict) { CallBase = true };
-        ModbusTransport? transport = mock.Object;
+        Mock<ModbusTransport> mock = new(MockBehavior.Strict) { CallBase = true };
+        ModbusTransport transport = mock.Object;
 
         Assert.Equal(Modbus.DefaultWaitToRetryMilliseconds, transport.WaitToRetryMilliseconds);
 
@@ -69,18 +69,18 @@ public class ModbusTransportFixture
     [Fact]
     public void UnicastMessage()
     {
-        DiscreteCollection? data = new(true, false, true, false, false, false, false, false);
-        Mock<ModbusTransport>? mock = new() { CallBase = true };
-        ModbusTransport? transport = mock.Object;
+        DiscreteCollection data = new(true, false, true, false, false, false, false, false);
+        Mock<ModbusTransport> mock = new() { CallBase = true };
+        ModbusTransport transport = mock.Object;
 
         mock.Setup(t => t.Write(It.IsNotNull<IModbusMessage>()));
         mock.Setup(t => t.ReadResponse<ReadCoilsInputsResponse>())
             .Returns(new ReadCoilsInputsResponse(Modbus.ReadCoils, 2, 1, data));
         mock.Setup(t => t.OnValidateResponse(It.IsNotNull<IModbusMessage>(), It.IsNotNull<IModbusMessage>()));
 
-        ReadCoilsInputsRequest? request = new(Modbus.ReadCoils, 2, 3, 4);
-        ReadCoilsInputsResponse? expectedResponse = new(Modbus.ReadCoils, 2, 1, data);
-        ReadCoilsInputsResponse? response = transport.UnicastMessage<ReadCoilsInputsResponse>(request);
+        ReadCoilsInputsRequest request = new(Modbus.ReadCoils, 2, 3, 4);
+        ReadCoilsInputsResponse expectedResponse = new(Modbus.ReadCoils, 2, 1, data);
+        ReadCoilsInputsResponse response = transport.UnicastMessage<ReadCoilsInputsResponse>(request);
 
         Assert.Equal(expectedResponse.MessageFrame, response.MessageFrame);
         mock.VerifyAll();
@@ -89,9 +89,9 @@ public class ModbusTransportFixture
     [Fact]
     public void UnicastMessage_WrongResponseFunctionCode()
     {
-        ReadCoilsInputsRequest? request = new(Modbus.ReadInputs, 2, 3, 4);
-        Mock<ModbusTransport>? mock = new() { CallBase = true };
-        ModbusTransport? transport = mock.Object;
+        ReadCoilsInputsRequest request = new(Modbus.ReadInputs, 2, 3, 4);
+        Mock<ModbusTransport> mock = new() { CallBase = true };
+        ModbusTransport transport = mock.Object;
         int writeCallsCount = 0;
         int readResponseCallsCount = 0;
 
@@ -111,9 +111,9 @@ public class ModbusTransportFixture
     [Fact]
     public void UnicastMessage_ErrorSlaveException()
     {
-        Mock<ModbusTransport>? mock = new() { CallBase = true };
-        ReadCoilsInputsRequest? request = new(Modbus.ReadInputs, 2, 3, 4);
-        ModbusTransport? transport = mock.Object;
+        Mock<ModbusTransport> mock = new() { CallBase = true };
+        ReadCoilsInputsRequest request = new(Modbus.ReadInputs, 2, 3, 4);
+        ModbusTransport transport = mock.Object;
 
         mock.Setup(t => t.Write(It.IsNotNull<IModbusMessage>()));
         mock.Setup(t => t.ReadResponse<ReadCoilsInputsResponse>()).Throws<SlaveException>();
@@ -129,8 +129,8 @@ public class ModbusTransportFixture
     [Fact]
     public void UnicastMessage_AcknowlegeSlaveException()
     {
-        Mock<ModbusTransport>? mock = new() { CallBase = true };
-        ModbusTransport? transport = mock.Object;
+        Mock<ModbusTransport> mock = new() { CallBase = true };
+        ModbusTransport transport = mock.Object;
         int callsCount = 0;
 
         // set the wait to retry property to a small value so the test completes quickly
@@ -153,9 +153,9 @@ public class ModbusTransportFixture
 
         mock.Setup(t => t.OnValidateResponse(It.IsNotNull<IModbusMessage>(), It.IsNotNull<IModbusMessage>()));
 
-        ReadHoldingInputRegistersRequest? request = new(Modbus.ReadHoldingRegisters, 1, 1, 1);
-        ReadHoldingInputRegistersResponse? expectedResponse = new(Modbus.ReadHoldingRegisters, 1, new RegisterCollection(1));
-        ReadHoldingInputRegistersResponse? response = transport.UnicastMessage<ReadHoldingInputRegistersResponse>(request);
+        ReadHoldingInputRegistersRequest request = new(Modbus.ReadHoldingRegisters, 1, 1, 1);
+        ReadHoldingInputRegistersResponse expectedResponse = new(Modbus.ReadHoldingRegisters, 1, new RegisterCollection(1));
+        ReadHoldingInputRegistersResponse response = transport.UnicastMessage<ReadHoldingInputRegistersResponse>(request);
 
         Assert.Equal(transport.Retries + 1, callsCount);
         Assert.Equal(expectedResponse.MessageFrame, response.MessageFrame);
@@ -168,8 +168,8 @@ public class ModbusTransportFixture
     [Fact]
     public void UnicastMessage_SlaveDeviceBusySlaveException()
     {
-        Mock<ModbusTransport>? mock = new() { CallBase = true };
-        ModbusTransport? transport = mock.Object;
+        Mock<ModbusTransport> mock = new() { CallBase = true };
+        ModbusTransport transport = mock.Object;
         int writeCallsCount = 0;
         int readResponseCallsCount = 0;
 
@@ -196,9 +196,9 @@ public class ModbusTransportFixture
 
         mock.Setup(t => t.OnValidateResponse(It.IsNotNull<IModbusMessage>(), It.IsNotNull<IModbusMessage>()));
 
-        ReadHoldingInputRegistersRequest? request = new(Modbus.ReadHoldingRegisters, 1, 1, 1);
-        ReadHoldingInputRegistersResponse? expectedResponse = new(Modbus.ReadHoldingRegisters, 1, new RegisterCollection(1));
-        ReadHoldingInputRegistersResponse? response = transport.UnicastMessage<ReadHoldingInputRegistersResponse>(request);
+        ReadHoldingInputRegistersRequest request = new(Modbus.ReadHoldingRegisters, 1, 1, 1);
+        ReadHoldingInputRegistersResponse expectedResponse = new(Modbus.ReadHoldingRegisters, 1, new RegisterCollection(1));
+        ReadHoldingInputRegistersResponse response = transport.UnicastMessage<ReadHoldingInputRegistersResponse>(request);
 
         Assert.Equal(2, writeCallsCount);
         Assert.Equal(2, readResponseCallsCount);
@@ -213,8 +213,8 @@ public class ModbusTransportFixture
     [Fact]
     public void UnicastMessage_SlaveDeviceBusySlaveExceptionDoesNotFailAfterExceedingRetries()
     {
-        Mock<ModbusTransport>? mock = new() { CallBase = true };
-        ModbusTransport? transport = mock.Object;
+        Mock<ModbusTransport> mock = new() { CallBase = true };
+        ModbusTransport transport = mock.Object;
         int writeCallsCount = 0;
         int readResponseCallsCount = 0;
 
@@ -239,9 +239,9 @@ public class ModbusTransportFixture
 
         mock.Setup(t => t.OnValidateResponse(It.IsNotNull<IModbusMessage>(), It.IsNotNull<IModbusMessage>()));
 
-        ReadHoldingInputRegistersRequest? request = new(Modbus.ReadHoldingRegisters, 1, 1, 1);
-        ReadHoldingInputRegistersResponse? expectedResponse = new(Modbus.ReadHoldingRegisters, 1, new RegisterCollection(1));
-        ReadHoldingInputRegistersResponse? response = transport.UnicastMessage<ReadHoldingInputRegistersResponse>(request);
+        ReadHoldingInputRegistersRequest request = new(Modbus.ReadHoldingRegisters, 1, 1, 1);
+        ReadHoldingInputRegistersResponse expectedResponse = new(Modbus.ReadHoldingRegisters, 1, new RegisterCollection(1));
+        ReadHoldingInputRegistersResponse response = transport.UnicastMessage<ReadHoldingInputRegistersResponse>(request);
 
         Assert.Equal(transport.Retries + 1, writeCallsCount);
         Assert.Equal(transport.Retries + 1, readResponseCallsCount);
@@ -289,8 +289,8 @@ public class ModbusTransportFixture
     [InlineData(typeof(FormatException))]
     public void UnicastMessage_TooManyFailingExceptions(Type exceptionType)
     {
-        Mock<ModbusTransport>? mock = new() { CallBase = true };
-        ModbusTransport? transport = mock.Object;
+        Mock<ModbusTransport> mock = new() { CallBase = true };
+        ModbusTransport transport = mock.Object;
         int writeCallsCount = 0;
         int readResponseCallsCount = 0;
 
@@ -301,7 +301,7 @@ public class ModbusTransportFixture
             .Callback(() => ++readResponseCallsCount)
             .Throws((Exception)Activator.CreateInstance(exceptionType));
 
-        ReadCoilsInputsRequest? request = new(Modbus.ReadCoils, 2, 3, 4);
+        ReadCoilsInputsRequest request = new(Modbus.ReadCoils, 2, 3, 4);
 
         Assert.Throws(exceptionType, () => transport.UnicastMessage<ReadCoilsInputsResponse>(request));
         Assert.Equal(transport.Retries + 1, writeCallsCount);
@@ -312,8 +312,8 @@ public class ModbusTransportFixture
     [Fact]
     public void UnicastMessage_TimeoutException()
     {
-        Mock<ModbusTransport>? mock = new() { CallBase = true };
-        ModbusTransport? transport = mock.Object;
+        Mock<ModbusTransport> mock = new() { CallBase = true };
+        ModbusTransport transport = mock.Object;
         int writeCallsCount = 0;
         int readResponseCallsCount = 0;
 
@@ -324,7 +324,7 @@ public class ModbusTransportFixture
             .Callback(() => ++readResponseCallsCount)
             .Throws<TimeoutException>();
 
-        ReadCoilsInputsRequest? request = new(Modbus.ReadInputs, 2, 3, 4);
+        ReadCoilsInputsRequest request = new(Modbus.ReadInputs, 2, 3, 4);
         Assert.Throws<TimeoutException>(() => transport.UnicastMessage<ReadCoilsInputsResponse>(request));
         Assert.Equal(Modbus.DefaultRetries + 1, writeCallsCount);
         Assert.Equal(Modbus.DefaultRetries + 1, readResponseCallsCount);
@@ -334,8 +334,8 @@ public class ModbusTransportFixture
     [Fact]
     public void UnicastMessage_Retries()
     {
-        Mock<ModbusTransport>? mock = new() { CallBase = true };
-        ModbusTransport? transport = mock.Object;
+        Mock<ModbusTransport> mock = new() { CallBase = true };
+        ModbusTransport transport = mock.Object;
         int writeCallsCount = 0;
         int readResponseCallsCount = 0;
 
@@ -347,7 +347,7 @@ public class ModbusTransportFixture
             .Callback(() => ++readResponseCallsCount)
             .Throws<TimeoutException>();
 
-        ReadCoilsInputsRequest? request = new(Modbus.ReadInputs, 2, 3, 4);
+        ReadCoilsInputsRequest request = new(Modbus.ReadInputs, 2, 3, 4);
 
         Assert.Throws<TimeoutException>(() => transport.UnicastMessage<ReadCoilsInputsResponse>(request));
         Assert.Equal(transport.Retries + 1, writeCallsCount);
@@ -358,9 +358,9 @@ public class ModbusTransportFixture
     [Fact]
     public void UnicastMessage_ReReads_IfShouldRetryReturnTrue()
     {
-        Mock<ModbusTransport>? mock = new() { CallBase = true };
-        ModbusTransport? transport = mock.Object;
-        ReadHoldingInputRegistersResponse? expectedResponse = new(Modbus.ReadHoldingRegisters, 1, new RegisterCollection(1));
+        Mock<ModbusTransport> mock = new() { CallBase = true };
+        ModbusTransport transport = mock.Object;
+        ReadHoldingInputRegistersResponse expectedResponse = new(Modbus.ReadHoldingRegisters, 1, new RegisterCollection(1));
         int readResponseCallsCount = 0;
         int onShouldRetryResponseCallsCount = 0;
         bool[] expectedReturn = { true, false };
@@ -379,8 +379,8 @@ public class ModbusTransportFixture
             .Returns(expectedResponse)
             .Callback(() => ++readResponseCallsCount);
 
-        ReadHoldingInputRegistersRequest? request = new(Modbus.ReadHoldingRegisters, 1, 1, 1);
-        ReadHoldingInputRegistersResponse? response = transport.UnicastMessage<ReadHoldingInputRegistersResponse>(request);
+        ReadHoldingInputRegistersRequest request = new(Modbus.ReadHoldingRegisters, 1, 1, 1);
+        ReadHoldingInputRegistersResponse response = transport.UnicastMessage<ReadHoldingInputRegistersResponse>(request);
 
         Assert.Equal(2, readResponseCallsCount);
         Assert.Equal(2, onShouldRetryResponseCallsCount);
@@ -391,20 +391,20 @@ public class ModbusTransportFixture
     [Fact]
     public void CreateResponse_SlaveException()
     {
-        Mock<ModbusTransport>? mock = new() { CallBase = true };
-        ModbusTransport? transport = mock.Object;
+        Mock<ModbusTransport> mock = new() { CallBase = true };
+        ModbusTransport transport = mock.Object;
 
         byte[] frame = { 2, 129, 2 };
         byte lrc = ModbusUtility.CalculateLrc(frame);
-        IModbusMessage? message = transport.CreateResponse<ReadCoilsInputsResponse>(Enumerable.Concat(frame, new byte[] { lrc }).ToArray());
+        IModbusMessage message = transport.CreateResponse<ReadCoilsInputsResponse>(Enumerable.Concat(frame, new byte[] { lrc }).ToArray());
         Assert.IsType<SlaveExceptionResponse>(message);
     }
 
     [Fact]
     public void ShouldRetryResponse_ReturnsFalse_IfDifferentMessage()
     {
-        Mock<ModbusTransport>? mock = new(MockBehavior.Strict) { CallBase = true };
-        ModbusTransport? transport = mock.Object;
+        Mock<ModbusTransport> mock = new(MockBehavior.Strict) { CallBase = true };
+        ModbusTransport transport = mock.Object;
 
         IModbusMessage request = new ReadCoilsInputsRequest(Modbus.ReadCoils, 2, 1, 1);
         IModbusMessage response = new ReadCoilsInputsResponse(Modbus.ReadCoils, 1, 1, null);
@@ -415,8 +415,8 @@ public class ModbusTransportFixture
     [Fact]
     public void ValidateResponse_MismatchingFunctionCodes()
     {
-        Mock<ModbusTransport>? mock = new(MockBehavior.Strict) { CallBase = true };
-        ModbusTransport? transport = mock.Object;
+        Mock<ModbusTransport> mock = new(MockBehavior.Strict) { CallBase = true };
+        ModbusTransport transport = mock.Object;
 
         IModbusMessage request = new ReadCoilsInputsRequest(Modbus.ReadCoils, 1, 1, 1);
         IModbusMessage response = new ReadHoldingInputRegistersResponse(Modbus.ReadHoldingRegisters, 1, new RegisterCollection());
@@ -427,8 +427,8 @@ public class ModbusTransportFixture
     [Fact]
     public void ValidateResponse_MismatchingSlaveAddress()
     {
-        Mock<ModbusTransport>? mock = new(MockBehavior.Strict) { CallBase = true };
-        ModbusTransport? transport = mock.Object;
+        Mock<ModbusTransport> mock = new(MockBehavior.Strict) { CallBase = true };
+        ModbusTransport transport = mock.Object;
 
         IModbusMessage request = new ReadCoilsInputsRequest(Modbus.ReadCoils, 42, 1, 1);
         IModbusMessage response = new ReadHoldingInputRegistersResponse(Modbus.ReadCoils, 33, new RegisterCollection());
@@ -439,8 +439,8 @@ public class ModbusTransportFixture
     [Fact]
     public void ValidateResponse_CallsOnValidateResponse()
     {
-        Mock<ModbusTransport>? mock = new(MockBehavior.Strict) { CallBase = true };
-        ModbusTransport? transport = mock.Object;
+        Mock<ModbusTransport> mock = new(MockBehavior.Strict) { CallBase = true };
+        ModbusTransport transport = mock.Object;
 
         mock.Setup(t => t.OnValidateResponse(It.IsNotNull<IModbusMessage>(), It.IsNotNull<IModbusMessage>()));
 

@@ -30,7 +30,7 @@ public class WriteMultipleCoilsResponseFixture
     [Fact]
     public void ToString_Test()
     {
-        WriteMultipleCoilsResponse? response = new(1, 2, 3);
+        WriteMultipleCoilsResponse response = new(1, 2, 3);
 
         Assert.Equal("Wrote 3 coils starting at address 2.", response.ToString());
     }

@@ -14,8 +14,8 @@ public class NModbusSerialRtuSlaveFixture
         SerialPort masterPort = ModbusMasterFixture.CreateAndOpenSerialPort(ModbusMasterFixture.DefaultMasterSerialPortName);
         SerialPort slavePort = ModbusMasterFixture.CreateAndOpenSerialPort(ModbusMasterFixture.DefaultSlaveSerialPortName);
 
-        using ModbusSerialMaster? master = ModbusSerialMaster.CreateRtu(masterPort);
-        using ModbusSerialSlave? slave = ModbusSerialSlave.CreateRtu(1, slavePort);
+        using ModbusSerialMaster master = ModbusSerialMaster.CreateRtu(masterPort);
+        using ModbusSerialSlave slave = ModbusSerialSlave.CreateRtu(1, slavePort);
         master.Transport.ReadTimeout = master.Transport.WriteTimeout = 1000;
         slave.DataStore = DataStoreFactory.CreateTestDataStore();
 

@@ -27,7 +27,7 @@ public static class EnronModbus
         ValidateNumberOfPoints(numberOfPoints, 62);
 
         // read 16 bit chunks and perform conversion
-        ushort[]? rawRegisters = master.ReadHoldingRegisters(
+        ushort[] rawRegisters = master.ReadHoldingRegisters(
             slaveAddress,
             startAddress,
             (ushort)(numberOfPoints * 2));
@@ -53,7 +53,7 @@ public static class EnronModbus
 
         ValidateNumberOfPoints(numberOfPoints, 62);
 
-        ushort[]? rawRegisters = master.ReadInputRegisters(
+        ushort[] rawRegisters = master.ReadInputRegisters(
             slaveAddress,
             startAddress,
             (ushort)(numberOfPoints * 2));

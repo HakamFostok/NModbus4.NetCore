@@ -39,7 +39,7 @@ public class DataStoreEventArgs : EventArgs
 
         if (typeof(T) == typeof(bool))
         {
-            ReadOnlyCollection<bool>? a = new(data.Cast<bool>().ToArray());
+            ReadOnlyCollection<bool> a = new(data.Cast<bool>().ToArray());
 
             eventArgs = new DataStoreEventArgs(startAddress, modbusDataType)
             {
@@ -48,7 +48,7 @@ public class DataStoreEventArgs : EventArgs
         }
         else if (typeof(T) == typeof(ushort))
         {
-            ReadOnlyCollection<ushort>? b = new(data.Cast<ushort>().ToArray());
+            ReadOnlyCollection<ushort> b = new(data.Cast<ushort>().ToArray());
 
             eventArgs = new DataStoreEventArgs(startAddress, modbusDataType)
             {

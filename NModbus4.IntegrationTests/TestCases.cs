@@ -12,8 +12,8 @@ internal class TestCases
 {
     public static void Serial()
     {
-        using SerialPort? masterPort = new("COM2");
-        using SerialPort? slavePort = new("COM1");
+        using SerialPort masterPort = new("COM2");
+        using SerialPort slavePort = new("COM1");
         // configure serial ports
         masterPort.BaudRate = slavePort.BaudRate = 9600;
         masterPort.DataBits = slavePort.DataBits = 8;
@@ -22,45 +22,45 @@ internal class TestCases
         masterPort.Open();
         slavePort.Open();
 
-        using ModbusSerialSlave? slave = ModbusSerialSlave.CreateRtu(1, slavePort);
+        using ModbusSerialSlave slave = ModbusSerialSlave.CreateRtu(1, slavePort);
         StartSlave(slave);
 
         // create modbus master
-        using ModbusSerialMaster? master = ModbusSerialMaster.CreateRtu(masterPort);
+        using ModbusSerialMaster master = ModbusSerialMaster.CreateRtu(masterPort);
         ReadRegisters(master);
     }
 
     public static void Tcp()
     {
-        TcpListener? slaveClient = new(new IPAddress(new byte[] { 127, 0, 0, 1 }), 502);
-        using ModbusTcpSlave? slave = ModbusTcpSlave.CreateTcp((byte)1, slaveClient);
+        TcpListener slaveClient = new(new IPAddress(new byte[] { 127, 0, 0, 1 }), 502);
+        using ModbusTcpSlave slave = ModbusTcpSlave.CreateTcp((byte)1, slaveClient);
         StartSlave(slave);
 
         IPAddress address = new(new byte[] { 127, 0, 0, 1 });
-        TcpClient? masterClient = new(address.ToString(), 502);
+        TcpClient masterClient = new(address.ToString(), 502);
 
-        using ModbusIpMaster? master = ModbusIpMaster.CreateIp(masterClient);
+        using ModbusIpMaster master = ModbusIpMaster.CreateIp(masterClient);
         ReadRegisters(master);
     }
 
     public static void Udp()
     {
-        UdpClient? slaveClient = new(502);
-        using ModbusUdpSlave? slave = ModbusUdpSlave.CreateUdp(slaveClient);
+        UdpClient slaveClient = new(502);
+        using ModbusUdpSlave slave = ModbusUdpSlave.CreateUdp(slaveClient);
         StartSlave(slave);
 
-        UdpClient? masterClient = new();
+        UdpClient masterClient = new();
         IPEndPoint endPoint = new(new IPAddress(new byte[] { 127, 0, 0, 1 }), 502);
         masterClient.Connect(endPoint);
 
-        using ModbusIpMaster? master = ModbusIpMaster.CreateIp(masterClient);
+        using ModbusIpMaster master = ModbusIpMaster.CreateIp(masterClient);
         ReadRegisters(master);
     }
 
     public static void StartSlave(ModbusSlave slave)
     {
         slave.DataStore = DataStoreFactory.CreateTestDataStore();
-        Thread? slaveThread = new(async () => await slave.ListenAsync());
+        Thread slaveThread = new(async () => await slave.ListenAsync());
         slaveThread.Start();
     }
 

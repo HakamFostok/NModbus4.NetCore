@@ -11,7 +11,7 @@ public abstract class ModbusDataCollectionFixture<TData>
     [Fact]
     public void DefaultContstructor()
     {
-        ModbusDataCollection<TData>? col = new();
+        ModbusDataCollection<TData> col = new();
         Assert.NotEmpty(col);
         Assert.Single(col);
 
@@ -23,7 +23,7 @@ public abstract class ModbusDataCollectionFixture<TData>
     public void ContstructorWithParams()
     {
         TData[] source = GetArray();
-        ModbusDataCollection<TData>? col = new(source);
+        ModbusDataCollection<TData> col = new(source);
         Assert.Equal(source.Length + 1, col.Count);
         Assert.NotEmpty(col);
 
@@ -37,7 +37,7 @@ public abstract class ModbusDataCollectionFixture<TData>
         List<TData> source = GetList();
         int expectedCount = source.Count;
 
-        ModbusDataCollection<TData>? col = new(source);
+        ModbusDataCollection<TData> col = new(source);
 
         Assert.Equal(expectedCount + 1, source.Count);
         Assert.Equal(expectedCount + 1, col.Count);
@@ -50,10 +50,10 @@ public abstract class ModbusDataCollectionFixture<TData>
     public void ContstructorWithIList_FromReadOnlyList()
     {
         List<TData> source = GetList();
-        ReadOnlyCollection<TData>? readOnly = new(source);
+        ReadOnlyCollection<TData> readOnly = new(source);
         int expectedCount = source.Count;
 
-        ModbusDataCollection<TData>? col = new(readOnly);
+        ModbusDataCollection<TData> col = new(readOnly);
 
         Assert.Equal(expectedCount, source.Count);
         Assert.Equal(expectedCount + 1, col.Count);
@@ -66,7 +66,7 @@ public abstract class ModbusDataCollectionFixture<TData>
     public void SetZeroElementUsingItem()
     {
         TData[]? source = GetArray();
-        ModbusDataCollection<TData>? col = new(source);
+        ModbusDataCollection<TData> col = new(source);
         Assert.Throws<ArgumentOutOfRangeException>(() => col[0] = source[3]);
     }
 
@@ -74,7 +74,7 @@ public abstract class ModbusDataCollectionFixture<TData>
     public void ZeroElementUsingItem_Negative()
     {
         TData[]? source = GetArray();
-        ModbusDataCollection<TData>? col = new(source);
+        ModbusDataCollection<TData> col = new(source);
 
         Assert.Throws<ArgumentOutOfRangeException>(() => col[0] = source[3]);
         Assert.Throws<ArgumentOutOfRangeException>(() => col.Insert(0, source[3]));
@@ -87,7 +87,7 @@ public abstract class ModbusDataCollectionFixture<TData>
     [Fact]
     public void Clear()
     {
-        ModbusDataCollection<TData>? col = new(GetArray());
+        ModbusDataCollection<TData> col = new(GetArray());
         col.Clear();
 
         Assert.Single(col);
@@ -97,7 +97,7 @@ public abstract class ModbusDataCollectionFixture<TData>
     public void Remove()
     {
         List<TData> source = GetList();
-        ModbusDataCollection<TData>? col = new(source);
+        ModbusDataCollection<TData> col = new(source);
         int expectedCount = source.Count - 1;
 
         Assert.True(col.Remove(source[3]));

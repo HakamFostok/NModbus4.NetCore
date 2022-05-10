@@ -10,7 +10,7 @@ public class BoolModbusDataCollectionFixture : ModbusDataCollectionFixture<bool>
     public void Remove_FromReadOnly()
     {
         bool[] source = { false, false, false, true, false, false };
-        ModbusDataCollection<bool>? col = new(new ReadOnlyCollection<bool>(source));
+        ModbusDataCollection<bool> col = new(new ReadOnlyCollection<bool>(source));
         int expectedCount = source.Length;
 
         Assert.True(col.Remove(source[3]));

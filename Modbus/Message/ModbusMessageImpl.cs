@@ -42,7 +42,7 @@ internal class ModbusMessageImpl
         get
         {
             byte[]? pdu = ProtocolDataUnit;
-            MemoryStream? frame = new(1 + pdu.Length);
+            MemoryStream frame = new(1 + pdu.Length);
 
             frame.WriteByte(SlaveAddress);
             frame.Write(pdu, 0, pdu.Length);

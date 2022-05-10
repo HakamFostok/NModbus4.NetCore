@@ -6,8 +6,8 @@ internal static class StreamResourceUtility
 {
     internal static string ReadLine(IStreamResource stream)
     {
-        StringBuilder? result = new();
-        byte[]? singleByteBuffer = new byte[1];
+        StringBuilder result = new();
+        byte[] singleByteBuffer = new byte[1];
 
         do
         {

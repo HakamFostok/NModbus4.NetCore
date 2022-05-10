@@ -19,7 +19,7 @@ public class NModbusTcpSlaveFixture
     public void ModbusTcpSlave_ConnectionResetByPeer()
     {
         TcpListener slaveListener = new(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
-        using ModbusTcpSlave? slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener);
+        using ModbusTcpSlave slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener);
         Thread slaveThread = new(async () => await slave.ListenAsync());
         slaveThread.IsBackground = true;
         slaveThread.Start();
@@ -46,13 +46,13 @@ public class NModbusTcpSlaveFixture
     public void ModbusTcpSlave_ConnectionClosesGracefully()
     {
         TcpListener slaveListener = new(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
-        using ModbusTcpSlave? slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener);
+        using ModbusTcpSlave slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener);
         Thread slaveThread = new(async () => await slave.ListenAsync());
         slaveThread.IsBackground = true;
         slaveThread.Start();
 
-        TcpClient? masterClient = new(ModbusMasterFixture.TcpHost.ToString(), ModbusMasterFixture.Port);
-        using (ModbusIpMaster? master = ModbusIpMaster.CreateIp(masterClient))
+        TcpClient masterClient = new(ModbusMasterFixture.TcpHost.ToString(), ModbusMasterFixture.Port);
+        using (ModbusIpMaster master = ModbusIpMaster.CreateIp(masterClient))
         {
             master.Transport.Retries = 0;
 
@@ -75,13 +75,13 @@ public class NModbusTcpSlaveFixture
     public void ModbusTcpSlave_ConnectionSlowlyClosesGracefully()
     {
         TcpListener slaveListener = new(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
-        using ModbusTcpSlave? slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener);
+        using ModbusTcpSlave slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener);
         Thread slaveThread = new(async () => await slave.ListenAsync());
         slaveThread.IsBackground = true;
         slaveThread.Start();
 
-        TcpClient? masterClient = new(ModbusMasterFixture.TcpHost.ToString(), ModbusMasterFixture.Port);
-        using (ModbusIpMaster? master = ModbusIpMaster.CreateIp(masterClient))
+        TcpClient masterClient = new(ModbusMasterFixture.TcpHost.ToString(), ModbusMasterFixture.Port);
+        using (ModbusIpMaster master = ModbusIpMaster.CreateIp(masterClient))
         {
             master.Transport.Retries = 0;
 
@@ -102,14 +102,14 @@ public class NModbusTcpSlaveFixture
     [Fact]
     public void ModbusTcpSlave_MultiThreaded()
     {
-        TcpListener? slaveListener = new(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
-        using ModbusTcpSlave? slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener);
+        TcpListener slaveListener = new(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
+        using ModbusTcpSlave slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener);
         Thread slaveThread = new(async () => await slave.ListenAsync());
         slaveThread.IsBackground = true;
         slaveThread.Start();
 
-        Thread? workerThread1 = new(Read);
-        Thread? workerThread2 = new(Read);
+        Thread workerThread1 = new(Read);
+        Thread workerThread2 = new(Read);
         workerThread1.Start();
         workerThread2.Start();
 
@@ -119,11 +119,11 @@ public class NModbusTcpSlaveFixture
 
     private static void Read(object state)
     {
-        TcpClient? masterClient = new(ModbusMasterFixture.TcpHost.ToString(), ModbusMasterFixture.Port);
-        using ModbusIpMaster? master = ModbusIpMaster.CreateIp(masterClient);
+        TcpClient masterClient = new(ModbusMasterFixture.TcpHost.ToString(), ModbusMasterFixture.Port);
+        using ModbusIpMaster master = ModbusIpMaster.CreateIp(masterClient);
         master.Transport.Retries = 0;
 
-        Random? random = new();
+        Random random = new();
         for (int i = 0; i < 5; i++)
         {
             bool[] coils = master.ReadCoils(1, 1);

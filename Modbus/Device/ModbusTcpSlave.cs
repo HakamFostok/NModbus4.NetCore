@@ -100,7 +100,7 @@ public class ModbusTcpSlave : ModbusSlave
         while (true)
         {
             TcpClient client = await Server.AcceptTcpClientAsync().ConfigureAwait(false);
-            ModbusMasterTcpConnection? masterConnection = new(client, this);
+            ModbusMasterTcpConnection masterConnection = new(client, this);
             masterConnection.ModbusMasterTcpConnectionClosed += OnMasterConnectionClosedHandler;
             _masters.TryAdd(client.Client.RemoteEndPoint.ToString(), masterConnection);
         }
@@ -134,7 +134,7 @@ public class ModbusTcpSlave : ModbusSlave
                 }
 #endif
 
-                foreach (string? key in _masters.Keys)
+                foreach (string key in _masters.Keys)
                 {
                     if (_masters.TryRemove(key, out ModbusMasterTcpConnection connection))
                     {

@@ -48,11 +48,11 @@ public class DiscreteCollectionFixture
     {
         DiscreteCollection col = new(1, 2, 3);
         Assert.Equal(24, col.Count);
-        bool[]? expected = new bool[]
+        bool[] expected = new bool[]
         {
-                true, false, false, false, false, false, false, false,
-                false, true, false, false, false, false, false, false,
-                true, true, false, false, false, false, false, false,
+            true, false, false, false, false, false, false, false,
+            false, true, false, false, false, false, false, false,
+            true, true, false, false, false, false, false, false,
         };
 
         Assert.Equal(expected, col);
