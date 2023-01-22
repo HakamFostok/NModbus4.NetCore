@@ -9,7 +9,7 @@ public class ReadCoilsInputsResponse : AbstractModbusMessageWithData<DiscreteCol
     {
     }
 
-    public ReadCoilsInputsResponse(byte functionCode, byte slaveAddress, byte byteCount, DiscreteCollection data)
+    public ReadCoilsInputsResponse(byte functionCode, byte slaveAddress, byte byteCount, DiscreteCollection? data)
         : base(slaveAddress, functionCode)
     {
         ByteCount = byteCount;

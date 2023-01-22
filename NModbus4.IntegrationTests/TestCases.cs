@@ -8,7 +8,7 @@ using Modbus.Device;
 
 namespace Modbus.IntegrationTests;
 
-internal class TestCases
+internal static class TestCases
 {
     public static void Serial()
     {

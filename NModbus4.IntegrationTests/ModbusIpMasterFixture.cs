@@ -15,9 +15,11 @@ public class ModbusIpMasterFixture
         Thread slaveThread = new(async () => await slave.ListenAsync());
         slaveThread.Start();
 
-        TcpClient client = new(ModbusMasterFixture.TcpHost.ToString(), ModbusMasterFixture.Port);
-        client.ReceiveTimeout = 1500;
-        client.SendTimeout = 3000;
+        TcpClient client = new(ModbusMasterFixture.TcpHost.ToString(), ModbusMasterFixture.Port)
+        {
+            ReceiveTimeout = 1500,
+            SendTimeout = 3000
+        };
         using ModbusIpMaster master = ModbusIpMaster.CreateIp(client);
         Assert.Equal(1500, client.GetStream().ReadTimeout);
         Assert.Equal(3000, client.GetStream().WriteTimeout);

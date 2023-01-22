@@ -111,7 +111,7 @@ public static class ModbusUtility
     /// </summary>
     /// <param name="networkBytes">The network order byte array.</param>
     /// <returns>The host order ushort array.</returns>
-    public static ushort[] NetworkBytesToHostUInt16(byte[] networkBytes)
+    public static ushort[] NetworkBytesToHostUInt16(byte[]? networkBytes)
     {
         ArgumentNullException.ThrowIfNull(networkBytes);
 
@@ -159,7 +159,7 @@ public static class ModbusUtility
     /// </summary>
     /// <param name="data">The data used in LRC.</param>
     /// <returns>LRC value.</returns>
-    public static byte CalculateLrc(byte[] data)
+    public static byte CalculateLrc(byte[]? data)
     {
         ArgumentNullException.ThrowIfNull(data);
 
@@ -180,7 +180,7 @@ public static class ModbusUtility
     /// </summary>
     /// <param name="data">The data used in CRC.</param>
     /// <returns>CRC value.</returns>
-    public static byte[] CalculateCrc(byte[] data)
+    public static byte[] CalculateCrc(byte[]? data)
     {
         ArgumentNullException.ThrowIfNull(data);
 

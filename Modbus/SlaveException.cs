@@ -1,11 +1,12 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Modbus.Message;
+﻿using Modbus.Message;
 
 namespace Modbus;
 
 /// <summary>
-///     Represents slave errors that occur during communication.
+/// Represents slave errors that occur during communication.
 /// </summary>
+/// <seealso cref="Exception" />
+[Serializable]
 public class SlaveException : Exception
 {
     private const string SlaveAddressPropertyName = "SlaveAdress";
@@ -45,7 +46,6 @@ public class SlaveException : Exception
         _slaveExceptionResponse = slaveExceptionResponse;
     }
 
-    [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Used by test code.")]
     internal SlaveException(string message, SlaveExceptionResponse slaveExceptionResponse)
         : base(message)
     {
@@ -88,4 +88,8 @@ public class SlaveException : Exception
     /// <value>The slave address.</value>
     public byte SlaveAddress =>
         _slaveExceptionResponse is not null ? _slaveExceptionResponse.SlaveAddress : (byte)0;
+
+    protected SlaveException(
+        System.Runtime.Serialization.SerializationInfo serializationInfo,
+        System.Runtime.Serialization.StreamingContext streamingContext) : base(serializationInfo, streamingContext) { }
 }

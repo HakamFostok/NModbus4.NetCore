@@ -5,16 +5,16 @@ namespace Modbus.Message;
 public abstract class AbstractModbusMessageWithData<TData> : AbstractModbusMessage
     where TData : IModbusMessageDataCollection
 {
-    internal AbstractModbusMessageWithData()
+    private protected AbstractModbusMessageWithData()
     {
     }
 
-    internal AbstractModbusMessageWithData(byte slaveAddress, byte functionCode)
+    private protected AbstractModbusMessageWithData(byte slaveAddress, byte functionCode)
         : base(slaveAddress, functionCode)
     {
     }
 
-    public TData Data
+    public TData? Data
     {
         get => (TData)MessageImpl.Data;
         set => MessageImpl.Data = value;

@@ -49,8 +49,10 @@ public abstract class ModbusMasterFixture : IDisposable
 
     public static SerialPort CreateAndOpenSerialPort(string portName)
     {
-        SerialPort port = new(portName);
-        port.Parity = Parity.None;
+        SerialPort port = new(portName)
+        {
+            Parity = Parity.None
+        };
         port.Open();
 
         return port;

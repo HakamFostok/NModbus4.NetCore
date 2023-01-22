@@ -21,7 +21,6 @@ internal class DiagnosticsRequestResponse : AbstractModbusMessageWithData<Regist
 
     public override int MinimumFrameSize => 6;
 
-    [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "May implement addtional sub function codes in the future.")]
     public ushort SubFunctionCode
     {
         get => MessageImpl.SubFunctionCode.Value;

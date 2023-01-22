@@ -29,7 +29,7 @@ public class CollectionUtilityFixture
     public void SliceEnd()
     {
         byte[] test = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-        Assert.Equal(new byte[] { 9, 10 }, test.Slice(8, 2).ToArray());
+        Assert.Equal("\t\n"u8.ToArray(), test.Slice(8, 2).ToArray());
     }
 
     [Fact]

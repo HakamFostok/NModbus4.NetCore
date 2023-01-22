@@ -9,7 +9,7 @@ namespace Modbus.IO;
 /// </summary>
 public abstract class ModbusSerialTransport : ModbusTransport
 {
-    internal ModbusSerialTransport(IStreamResource streamResource)
+    private protected ModbusSerialTransport(IStreamResource streamResource)
         : base(streamResource)
     {
         Debug.Assert(streamResource is not null, "Argument streamResource cannot be null.");

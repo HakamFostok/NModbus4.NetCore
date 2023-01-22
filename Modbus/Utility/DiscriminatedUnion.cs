@@ -10,13 +10,11 @@ public enum DiscriminatedUnionOption
     /// <summary>
     ///     Option A.
     /// </summary>
-    [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "A")]
     A,
 
     /// <summary>
     ///     Option B.
     /// </summary>
-    [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "B")]
     B
 }
 
@@ -33,7 +31,6 @@ public class DiscriminatedUnion<TA, TB>
     /// <summary>
     ///     Gets the value of option A.
     /// </summary>
-    [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "A")]
     public TA A
     {
         get
@@ -51,7 +48,6 @@ public class DiscriminatedUnion<TA, TB>
     /// <summary>
     ///     Gets the value of option B.
     /// </summary>
-    [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "B")]
     public TB B
     {
         get
@@ -74,16 +70,12 @@ public class DiscriminatedUnion<TA, TB>
     /// <summary>
     ///     Factory method for creating DiscriminatedUnion with option A set.
     /// </summary>
-    [SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "Factory method.")]
-    [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "0#a")]
     public static DiscriminatedUnion<TA, TB> CreateA(TA a) =>
         new() { Option = DiscriminatedUnionOption.A, optionA = a };
 
     /// <summary>
     ///     Factory method for creating DiscriminatedUnion with option B set.
     /// </summary>
-    [SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "Factory method.")]
-    [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "0#b")]
     public static DiscriminatedUnion<TA, TB> CreateB(TB b) =>
         new() { Option = DiscriminatedUnionOption.B, optionB = b };
 

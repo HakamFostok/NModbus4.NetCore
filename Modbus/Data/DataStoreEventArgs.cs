@@ -28,7 +28,6 @@ public class DataStoreEventArgs : EventArgs
     /// <summary>
     ///     Data that was read or written.
     /// </summary>
-    [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
     public DiscriminatedUnion<ReadOnlyCollection<bool>, ReadOnlyCollection<ushort>> Data { get; private set; }
 
     internal static DataStoreEventArgs CreateDataStoreEventArgs<T>(ushort startAddress, ModbusDataType modbusDataType, IEnumerable<T> data)

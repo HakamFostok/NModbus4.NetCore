@@ -24,7 +24,6 @@ public class ModbusSerialMaster : ModbusMaster, IModbusSerialMaster
     /// <summary>
     ///     Gets the Modbus Transport.
     /// </summary>
-    [SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")]
     ModbusSerialTransport IModbusSerialMaster.Transport =>
         (ModbusSerialTransport)Transport;
 

@@ -1,12 +1,12 @@
 <Project>
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<!--<WarningsAsErrors>CS8600;CS8602;CS8603</WarningsAsErrors>-->
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.38.0.46746">
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.51.0.59060">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

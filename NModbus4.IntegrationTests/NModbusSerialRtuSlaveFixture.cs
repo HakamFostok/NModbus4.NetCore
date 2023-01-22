@@ -19,8 +19,10 @@ public class NModbusSerialRtuSlaveFixture
         master.Transport.ReadTimeout = master.Transport.WriteTimeout = 1000;
         slave.DataStore = DataStoreFactory.CreateTestDataStore();
 
-        Thread slaveThread = new(async () => await slave.ListenAsync());
-        slaveThread.IsBackground = true;
+        Thread slaveThread = new(async () => await slave.ListenAsync())
+        {
+            IsBackground = true
+        };
         slaveThread.Start();
 
         // assert successful communication

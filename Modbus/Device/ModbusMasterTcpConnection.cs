@@ -9,7 +9,7 @@ namespace Modbus.Device;
 /// <summary>
 /// Represents an incoming connection from a Modbus master. Contains the slave's logic to process the connection.
 /// </summary>
-internal class ModbusMasterTcpConnection : ModbusDevice, IDisposable
+internal class ModbusMasterTcpConnection : ModbusDevice
 {
     private readonly ModbusTcpSlave _slave;
     private readonly Task _requestHandlerTask;

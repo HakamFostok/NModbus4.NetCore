@@ -28,8 +28,10 @@ public class ModbusTcpTransportFixture
     [Fact]
     public void GetMbapHeader()
     {
-        WriteMultipleRegistersRequest message = new(3, 1, MessageUtility.CreateDefaultCollection<RegisterCollection, ushort>(0, 120));
-        message.TransactionId = 45;
+        WriteMultipleRegistersRequest message = new(3, 1, MessageUtility.CreateDefaultCollection<RegisterCollection, ushort>(0, 120))
+        {
+            TransactionId = 45
+        };
         Assert.Equal(new byte[] { 0, 45, 0, 0, 0, 247, 3 }, ModbusIpTransport.GetMbapHeader(message));
     }
 
@@ -172,10 +174,14 @@ public class ModbusTcpTransportFixture
     {
         ModbusIpTransport transport = new(StreamResourceMock);
 
-        ReadCoilsInputsRequest request = new(Modbus.ReadCoils, 1, 1, 1);
-        request.TransactionId = 5;
-        ReadCoilsInputsResponse response = new(Modbus.ReadCoils, 1, 1, null);
-        response.TransactionId = 6;
+        ReadCoilsInputsRequest request = new(Modbus.ReadCoils, 1, 1, 1)
+        {
+            TransactionId = 5
+        };
+        ReadCoilsInputsResponse response = new(Modbus.ReadCoils, 1, 1, null)
+        {
+            TransactionId = 6
+        };
 
         Assert.Throws<IOException>(() => transport.ValidateResponse(request, response));
     }
@@ -185,10 +191,14 @@ public class ModbusTcpTransportFixture
     {
         ModbusIpTransport transport = new(StreamResourceMock);
 
-        ReadCoilsInputsRequest request = new(Modbus.ReadCoils, 1, 1, 1);
-        request.TransactionId = 5;
-        ReadCoilsInputsResponse response = new(Modbus.ReadCoils, 1, 1, null);
-        response.TransactionId = 5;
+        ReadCoilsInputsRequest request = new(Modbus.ReadCoils, 1, 1, 1)
+        {
+            TransactionId = 5
+        };
+        ReadCoilsInputsResponse response = new(Modbus.ReadCoils, 1, 1, null)
+        {
+            TransactionId = 5
+        };
 
         // no exception is thrown
         transport.ValidateResponse(request, response);

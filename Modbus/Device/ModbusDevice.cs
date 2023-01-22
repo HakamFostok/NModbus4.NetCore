@@ -10,7 +10,7 @@ public abstract class ModbusDevice : IDisposable
 {
     private ModbusTransport _transport;
 
-    internal ModbusDevice(ModbusTransport transport)
+    private protected ModbusDevice(ModbusTransport transport)
     {
         _transport = transport;
     }

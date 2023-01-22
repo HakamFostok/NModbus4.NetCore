@@ -20,7 +20,7 @@ public class ModbusTcpSlave : ModbusSlave
     private readonly ConcurrentDictionary<string, ModbusMasterTcpConnection> _masters =
         new();
 
-    private TcpListener _server;
+    private TcpListener? _server;
 #if TIMER
         private Timer _timer;
 #endif
@@ -165,7 +165,7 @@ public class ModbusTcpSlave : ModbusSlave
             }
         }
 #endif
-    private void OnMasterConnectionClosedHandler(object sender, TcpConnectionEventArgs e)
+    private void OnMasterConnectionClosedHandler(object? sender, TcpConnectionEventArgs e)
     {
         if (!_masters.TryRemove(e.EndPoint, out ModbusMasterTcpConnection _))
         {

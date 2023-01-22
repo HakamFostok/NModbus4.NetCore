@@ -11,7 +11,7 @@ namespace Modbus.Device;
 /// </summary>
 public abstract class ModbusSlave : ModbusDevice
 {
-    internal ModbusSlave(byte unitId, ModbusTransport transport)
+    private protected ModbusSlave(byte unitId, ModbusTransport transport)
         : base(transport)
     {
         DataStore = DataStoreFactory.CreateDefaultDataStore();
@@ -156,7 +156,6 @@ public abstract class ModbusSlave : ModbusDevice
         return response;
     }
 
-    [SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily", Justification = "Cast is not unneccessary.")]
     internal IModbusMessage ApplyRequest(IModbusMessage request)
     {
         IModbusMessage response;

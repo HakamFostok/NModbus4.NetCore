@@ -20,8 +20,10 @@ public class NModbusTcpSlaveFixture
     {
         TcpListener slaveListener = new(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
         using ModbusTcpSlave slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener);
-        Thread slaveThread = new(async () => await slave.ListenAsync());
-        slaveThread.IsBackground = true;
+        Thread slaveThread = new(async () => await slave.ListenAsync())
+        {
+            IsBackground = true
+        };
         slaveThread.Start();
 
         Thread.Sleep(500);
@@ -47,8 +49,10 @@ public class NModbusTcpSlaveFixture
     {
         TcpListener slaveListener = new(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
         using ModbusTcpSlave slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener);
-        Thread slaveThread = new(async () => await slave.ListenAsync());
-        slaveThread.IsBackground = true;
+        Thread slaveThread = new(async () => await slave.ListenAsync())
+        {
+            IsBackground = true
+        };
         slaveThread.Start();
 
         TcpClient masterClient = new(ModbusMasterFixture.TcpHost.ToString(), ModbusMasterFixture.Port);
@@ -76,8 +80,10 @@ public class NModbusTcpSlaveFixture
     {
         TcpListener slaveListener = new(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
         using ModbusTcpSlave slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener);
-        Thread slaveThread = new(async () => await slave.ListenAsync());
-        slaveThread.IsBackground = true;
+        Thread slaveThread = new(async () => await slave.ListenAsync())
+        {
+            IsBackground = true
+        };
         slaveThread.Start();
 
         TcpClient masterClient = new(ModbusMasterFixture.TcpHost.ToString(), ModbusMasterFixture.Port);
@@ -104,8 +110,10 @@ public class NModbusTcpSlaveFixture
     {
         TcpListener slaveListener = new(ModbusMasterFixture.TcpHost, ModbusMasterFixture.Port);
         using ModbusTcpSlave slave = ModbusTcpSlave.CreateTcp(ModbusMasterFixture.SlaveAddress, slaveListener);
-        Thread slaveThread = new(async () => await slave.ListenAsync());
-        slaveThread.IsBackground = true;
+        Thread slaveThread = new(async () => await slave.ListenAsync())
+        {
+            IsBackground = true
+        };
         slaveThread.Start();
 
         Thread workerThread1 = new(Read);

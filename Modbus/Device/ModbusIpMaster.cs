@@ -12,7 +12,6 @@ namespace Modbus.Device;
 /// <summary>
 ///    Modbus IP master device.
 /// </summary>
-[SuppressMessage("Microsoft.Naming", "CA1706:ShortAcronymsShouldBeUppercase", Justification = "Breaking change.")]
 public class ModbusIpMaster : ModbusMaster
 {
     /// <summary>
@@ -28,7 +27,6 @@ public class ModbusIpMaster : ModbusMaster
     ///    Modbus IP master factory method.
     /// </summary>
     /// <returns>New instance of Modbus IP master device using provided TCP client.</returns>
-    [SuppressMessage("Microsoft.Naming", "CA1706:ShortAcronymsShouldBeUppercase", Justification = "Breaking change.")]
     public static ModbusIpMaster CreateIp(TcpClient tcpClient)
     {
         ArgumentNullException.ThrowIfNull(tcpClient);
@@ -40,7 +38,6 @@ public class ModbusIpMaster : ModbusMaster
     ///    Modbus IP master factory method.
     /// </summary>
     /// <returns>New instance of Modbus IP master device using provided UDP client.</returns>
-    [SuppressMessage("Microsoft.Naming", "CA1706:ShortAcronymsShouldBeUppercase", Justification = "Breaking change.")]
     public static ModbusIpMaster CreateIp(UdpClient udpClient)
     {
         ArgumentNullException.ThrowIfNull(udpClient);
@@ -58,7 +55,6 @@ public class ModbusIpMaster : ModbusMaster
     ///     Modbus IP master factory method.
     /// </summary>
     /// <returns>New instance of Modbus IP master device using provided serial port.</returns>
-    [SuppressMessage("Microsoft.Naming", "CA1706:ShortAcronymsShouldBeUppercase", Justification = "Breaking change.")]
     public static ModbusIpMaster CreateIp(SerialPort serialPort)
     {
         ArgumentNullException.ThrowIfNull(serialPort);
@@ -71,7 +67,6 @@ public class ModbusIpMaster : ModbusMaster
     ///     Modbus IP master factory method.
     /// </summary>
     /// <returns>New instance of Modbus IP master device using provided stream resource.</returns>
-    [SuppressMessage("Microsoft.Naming", "CA1706:ShortAcronymsShouldBeUppercase", Justification = "Breaking change.")]
     public static ModbusIpMaster CreateIp(IStreamResource streamResource)
     {
         ArgumentNullException.ThrowIfNull(streamResource);

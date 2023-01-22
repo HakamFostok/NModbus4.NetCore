@@ -8,7 +8,7 @@ public abstract class AbstractModbusMessage
     /// <summary>
     ///     Abstract Modbus message.
     /// </summary>
-    internal AbstractModbusMessage()
+    private protected AbstractModbusMessage()
     {
         MessageImpl = new ModbusMessageImpl();
     }
@@ -16,7 +16,7 @@ public abstract class AbstractModbusMessage
     /// <summary>
     ///     Abstract Modbus message.
     /// </summary>
-    internal AbstractModbusMessage(byte slaveAddress, byte functionCode)
+    private protected AbstractModbusMessage(byte slaveAddress, byte functionCode)
     {
         MessageImpl = new ModbusMessageImpl(slaveAddress, functionCode);
     }

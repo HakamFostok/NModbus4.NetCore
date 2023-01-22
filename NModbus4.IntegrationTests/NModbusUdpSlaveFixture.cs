@@ -21,9 +21,10 @@ public class NModbusUdpSlaveFixture
         {
             handle.Set();
             await slave.ListenAsync();
-        });
-
-        backgroundThread.IsBackground = true;
+        })
+        {
+            IsBackground = true
+        };
         backgroundThread.Start();
 
         handle.WaitOne();

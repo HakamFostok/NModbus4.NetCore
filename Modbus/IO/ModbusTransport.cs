@@ -17,11 +17,11 @@ public abstract class ModbusTransport : IDisposable
     /// <summary>
     ///     This constructor is called by the NullTransport.
     /// </summary>
-    internal ModbusTransport()
+    private protected ModbusTransport()
     {
     }
 
-    internal ModbusTransport(IStreamResource streamResource)
+    private protected ModbusTransport(IStreamResource streamResource)
     {
         Debug.Assert(streamResource is not null, "Argument streamResource cannot be null.");
 
