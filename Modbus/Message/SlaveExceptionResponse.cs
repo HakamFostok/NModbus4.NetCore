@@ -47,17 +47,18 @@ public class SlaveExceptionResponse : AbstractModbusMessage, IModbusMessage
 
     internal static Dictionary<byte, string> CreateExceptionMessages()
     {
-        Dictionary<byte, string> messages = new(9);
-
-        messages.Add(1, Resources.IllegalFunction);
-        messages.Add(2, Resources.IllegalDataAddress);
-        messages.Add(3, Resources.IllegalDataValue);
-        messages.Add(4, Resources.SlaveDeviceFailure);
-        messages.Add(5, Resources.Acknowlege);
-        messages.Add(6, Resources.SlaveDeviceBusy);
-        messages.Add(8, Resources.MemoryParityError);
-        messages.Add(10, Resources.GatewayPathUnavailable);
-        messages.Add(11, Resources.GatewayTargetDeviceFailedToRespond);
+        Dictionary<byte, string> messages = new(9)
+        {
+            { 1, Resources.IllegalFunction },
+            { 2, Resources.IllegalDataAddress },
+            { 3, Resources.IllegalDataValue },
+            { 4, Resources.SlaveDeviceFailure },
+            { 5, Resources.Acknowlege },
+            { 6, Resources.SlaveDeviceBusy },
+            { 8, Resources.MemoryParityError },
+            { 10, Resources.GatewayPathUnavailable },
+            { 11, Resources.GatewayTargetDeviceFailedToRespond }
+        };
 
         return messages;
     }

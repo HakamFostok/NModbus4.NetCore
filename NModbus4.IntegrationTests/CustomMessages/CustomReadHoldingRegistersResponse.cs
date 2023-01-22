@@ -16,8 +16,10 @@ public class CustomReadHoldingRegistersResponse : IModbusMessage
     {
         get
         {
-            List<byte> frame = new();
-            frame.Add(SlaveAddress);
+            List<byte> frame = new()
+            {
+                SlaveAddress
+            };
             frame.AddRange(ProtocolDataUnit);
 
             return frame.ToArray();
@@ -28,10 +30,11 @@ public class CustomReadHoldingRegistersResponse : IModbusMessage
     {
         get
         {
-            List<byte> pdu = new();
-
-            pdu.Add(FunctionCode);
-            pdu.Add(ByteCount);
+            List<byte> pdu = new()
+            {
+                FunctionCode,
+                ByteCount
+            };
             pdu.AddRange(_data.NetworkBytes);
 
             return pdu.ToArray();

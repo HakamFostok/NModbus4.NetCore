@@ -53,8 +53,10 @@ public class RegisterCollectionFixture
     [Fact]
     public void ModifyRegister()
     {
-        RegisterCollection col = new(1, 2, 3, 4);
-        col[0] = 5;
+        RegisterCollection col = new(1, 2, 3, 4)
+        {
+            [0] = 5
+        };
     }
 
     [Fact]

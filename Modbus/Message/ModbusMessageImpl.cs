@@ -55,9 +55,10 @@ internal class ModbusMessageImpl
     {
         get
         {
-            List<byte> pdu = new();
-
-            pdu.Add(FunctionCode);
+            List<byte> pdu = new()
+            {
+                FunctionCode
+            };
 
             if (ExceptionCode.HasValue)
             {

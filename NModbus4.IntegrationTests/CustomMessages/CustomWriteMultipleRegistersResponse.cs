@@ -11,8 +11,10 @@ public class CustomWriteMultipleRegistersResponse : IModbusMessage
     {
         get
         {
-            List<byte> frame = new();
-            frame.Add(SlaveAddress);
+            List<byte> frame = new()
+            {
+                SlaveAddress
+            };
             frame.AddRange(ProtocolDataUnit);
 
             return frame.ToArray();
@@ -23,9 +25,10 @@ public class CustomWriteMultipleRegistersResponse : IModbusMessage
     {
         get
         {
-            List<byte> pdu = new();
-
-            pdu.Add(FunctionCode);
+            List<byte> pdu = new()
+            {
+                FunctionCode
+            };
             pdu.AddRange(BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)StartAddress)));
             pdu.AddRange(BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)NumberOfPoints)));
 
