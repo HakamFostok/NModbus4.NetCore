@@ -96,10 +96,10 @@ public abstract class ModbusTransport : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    internal virtual T UnicastMessage<T>(IModbusMessage message)
+    internal virtual T? UnicastMessage<T>(IModbusMessage message)
         where T : IModbusMessage, new()
     {
-        IModbusMessage response = null;
+        IModbusMessage? response = null;
         int attempt = 1;
         bool success = false;
 
@@ -181,7 +181,7 @@ public abstract class ModbusTransport : IDisposable
         }
         while (!success);
 
-        return (T)response;
+        return (T?)response;
     }
 
     internal virtual IModbusMessage CreateResponse<T>(byte[] frame)

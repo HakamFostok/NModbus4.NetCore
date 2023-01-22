@@ -389,7 +389,7 @@ public abstract class ModbusMaster : ModbusDevice, IModbusMaster
 
     private bool[] PerformReadDiscretes(ReadCoilsInputsRequest request)
     {
-        ReadCoilsInputsResponse response = Transport.UnicastMessage<ReadCoilsInputsResponse>(request);
+        ReadCoilsInputsResponse? response = Transport.UnicastMessage<ReadCoilsInputsResponse>(request);
         return response.Data.Take(request.NumberOfPoints).ToArray();
     }
 

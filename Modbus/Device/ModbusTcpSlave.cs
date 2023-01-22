@@ -136,7 +136,7 @@ public class ModbusTcpSlave : ModbusSlave
 
                 foreach (string key in _masters.Keys)
                 {
-                    if (_masters.TryRemove(key, out ModbusMasterTcpConnection connection))
+                    if (_masters.TryRemove(key, out ModbusMasterTcpConnection? connection))
                     {
                         connection.ModbusMasterTcpConnectionClosed -= OnMasterConnectionClosedHandler;
                         connection.Dispose();
