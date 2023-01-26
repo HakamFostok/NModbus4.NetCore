@@ -103,11 +103,11 @@ public class ModbusSerialSlave : ModbusSlave
                     }
 
                     // only service requests addressed to this particular slave
-                    if (request.SlaveAddress != UnitId)
-                    {
-                        Debug.WriteLine($"NModbus Slave {UnitId} ignoring request intended for NModbus Slave {request.SlaveAddress}");
-                        continue;
-                    }
+                    //if (request.SlaveAddress != UnitId)
+                    //{
+                    //    Debug.WriteLine($"NModbus Slave {UnitId} ignoring request intended for NModbus Slave {request.SlaveAddress}");
+                    //    continue;
+                    //}
 
                     // perform action
                     IModbusMessage response = ApplyRequest(request);

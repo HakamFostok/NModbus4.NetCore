@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Modbus.Data;
 using Modbus.IO;
@@ -16,7 +17,12 @@ public abstract class ModbusSlave : ModbusDevice
     {
         DataStore = DataStoreFactory.CreateDefaultDataStore();
         UnitId = unitId;
+
+        DataStores.TryAdd(unitId, DataStore);
     }
+
+    private static readonly ConcurrentDictionary<byte, DataStore> DataStores =
+        new ConcurrentDictionary<byte, DataStore>();
 
     /// <summary>
     ///     Raised when a Modbus slave receives a request, before processing request function.
@@ -33,7 +39,19 @@ public abstract class ModbusSlave : ModbusDevice
     /// <summary>
     ///     Gets or sets the data store.
     /// </summary>
-    public DataStore DataStore { get; set; }
+    public DataStore DataStore
+    {
+        get => DataStores.GetOrAdd(UnitId, sa => DataStoreFactory.CreateDefaultDataStore());
+        set => DataStores[UnitId] = value;
+    }
+
+    /// <summary>
+    /// Get the data store by slaveAddress
+    /// </summary>
+    /// <param name="slaveAddress"></param>
+    /// <returns></returns>
+
+    private DataStore GetDataStoreBySlaveAddress(byte slaveAddress) => DataStores.GetOrAdd(slaveAddress, sa => DataStoreFactory.CreateDefaultDataStore());
 
     /// <summary>
     ///     Gets or sets the unit ID.
@@ -159,41 +177,41 @@ public abstract class ModbusSlave : ModbusDevice
     internal IModbusMessage ApplyRequest(IModbusMessage request)
     {
         IModbusMessage response;
-
+        
         try
         {
             Debug.WriteLine(request.ToString());
             ModbusSlaveRequestEventArgs eventArgs = new(request);
             ModbusSlaveRequestReceived?.Invoke(this, eventArgs);
-
+            DataStore dataStore = GetDataStoreBySlaveAddress(request.SlaveAddress);
             switch (request.FunctionCode)
             {
                 case Modbus.ReadCoils:
                     response = ReadDiscretes(
                         (ReadCoilsInputsRequest)request,
-                        DataStore,
-                        DataStore.CoilDiscretes);
+                        dataStore,
+                        dataStore.CoilDiscretes);
                     break;
 
                 case Modbus.ReadInputs:
                     response = ReadDiscretes(
                         (ReadCoilsInputsRequest)request,
-                        DataStore,
-                        DataStore.InputDiscretes);
+                        dataStore,
+                        dataStore.InputDiscretes);
                     break;
 
                 case Modbus.ReadHoldingRegisters:
                     response = ReadRegisters(
                         (ReadHoldingInputRegistersRequest)request,
-                        DataStore,
-                        DataStore.HoldingRegisters);
+                        dataStore,
+                        dataStore.HoldingRegisters);
                     break;
 
                 case Modbus.ReadInputRegisters:
                     response = ReadRegisters(
                         (ReadHoldingInputRegistersRequest)request,
-                        DataStore,
-                        DataStore.InputRegisters);
+                        dataStore,
+                        dataStore.InputRegisters);
                     break;
 
                 case Modbus.Diagnostics:
@@ -203,32 +221,32 @@ public abstract class ModbusSlave : ModbusDevice
                 case Modbus.WriteSingleCoil:
                     response = WriteSingleCoil(
                         (WriteSingleCoilRequestResponse)request,
-                        DataStore,
-                        DataStore.CoilDiscretes);
+                        dataStore,
+                        dataStore.CoilDiscretes);
                     WriteComplete?.Invoke(this, eventArgs);
                     break;
 
                 case Modbus.WriteSingleRegister:
                     response = WriteSingleRegister(
                         (WriteSingleRegisterRequestResponse)request,
-                        DataStore,
-                        DataStore.HoldingRegisters);
+                        dataStore,
+                        dataStore.HoldingRegisters);
                     WriteComplete?.Invoke(this, eventArgs);
                     break;
 
                 case Modbus.WriteMultipleCoils:
                     response = WriteMultipleCoils(
                         (WriteMultipleCoilsRequest)request,
-                        DataStore,
-                        DataStore.CoilDiscretes);
+                        dataStore,
+                        dataStore.CoilDiscretes);
                     WriteComplete?.Invoke(this, eventArgs);
                     break;
 
                 case Modbus.WriteMultipleRegisters:
                     response = WriteMultipleRegisters(
                         (WriteMultipleRegistersRequest)request,
-                        DataStore,
-                        DataStore.HoldingRegisters);
+                        dataStore,
+                        dataStore.HoldingRegisters);
                     WriteComplete?.Invoke(this, eventArgs);
                     break;
 
@@ -236,13 +254,13 @@ public abstract class ModbusSlave : ModbusDevice
                     ReadWriteMultipleRegistersRequest readWriteRequest = (ReadWriteMultipleRegistersRequest)request;
                     WriteMultipleRegisters(
                         readWriteRequest.WriteRequest,
-                        DataStore,
-                        DataStore.HoldingRegisters);
+                        dataStore,
+                        dataStore.HoldingRegisters);
                     WriteComplete?.Invoke(this, eventArgs);
                     response = ReadRegisters(
                         readWriteRequest.ReadRequest,
-                        DataStore,
-                        DataStore.HoldingRegisters);
+                        dataStore,
+                        dataStore.HoldingRegisters);
                     break;
 
                 default:
