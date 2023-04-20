@@ -66,7 +66,8 @@ internal class ModbusRtuTransport : ModbusSerialTransport
                 Modbus.ReadCoils or
                 Modbus.ReadInputs or
                 Modbus.ReadHoldingRegisters or
-                Modbus.ReadInputRegisters
+                Modbus.ReadInputRegisters or
+                Modbus.ReadWriteMultipleRegisters
                     => frameStart[2] + 1,
 
                 Modbus.WriteSingleCoil or
