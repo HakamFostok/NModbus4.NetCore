@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Text;
+﻿using System.Text;
 using Modbus.IO;
 using Modbus.Message;
 using Moq;
@@ -14,7 +13,7 @@ public class ModbusAsciiTransportFixture
     [Fact]
     public void BuildMessageFrame()
     {
-        byte[] expected = { 58, 48, 50, 48, 49, 48, 48, 48, 48, 48, 48, 48, 49, 70, 67, 13, 10 };
+        byte[] expected = [58, 48, 50, 48, 49, 48, 48, 48, 48, 48, 48, 48, 49, 70, 67, 13, 10];
         ReadCoilsInputsRequest request = new(Modbus.ReadCoils, 2, 0, 1);
         byte[] actual = new ModbusAsciiTransport(StreamResource)
             .BuildMessageFrame(request);
@@ -67,7 +66,7 @@ public class ModbusAsciiTransportFixture
     {
         ModbusAsciiTransport transport = new(StreamResource);
         ReadCoilsInputsRequest message = new(Modbus.ReadCoils, 17, 19, 37);
-        byte[] frame = { 17, Modbus.ReadCoils, 0, 19, 0, 37, 182 };
+        byte[] frame = [17, Modbus.ReadCoils, 0, 19, 0, 37, 182];
 
         Assert.True(transport.ChecksumsMatch(message, frame));
     }
@@ -77,7 +76,7 @@ public class ModbusAsciiTransportFixture
     {
         ModbusAsciiTransport transport = new(StreamResource);
         ReadCoilsInputsRequest message = new(Modbus.ReadCoils, 17, 19, 37);
-        byte[] frame = { 17, Modbus.ReadCoils, 0, 19, 0, 37, 181 };
+        byte[] frame = [17, Modbus.ReadCoils, 0, 19, 0, 37, 181];
 
         Assert.False(transport.ChecksumsMatch(message, frame));
     }

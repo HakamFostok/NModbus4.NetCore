@@ -1,5 +1,4 @@
-﻿using System;
-using Modbus.Message;
+﻿using Modbus.Message;
 using Xunit;
 
 namespace Modbus.UnitTests.Message;
@@ -18,7 +17,7 @@ public class ModbusMessageImplFixture
     public void Initialize()
     {
         ModbusMessageImpl messageImpl = new();
-        messageImpl.Initialize(new byte[] { 1, 2, 9, 9, 9, 9 });
+        messageImpl.Initialize([1, 2, 9, 9, 9, 9]);
         Assert.Equal(1, messageImpl.SlaveAddress);
         Assert.Equal(2, messageImpl.FunctionCode);
     }
@@ -34,14 +33,14 @@ public class ModbusMessageImplFixture
     public void InitializeInvalidFrame()
     {
         ModbusMessageImpl messageImpl = new();
-        Assert.Throws<FormatException>(() => messageImpl.Initialize(new byte[] { 1 }));
+        Assert.Throws<FormatException>(() => messageImpl.Initialize([1]));
     }
 
     [Fact]
     public void ProtocolDataUnit()
     {
         ModbusMessageImpl messageImpl = new(11, Modbus.ReadCoils);
-        byte[] expectedResult = { Modbus.ReadCoils };
+        byte[] expectedResult = [Modbus.ReadCoils];
         Assert.Equal(expectedResult, messageImpl.ProtocolDataUnit);
     }
 
@@ -49,7 +48,7 @@ public class ModbusMessageImplFixture
     public void MessageFrame()
     {
         ModbusMessageImpl messageImpl = new(11, Modbus.ReadHoldingRegisters);
-        byte[] expectedMessageFrame = { 11, Modbus.ReadHoldingRegisters };
+        byte[] expectedMessageFrame = [11, Modbus.ReadHoldingRegisters];
         Assert.Equal(expectedMessageFrame, messageImpl.MessageFrame);
     }
 }

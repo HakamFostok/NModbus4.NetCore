@@ -1,5 +1,4 @@
-﻿using System;
-using Modbus.Utility;
+﻿using Modbus.Utility;
 using Xunit;
 
 namespace Modbus.UnitTests.Utility;

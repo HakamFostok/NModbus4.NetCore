@@ -1,5 +1,4 @@
-﻿using System;
-using Modbus.Message;
+﻿using Modbus.Message;
 using Modbus.Utility;
 using Xunit;
 
@@ -17,8 +16,8 @@ public class ModbusUtilityFixture
     [Fact]
     public void GetAsciiBytesFromBytes()
     {
-        byte[] buf = { 2, 5 };
-        byte[] expectedResult = { 48, 50, 48, 53 };
+        byte[] buf = [2, 5];
+        byte[] expectedResult = [48, 50, 48, 53];
         byte[] result = ModbusUtility.GetAsciiBytes(buf);
         Assert.Equal(expectedResult, result);
     }
@@ -26,8 +25,8 @@ public class ModbusUtilityFixture
     [Fact]
     public void GetAsciiBytesFromUshorts()
     {
-        ushort[] buf = { 300, 400 };
-        byte[] expectedResult = { 48, 49, 50, 67, 48, 49, 57, 48 };
+        ushort[] buf = [300, 400];
+        byte[] expectedResult = [48, 49, 50, 67, 48, 49, 57, 48];
         byte[] result = ModbusUtility.GetAsciiBytes(buf);
         Assert.Equal(expectedResult, result);
     }
@@ -50,14 +49,14 @@ public class ModbusUtilityFixture
     [Fact]
     public void CalculateCrc()
     {
-        byte[] result = ModbusUtility.CalculateCrc(new byte[] { 1, 1 });
+        byte[] result = ModbusUtility.CalculateCrc([1, 1]);
         Assert.Equal(new byte[] { 193, 224 }, result);
     }
 
     [Fact]
     public void CalculateCrc2()
     {
-        byte[] result = ModbusUtility.CalculateCrc(new byte[] { 2, 1, 5, 0 });
+        byte[] result = ModbusUtility.CalculateCrc([2, 1, 5, 0]);
         Assert.Equal(new byte[] { 83, 12 }, result);
     }
 
@@ -71,7 +70,7 @@ public class ModbusUtilityFixture
     public void CalculateLrc()
     {
         ReadCoilsInputsRequest _ = new(Modbus.ReadCoils, 1, 1, 10);
-        Assert.Equal(243, ModbusUtility.CalculateLrc(new byte[] { 1, 1, 0, 1, 0, 10 }));
+        Assert.Equal(243, ModbusUtility.CalculateLrc([1, 1, 0, 1, 0, 10]));
     }
 
     [Fact]
@@ -79,7 +78,7 @@ public class ModbusUtilityFixture
     {
         // : 02 01 0000 0001 FC
         ReadCoilsInputsRequest _ = new(Modbus.ReadCoils, 2, 0, 1);
-        Assert.Equal(252, ModbusUtility.CalculateLrc(new byte[] { 2, 1, 0, 0, 0, 1 }));
+        Assert.Equal(252, ModbusUtility.CalculateLrc([2, 1, 0, 0, 0, 1]));
     }
 
     [Fact]
@@ -89,13 +88,13 @@ public class ModbusUtilityFixture
     public void CalculateLrcEmpty() => Assert.Equal(0, ModbusUtility.CalculateLrc(Array.Empty<byte>()));
 
     [Fact]
-    public void NetworkBytesToHostUInt16() => Assert.Equal(new ushort[] { 1, 2 }, ModbusUtility.NetworkBytesToHostUInt16(new byte[] { 0, 1, 0, 2 }));
+    public void NetworkBytesToHostUInt16() => Assert.Equal(new ushort[] { 1, 2 }, ModbusUtility.NetworkBytesToHostUInt16([0, 1, 0, 2]));
 
     [Fact]
     public void NetworkBytesToHostUInt16Null() => Assert.Throws<ArgumentNullException>(() => ModbusUtility.NetworkBytesToHostUInt16(null));
 
     [Fact]
-    public void NetworkBytesToHostUInt16OddNumberOfBytes() => Assert.Throws<FormatException>(() => ModbusUtility.NetworkBytesToHostUInt16(new byte[] { 1 }));
+    public void NetworkBytesToHostUInt16OddNumberOfBytes() => Assert.Throws<FormatException>(() => ModbusUtility.NetworkBytesToHostUInt16([1]));
 
     [Fact]
     public void NetworkBytesToHostUInt16EmptyBytes() => Assert.Equal(Array.Empty<ushort>(), ModbusUtility.NetworkBytesToHostUInt16(Array.Empty<byte>()));

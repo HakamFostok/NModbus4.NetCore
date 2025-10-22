@@ -24,7 +24,7 @@ public class RegisterCollectionFixture
     [Fact]
     public void NewRegisterCollectionFromBytes()
     {
-        RegisterCollection col = new(new byte[] { 0, 1, 0, 2, 0, 3 });
+        RegisterCollection col = new([0, 1, 0, 2, 0, 3]);
         Assert.NotNull(col);
         Assert.Equal(3, col.Count);
         Assert.Equal(1, col[0]);

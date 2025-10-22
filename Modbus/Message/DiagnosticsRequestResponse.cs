@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using Modbus.Data;
 using Modbus.Unme.Common;

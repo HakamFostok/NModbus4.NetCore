@@ -1,5 +1,4 @@
 ﻿using System.Net.Sockets;
-using System.Threading;
 using Modbus.Device;
 using Xunit;
 

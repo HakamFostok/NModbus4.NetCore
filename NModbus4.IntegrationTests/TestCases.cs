@@ -1,8 +1,6 @@
-﻿using System;
-using System.IO.Ports;
+﻿using System.IO.Ports;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 using Modbus.Data;
 using Modbus.Device;
 
@@ -32,11 +30,11 @@ internal static class TestCases
 
     public static void Tcp()
     {
-        TcpListener slaveClient = new(new IPAddress(new byte[] { 127, 0, 0, 1 }), 502);
+        TcpListener slaveClient = new(new IPAddress([127, 0, 0, 1]), 502);
         using ModbusTcpSlave slave = ModbusTcpSlave.CreateTcp((byte)1, slaveClient);
         StartSlave(slave);
 
-        IPAddress address = new(new byte[] { 127, 0, 0, 1 });
+        IPAddress address = new([127, 0, 0, 1]);
         TcpClient masterClient = new(address.ToString(), 502);
 
         using ModbusIpMaster master = ModbusIpMaster.CreateIp(masterClient);
@@ -50,7 +48,7 @@ internal static class TestCases
         StartSlave(slave);
 
         UdpClient masterClient = new();
-        IPEndPoint endPoint = new(new IPAddress(new byte[] { 127, 0, 0, 1 }), 502);
+        IPEndPoint endPoint = new(new IPAddress([127, 0, 0, 1]), 502);
         masterClient.Connect(endPoint);
 
         using ModbusIpMaster master = ModbusIpMaster.CreateIp(masterClient);

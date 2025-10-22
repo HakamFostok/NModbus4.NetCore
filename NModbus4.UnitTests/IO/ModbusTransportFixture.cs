@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using Modbus.Data;
+﻿using Modbus.Data;
 using Modbus.IO;
 using Modbus.Message;
 using Modbus.Utility;
@@ -363,7 +360,7 @@ public class ModbusTransportFixture
         ReadHoldingInputRegistersResponse expectedResponse = new(Modbus.ReadHoldingRegisters, 1, new RegisterCollection(1));
         int readResponseCallsCount = 0;
         int onShouldRetryResponseCallsCount = 0;
-        bool[] expectedReturn = { true, false };
+        bool[] expectedReturn = [true, false];
 
         transport.RetryOnOldResponseThreshold = 3;
 
@@ -394,9 +391,9 @@ public class ModbusTransportFixture
         Mock<ModbusTransport> mock = new() { CallBase = true };
         ModbusTransport transport = mock.Object;
 
-        byte[] frame = { 2, 129, 2 };
+        byte[] frame = [2, 129, 2];
         byte lrc = ModbusUtility.CalculateLrc(frame);
-        IModbusMessage message = transport.CreateResponse<ReadCoilsInputsResponse>(Enumerable.Concat(frame, new byte[] { lrc }).ToArray());
+        IModbusMessage message = transport.CreateResponse<ReadCoilsInputsResponse>(Enumerable.Concat(frame, [lrc]).ToArray());
         Assert.IsType<SlaveExceptionResponse>(message);
     }
 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Modbus.Data;
+﻿using Modbus.Data;
 using Modbus.Message;
 using Xunit;
 
@@ -12,8 +10,7 @@ public class ModbusMessageFactoryFixture
     public void CreateModbusMessageReadCoilsRequest()
     {
         ReadCoilsInputsRequest request =
-            ModbusMessageFactory.CreateModbusMessage<ReadCoilsInputsRequest>(new byte[]
-            { 11, Modbus.ReadCoils, 0, 19, 0, 37 });
+            ModbusMessageFactory.CreateModbusMessage<ReadCoilsInputsRequest>([11, Modbus.ReadCoils, 0, 19, 0, 37]);
 
         ReadCoilsInputsRequest expectedRequest = new(Modbus.ReadCoils, 11, 19, 37);
         ModbusMessageFixture.AssertModbusMessagePropertiesAreEqual(request, expectedRequest);
@@ -24,7 +21,7 @@ public class ModbusMessageFactoryFixture
     [Fact]
     public void CreateModbusMessageReadCoilsRequestWithInvalidFrameSize()
     {
-        byte[] frame = { 11, Modbus.ReadCoils, 4, 1, 2 };
+        byte[] frame = [11, Modbus.ReadCoils, 4, 1, 2];
         Assert.Throws<FormatException>(() => ModbusMessageFactory.CreateModbusMessage<ReadCoilsInputsRequest>(frame));
     }
 
@@ -32,28 +29,27 @@ public class ModbusMessageFactoryFixture
     public void CreateModbusMessageReadCoilsResponse()
     {
         ReadCoilsInputsResponse response =
-            ModbusMessageFactory.CreateModbusMessage<ReadCoilsInputsResponse>(new byte[]
-            { 11, Modbus.ReadCoils, 1, 1 });
+            ModbusMessageFactory.CreateModbusMessage<ReadCoilsInputsResponse>([11, Modbus.ReadCoils, 1, 1]);
 
         ReadCoilsInputsResponse expectedResponse = new(Modbus.ReadCoils, 11, 1,
             new DiscreteCollection(true, false, false, false));
-        
+
         ModbusMessageFixture.AssertModbusMessagePropertiesAreEqual(expectedResponse, response);
-        
+
         Assert.Equal(expectedResponse.Data.NetworkBytes, response.Data.NetworkBytes);
     }
 
     [Fact]
     public void CreateModbusMessageReadCoilsResponseWithNoByteCount()
     {
-        byte[] frame = { 11, Modbus.ReadCoils };
+        byte[] frame = [11, Modbus.ReadCoils];
         Assert.Throws<FormatException>(() => ModbusMessageFactory.CreateModbusMessage<ReadCoilsInputsResponse>(frame));
     }
 
     [Fact]
     public void CreateModbusMessageReadCoilsResponseWithInvalidDataSize()
     {
-        byte[] frame = { 11, Modbus.ReadCoils, 4, 1, 2, 3 };
+        byte[] frame = [11, Modbus.ReadCoils, 4, 1, 2, 3];
         Assert.Throws<FormatException>(() => ModbusMessageFactory.CreateModbusMessage<ReadCoilsInputsResponse>(frame));
     }
 
@@ -61,8 +57,7 @@ public class ModbusMessageFactoryFixture
     public void CreateModbusMessageReadHoldingRegistersRequest()
     {
         ReadHoldingInputRegistersRequest request =
-            ModbusMessageFactory.CreateModbusMessage<ReadHoldingInputRegistersRequest>(new byte[]
-            { 17, Modbus.ReadHoldingRegisters, 0, 107, 0, 3 });
+            ModbusMessageFactory.CreateModbusMessage<ReadHoldingInputRegistersRequest>([17, Modbus.ReadHoldingRegisters, 0, 107, 0, 3]);
 
         ReadHoldingInputRegistersRequest expectedRequest = new(
             Modbus.ReadHoldingRegisters, 17, 107, 3);
@@ -77,14 +72,13 @@ public class ModbusMessageFactoryFixture
     public void CreateModbusMessageReadHoldingRegistersRequestWithInvalidFrameSize() =>
         Assert.Throws<FormatException>(() =>
             ModbusMessageFactory.CreateModbusMessage<ReadHoldingInputRegistersRequest>(
-                new byte[] { 11, Modbus.ReadHoldingRegisters, 0, 0, 5 }));
+                [11, Modbus.ReadHoldingRegisters, 0, 0, 5]));
 
     [Fact]
     public void CreateModbusMessageReadHoldingRegistersResponse()
     {
         ReadHoldingInputRegistersResponse response =
-            ModbusMessageFactory.CreateModbusMessage<ReadHoldingInputRegistersResponse>(new byte[]
-            { 11, Modbus.ReadHoldingRegisters, 4, 0, 3, 0, 4 });
+            ModbusMessageFactory.CreateModbusMessage<ReadHoldingInputRegistersResponse>([11, Modbus.ReadHoldingRegisters, 4, 0, 3, 0, 4]);
 
         ReadHoldingInputRegistersResponse expectedResponse = new(
             Modbus.ReadHoldingRegisters, 11, new RegisterCollection(3, 4));
@@ -94,13 +88,13 @@ public class ModbusMessageFactoryFixture
 
     [Fact]
     public void CreateModbusMessageReadHoldingRegistersResponseWithInvalidFrameSize() =>
-        Assert.Throws<FormatException>(() => ModbusMessageFactory.CreateModbusMessage<ReadHoldingInputRegistersResponse>(new byte[] { 11, Modbus.ReadHoldingRegisters }));
+        Assert.Throws<FormatException>(() => ModbusMessageFactory.CreateModbusMessage<ReadHoldingInputRegistersResponse>([11, Modbus.ReadHoldingRegisters]));
 
     [Fact]
     public void CreateModbusMessageSlaveExceptionResponse()
     {
         SlaveExceptionResponse response =
-            ModbusMessageFactory.CreateModbusMessage<SlaveExceptionResponse>(new byte[] { 11, 129, 2 });
+            ModbusMessageFactory.CreateModbusMessage<SlaveExceptionResponse>([11, 129, 2]);
 
         SlaveExceptionResponse expectedException = new(
             11, Modbus.ReadCoils + Modbus.ExceptionOffset, 2);
@@ -114,19 +108,18 @@ public class ModbusMessageFactoryFixture
     [Fact]
     public void CreateModbusMessageSlaveExceptionResponseWithInvalidFunctionCode() =>
         Assert.Throws<FormatException>(() =>
-            ModbusMessageFactory.CreateModbusMessage<SlaveExceptionResponse>(new byte[] { 11, 128, 2 }));
+            ModbusMessageFactory.CreateModbusMessage<SlaveExceptionResponse>([11, 128, 2]));
 
     [Fact]
     public void CreateModbusMessageSlaveExceptionResponseWithInvalidFrameSize() =>
         Assert.Throws<FormatException>(() =>
-            ModbusMessageFactory.CreateModbusMessage<SlaveExceptionResponse>(new byte[] { 11, 128 }));
+            ModbusMessageFactory.CreateModbusMessage<SlaveExceptionResponse>([11, 128]));
 
     [Fact]
     public void CreateModbusMessageWriteSingleCoilRequestResponse()
     {
         WriteSingleCoilRequestResponse request =
-            ModbusMessageFactory.CreateModbusMessage<WriteSingleCoilRequestResponse>(new byte[]
-            { 17, Modbus.WriteSingleCoil, 0, 172, byte.MaxValue, 0 });
+            ModbusMessageFactory.CreateModbusMessage<WriteSingleCoilRequestResponse>([17, Modbus.WriteSingleCoil, 0, 172, byte.MaxValue, 0]);
 
         WriteSingleCoilRequestResponse expectedRequest = new(17, 172, true);
         ModbusMessageFixture.AssertModbusMessagePropertiesAreEqual(expectedRequest, request);
@@ -138,14 +131,13 @@ public class ModbusMessageFactoryFixture
     [Fact]
     public void CreateModbusMessageWriteSingleCoilRequestResponseWithInvalidFrameSize() =>
         Assert.Throws<FormatException>(() =>
-            ModbusMessageFactory.CreateModbusMessage<WriteSingleCoilRequestResponse>(new byte[] { 11, Modbus.WriteSingleCoil, 0, 105, byte.MaxValue }));
+            ModbusMessageFactory.CreateModbusMessage<WriteSingleCoilRequestResponse>([11, Modbus.WriteSingleCoil, 0, 105, byte.MaxValue]));
 
     [Fact]
     public void CreateModbusMessageWriteSingleRegisterRequestResponse()
     {
         WriteSingleRegisterRequestResponse request =
-            ModbusMessageFactory.CreateModbusMessage<WriteSingleRegisterRequestResponse>(new byte[]
-            { 17, Modbus.WriteSingleRegister, 0, 1, 0, 3 });
+            ModbusMessageFactory.CreateModbusMessage<WriteSingleRegisterRequestResponse>([17, Modbus.WriteSingleRegister, 0, 1, 0, 3]);
 
         WriteSingleRegisterRequestResponse expectedRequest = new(
             17, 1, 3);
@@ -159,14 +151,13 @@ public class ModbusMessageFactoryFixture
     [Fact]
     public void CreateModbusMessageWriteSingleRegisterRequestResponseWithInvalidFrameSize() =>
         Assert.Throws<FormatException>(() =>
-            ModbusMessageFactory.CreateModbusMessage<WriteSingleRegisterRequestResponse>(new byte[] { 11, Modbus.WriteSingleRegister, 0, 1, 0 }));
+            ModbusMessageFactory.CreateModbusMessage<WriteSingleRegisterRequestResponse>([11, Modbus.WriteSingleRegister, 0, 1, 0]));
 
     [Fact]
     public void CreateModbusMessageWriteMultipleRegistersRequest()
     {
         WriteMultipleRegistersRequest request =
-            ModbusMessageFactory.CreateModbusMessage<WriteMultipleRegistersRequest>(new byte[]
-            { 11, Modbus.WriteMultipleRegisters, 0, 5, 0, 1, 2, 255, 255 });
+            ModbusMessageFactory.CreateModbusMessage<WriteMultipleRegistersRequest>([11, Modbus.WriteMultipleRegisters, 0, 5, 0, 1, 2, 255, 255]);
 
         WriteMultipleRegistersRequest expectedRequest = new(
             11, 5, new RegisterCollection(ushort.MaxValue));
@@ -182,14 +173,13 @@ public class ModbusMessageFactoryFixture
     [Fact]
     public void CreateModbusMessageWriteMultipleRegistersRequestWithInvalidFrameSize() =>
         Assert.Throws<FormatException>(() =>
-            ModbusMessageFactory.CreateModbusMessage<WriteMultipleRegistersRequest>(new byte[] { 11, Modbus.WriteMultipleRegisters, 0, 5, 0, 1, 2 }));
+            ModbusMessageFactory.CreateModbusMessage<WriteMultipleRegistersRequest>([11, Modbus.WriteMultipleRegisters, 0, 5, 0, 1, 2]));
 
     [Fact]
     public void CreateModbusMessageWriteMultipleRegistersResponse()
     {
         WriteMultipleRegistersResponse response =
-            ModbusMessageFactory.CreateModbusMessage<WriteMultipleRegistersResponse>(new byte[]
-            { 17, Modbus.WriteMultipleRegisters, 0, 1, 0, 2 });
+            ModbusMessageFactory.CreateModbusMessage<WriteMultipleRegistersResponse>([17, Modbus.WriteMultipleRegisters, 0, 1, 0, 2]);
         WriteMultipleRegistersResponse expectedResponse = new(17, 1, 2);
         ModbusMessageFixture.AssertModbusMessagePropertiesAreEqual(expectedResponse, response);
 
@@ -201,8 +191,7 @@ public class ModbusMessageFactoryFixture
     public void CreateModbusMessageWriteMultipleCoilsRequest()
     {
         WriteMultipleCoilsRequest request =
-            ModbusMessageFactory.CreateModbusMessage<WriteMultipleCoilsRequest>(new byte[]
-            { 17, Modbus.WriteMultipleCoils, 0, 19, 0, 10, 2, 205, 1 });
+            ModbusMessageFactory.CreateModbusMessage<WriteMultipleCoilsRequest>([17, Modbus.WriteMultipleCoils, 0, 19, 0, 10, 2, 205, 1]);
 
         WriteMultipleCoilsRequest expectedRequest = new(
             17, 19, new DiscreteCollection(true, false, true, true, false, false, true, true, true, false));
@@ -218,14 +207,13 @@ public class ModbusMessageFactoryFixture
     [Fact]
     public void CreateModbusMessageWriteMultipleCoilsRequestWithInvalidFrameSize() =>
         Assert.Throws<FormatException>(() =>
-            ModbusMessageFactory.CreateModbusMessage<WriteMultipleCoilsRequest>(new byte[] { 17, Modbus.WriteMultipleCoils, 0, 19, 0, 10, 2 }));
+            ModbusMessageFactory.CreateModbusMessage<WriteMultipleCoilsRequest>([17, Modbus.WriteMultipleCoils, 0, 19, 0, 10, 2]));
 
     [Fact]
     public void CreateModbusMessageWriteMultipleCoilsResponse()
     {
         WriteMultipleCoilsResponse response =
-            ModbusMessageFactory.CreateModbusMessage<WriteMultipleCoilsResponse>(new byte[]
-            { 17, Modbus.WriteMultipleCoils, 0, 19, 0, 10 });
+            ModbusMessageFactory.CreateModbusMessage<WriteMultipleCoilsResponse>([17, Modbus.WriteMultipleCoils, 0, 19, 0, 10]);
         WriteMultipleCoilsResponse expectedResponse = new(17, 19, 10);
         ModbusMessageFixture.AssertModbusMessagePropertiesAreEqual(expectedResponse, response);
 
@@ -236,14 +224,13 @@ public class ModbusMessageFactoryFixture
     [Fact]
     public void CreateModbusMessageWriteMultipleCoilsResponseWithInvalidFrameSize() =>
         Assert.Throws<FormatException>(() =>
-            ModbusMessageFactory.CreateModbusMessage<WriteMultipleCoilsResponse>(new byte[] { 17, Modbus.WriteMultipleCoils, 0, 19, 0 }));
+            ModbusMessageFactory.CreateModbusMessage<WriteMultipleCoilsResponse>([17, Modbus.WriteMultipleCoils, 0, 19, 0]));
 
     [Fact]
     public void CreateModbusMessageReadWriteMultipleRegistersRequest()
     {
         ReadWriteMultipleRegistersRequest request =
-            ModbusMessageFactory.CreateModbusMessage<ReadWriteMultipleRegistersRequest>(new byte[]
-            { 0x05, 0x17, 0x00, 0x03, 0x00, 0x06, 0x00, 0x0e, 0x00, 0x03, 0x06, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff });
+            ModbusMessageFactory.CreateModbusMessage<ReadWriteMultipleRegistersRequest>([0x05, 0x17, 0x00, 0x03, 0x00, 0x06, 0x00, 0x0e, 0x00, 0x03, 0x06, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff]);
         RegisterCollection writeCollection = new(255, 255, 255);
         ReadWriteMultipleRegistersRequest expectedRequest = new(5, 3, 6, 14,
             writeCollection);
@@ -253,7 +240,7 @@ public class ModbusMessageFactoryFixture
     [Fact]
     public void CreateModbusMessageReadWriteMultipleRegistersRequestWithInvalidFrameSize()
     {
-        byte[] frame = { 17, Modbus.ReadWriteMultipleRegisters, 1, 2, 3 };
+        byte[] frame = [17, Modbus.ReadWriteMultipleRegisters, 1, 2, 3];
         Assert.Throws<FormatException>(() =>
             ModbusMessageFactory.CreateModbusMessage<ReadWriteMultipleRegistersRequest>(frame));
     }
@@ -276,18 +263,18 @@ public class ModbusMessageFactoryFixture
     [Fact]
     public void CreateModbusMessageReturnQueryDataRequestResponseTooSmall()
     {
-        byte[] frame = new byte[] { 5, 8, 0, 0, 5 };
+        byte[] frame = [5, 8, 0, 0, 5];
         Assert.Throws<FormatException>(() =>
             ModbusMessageFactory.CreateModbusMessage<DiagnosticsRequestResponse>(frame));
     }
 
     [Fact]
     public void CreateModbusRequestWithInvalidMessageFrame() =>
-        Assert.Throws<FormatException>(() => ModbusMessageFactory.CreateModbusRequest(new byte[] { 0, 1 }));
+        Assert.Throws<FormatException>(() => ModbusMessageFactory.CreateModbusRequest([0, 1]));
 
     [Fact]
     public void CreateModbusRequestWithInvalidFunctionCode() =>
-        Assert.Throws<ArgumentException>(() => ModbusMessageFactory.CreateModbusRequest(new byte[] { 1, 99, 0, 0, 0, 1, 23 }));
+        Assert.Throws<ArgumentException>(() => ModbusMessageFactory.CreateModbusRequest([1, 99, 0, 0, 0, 1, 23]));
 
     [Fact]
     public void CreateModbusRequestForReadCoils()

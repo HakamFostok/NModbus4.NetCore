@@ -15,7 +15,7 @@ namespace Modbus.Device;
 public class ModbusTcpSlave : ModbusSlave
 {
     private const int TimeWaitResponse = 1000;
-    private readonly object _serverLock = new();
+    private readonly Lock _serverLock = new();
 
     private readonly ConcurrentDictionary<string, ModbusMasterTcpConnection> _masters =
         new();

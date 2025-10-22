@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using Modbus.Message;
 using Xunit;
 
@@ -12,7 +10,7 @@ public class ModbusMessageFixture
     public void ProtocolDataUnitReadCoilsRequest()
     {
         AbstractModbusMessage message = new ReadCoilsInputsRequest(Modbus.ReadCoils, 1, 100, 9);
-        byte[] expectedResult = { Modbus.ReadCoils, 0, 100, 0, 9 };
+        byte[] expectedResult = [Modbus.ReadCoils, 0, 100, 0, 9];
         Assert.Equal(expectedResult, message.ProtocolDataUnit);
     }
 
@@ -20,7 +18,7 @@ public class ModbusMessageFixture
     public void MessageFrameReadCoilsRequest()
     {
         AbstractModbusMessage message = new ReadCoilsInputsRequest(Modbus.ReadCoils, 1, 2, 3);
-        byte[] expectedMessageFrame = { 1, Modbus.ReadCoils, 0, 2, 0, 3 };
+        byte[] expectedMessageFrame = [1, Modbus.ReadCoils, 0, 2, 0, 3];
         Assert.Equal(expectedMessageFrame, message.MessageFrame);
     }
 
@@ -28,9 +26,9 @@ public class ModbusMessageFixture
     public void ModbusMessageToStringOverriden()
     {
         System.Collections.Generic.IEnumerable<Type> messageTypes = from message in typeof(AbstractModbusMessage).GetTypeInfo().Assembly.GetTypes()
-                                                                     let typeInfo = message.GetTypeInfo()
-                                                                     where !typeInfo.IsAbstract && typeInfo.IsSubclassOf(typeof(AbstractModbusMessage))
-                                                                     select message;
+                                                                    let typeInfo = message.GetTypeInfo()
+                                                                    where !typeInfo.IsAbstract && typeInfo.IsSubclassOf(typeof(AbstractModbusMessage))
+                                                                    select message;
 
         foreach (Type messageType in messageTypes)
         {

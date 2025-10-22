@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Modbus.Data;
+﻿using Modbus.Data;
 using Modbus.IO;
 using Modbus.Message;
 

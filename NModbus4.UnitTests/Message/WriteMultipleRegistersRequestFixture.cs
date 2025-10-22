@@ -1,5 +1,4 @@
-﻿using System;
-using Modbus.Data;
+﻿using Modbus.Data;
 using Modbus.Message;
 using Xunit;
 
@@ -31,7 +30,7 @@ public class WriteMultipleRegistersRequestFixture
     {
         WriteMultipleRegistersRequest request = new(1, 2,
             MessageUtility.CreateDefaultCollection<RegisterCollection, ushort>(3, Modbus.MaximumRegisterRequestResponseSize));
-        
+
         Assert.Equal(Modbus.MaximumRegisterRequestResponseSize, request.NumberOfPoints);
     }
 

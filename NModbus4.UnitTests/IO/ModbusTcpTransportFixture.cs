@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using Modbus.Data;
+﻿using Modbus.Data;
 using Modbus.IO;
 using Modbus.Message;
 using Modbus.UnitTests.Message;
@@ -61,10 +58,10 @@ public class ModbusTcpTransportFixture
         ReadCoilsInputsRequest request = new(Modbus.ReadCoils, 1, 1, 3);
         int calls = 0;
         byte[][] source =
-        {
-                new byte[] { 45, 63, 0, 0, 0, 6 },
+        [
+                [45, 63, 0, 0, 0, 6],
                 new byte[] { 1 }.Concat(request.ProtocolDataUnit).ToArray()
-            };
+            ];
 
         mock.Setup(s => s.Read(It.Is<byte[]>(x => x.Length == 6), 0, 6))
             .Returns((byte[] buf, int offset, int count) =>

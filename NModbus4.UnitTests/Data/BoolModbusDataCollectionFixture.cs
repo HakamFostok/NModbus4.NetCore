@@ -9,7 +9,7 @@ public class BoolModbusDataCollectionFixture : ModbusDataCollectionFixture<bool>
     [Fact]
     public void Remove_FromReadOnly()
     {
-        bool[] source = { false, false, false, true, false, false };
+        bool[] source = [false, false, false, true, false, false];
         ModbusDataCollection<bool> col = new(new ReadOnlyCollection<bool>(source));
         int expectedCount = source.Length;
 
@@ -19,7 +19,7 @@ public class BoolModbusDataCollectionFixture : ModbusDataCollectionFixture<bool>
     }
 
     protected override bool[] GetArray() =>
-        new[] { false, false, true, false, false };
+        [false, false, true, false, false];
 
     protected override bool GetNonExistentElement() => true;
 }

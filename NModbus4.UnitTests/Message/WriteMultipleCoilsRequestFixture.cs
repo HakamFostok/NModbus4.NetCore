@@ -1,5 +1,4 @@
-﻿using System;
-using Modbus.Data;
+﻿using Modbus.Data;
 using Modbus.Message;
 using Xunit;
 
@@ -30,7 +29,7 @@ public class WriteMultipleCoilsRequestFixture
     {
         WriteMultipleCoilsRequest request = new(1, 2,
             MessageUtility.CreateDefaultCollection<DiscreteCollection, bool>(true, Modbus.MaximumDiscreteRequestResponseSize));
-        
+
         Assert.Equal(Modbus.MaximumDiscreteRequestResponseSize, request.Data.Count);
     }
 

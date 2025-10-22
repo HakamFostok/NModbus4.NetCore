@@ -2,7 +2,6 @@
 using System.IO.Ports;
 #endif
 
-using System.Linq;
 using Modbus.Data;
 using Modbus.Device;
 using Modbus.Message;
@@ -74,7 +73,7 @@ public class ModbusSlaveFixture
     [Fact]
     public void WriteSingleCoil()
     {
-        ushort addressToWrite = 35;
+        const ushort addressToWrite = 35;
         bool valueToWrite = !_testDataStore.CoilDiscretes[addressToWrite + 1];
         WriteSingleCoilRequestResponse expectedResponse = new(1, addressToWrite,
             valueToWrite);
@@ -88,8 +87,8 @@ public class ModbusSlaveFixture
     [Fact]
     public void WriteMultipleCoils()
     {
-        ushort startAddress = 35;
-        ushort numberOfPoints = 10;
+        const ushort startAddress = 35;
+        const ushort numberOfPoints = 10;
         bool val = !_testDataStore.CoilDiscretes[startAddress + 1];
         WriteMultipleCoilsResponse expectedResponse = new(1, startAddress, numberOfPoints);
         WriteMultipleCoilsResponse response =
@@ -98,15 +97,15 @@ public class ModbusSlaveFixture
                     new DiscreteCollection(val, val, val, val, val, val, val, val, val, val)), _testDataStore,
                 _testDataStore.CoilDiscretes);
         ModbusMessageFixture.AssertModbusMessagePropertiesAreEqual(expectedResponse, response);
-        Assert.Equal(new bool[] { val, val, val, val, val, val, val, val, val, val },
+        Assert.Equal([val, val, val, val, val, val, val, val, val, val],
             _testDataStore.CoilDiscretes.Slice(startAddress + 1, numberOfPoints).ToArray());
     }
 
     [Fact]
     public void WriteSingleRegister()
     {
-        ushort startAddress = 35;
-        ushort value = 45;
+        const ushort startAddress = 35;
+        const ushort value = 45;
         Assert.NotEqual(value, _testDataStore.HoldingRegisters[startAddress - 1]);
         WriteSingleRegisterRequestResponse expectedResponse = new(1, startAddress,
             value);
@@ -119,8 +118,8 @@ public class ModbusSlaveFixture
     [Fact]
     public void WriteMultipleRegisters()
     {
-        ushort startAddress = 35;
-        ushort[] valuesToWrite = new ushort[] { 1, 2, 3, 4, 5 };
+        const ushort startAddress = 35;
+        ushort[] valuesToWrite = [1, 2, 3, 4, 5];
         Assert.NotEqual(valuesToWrite,
             _testDataStore.HoldingRegisters.Slice(startAddress - 1, valuesToWrite.Length).ToArray());
         WriteMultipleRegistersResponse expectedResponse = new(1, startAddress,

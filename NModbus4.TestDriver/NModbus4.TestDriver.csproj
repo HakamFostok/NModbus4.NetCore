@@ -7,5 +7,5 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Modbus\Modbus.csproj" />
 	</ItemGroup>
-
+	
 </Project>

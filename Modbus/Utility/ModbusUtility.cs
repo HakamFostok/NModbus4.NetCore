@@ -9,7 +9,7 @@ namespace Modbus.Utility;
 public static class ModbusUtility
 {
     private static readonly ushort[] CrcTable =
-    {
+    [
             0X0000, 0XC0C1, 0XC181, 0X0140, 0XC301, 0X03C0, 0X0280, 0XC241,
             0XC601, 0X06C0, 0X0780, 0XC741, 0X0500, 0XC5C1, 0XC481, 0X0440,
             0XCC01, 0X0CC0, 0X0D80, 0XCD41, 0X0F00, 0XCFC1, 0XCE81, 0X0E40,
@@ -42,7 +42,7 @@ public static class ModbusUtility
             0X4E00, 0X8EC1, 0X8F81, 0X4F40, 0X8D01, 0X4DC0, 0X4C80, 0X8C41,
             0X4400, 0X84C1, 0X8581, 0X4540, 0X8701, 0X47C0, 0X4680, 0X8641,
             0X8201, 0X42C0, 0X4380, 0X8341, 0X4100, 0X81C1, 0X8081, 0X4040
-        };
+        ];
 
     /// <summary>
     ///     Converts four UInt16 values into a IEEE 64 floating point format.

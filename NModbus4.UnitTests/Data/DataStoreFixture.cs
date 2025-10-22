@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Modbus.Data;
+﻿using Modbus.Data;
 using Xunit;
 
 namespace Modbus.UnitTests.Data;
@@ -12,7 +10,7 @@ public class DataStoreFixture
     {
         ModbusDataCollection<ushort> slaveCol = new(0, 1, 2, 3, 4, 5, 6);
         RegisterCollection result = DataStore.ReadData<RegisterCollection, ushort>(new DataStore(), slaveCol, 1, 3,
-            new object());
+            new Lock());
         Assert.Equal(new ushort[] { 1, 2, 3 }, result.ToArray());
     }
 
@@ -20,24 +18,24 @@ public class DataStoreFixture
     public void ReadDataStartAddressTooLarge() =>
         Assert.Throws<InvalidModbusRequestException>(() =>
                                                     DataStore.ReadData<DiscreteCollection, bool>(new DataStore(), new ModbusDataCollection<bool>(), 3, 2,
-                                                        new object()));
+                                                        new Lock()));
 
     [Fact]
     public void ReadDataCountTooLarge() =>
         Assert.Throws<InvalidModbusRequestException>(() => DataStore.ReadData<DiscreteCollection, bool>(new DataStore(),
-                                             new ModbusDataCollection<bool>(true, false, true, true), 1, 5, new object()));
+                                             new ModbusDataCollection<bool>(true, false, true, true), 1, 5, new Lock()));
 
     [Fact]
     public void ReadDataStartAddressZero() =>
         DataStore.ReadData<DiscreteCollection, bool>(new DataStore(),
-            new ModbusDataCollection<bool>(true, false, true, true, true, true), 0, 5, new object());
+            new ModbusDataCollection<bool>(true, false, true, true, true, true), 0, 5, new Lock());
 
     [Fact]
     public void WriteDataSingle()
     {
         ModbusDataCollection<bool> destination = new(true, true);
         DiscreteCollection newValues = new(false);
-        DataStore.WriteData(new DataStore(), newValues, destination, 0, new object());
+        DataStore.WriteData(new DataStore(), newValues, destination, 0, new Lock());
         Assert.False(destination[1]);
     }
 
@@ -47,8 +45,8 @@ public class DataStoreFixture
         ModbusDataCollection<bool> destination = new(false, false, false, false, false,
             false, true);
         DiscreteCollection newValues = new(true, true, true, true);
-        DataStore.WriteData(new DataStore(), newValues, destination, 0, new object());
-        Assert.Equal(new bool[] { false, true, true, true, true, false, false, true }, destination.ToArray());
+        DataStore.WriteData(new DataStore(), newValues, destination, 0, new Lock());
+        Assert.Equal([false, true, true, true, true, false, false, true], destination.ToArray());
     }
 
     [Fact]
@@ -56,18 +54,18 @@ public class DataStoreFixture
     {
         ModbusDataCollection<bool> slaveCol = new(true);
         DiscreteCollection newValues = new(false, false);
-        Assert.Throws<InvalidModbusRequestException>(() => DataStore.WriteData(new DataStore(), newValues, slaveCol, 1, new object()));
+        Assert.Throws<InvalidModbusRequestException>(() => DataStore.WriteData(new DataStore(), newValues, slaveCol, 1, new Lock()));
     }
 
     [Fact]
     public void WriteDataStartAddressZero() =>
         DataStore.WriteData(new DataStore(), new DiscreteCollection(false),
-            new ModbusDataCollection<bool>(true, true), 0, new object());
+            new ModbusDataCollection<bool>(true, true), 0, new Lock());
 
     [Fact]
     public void WriteDataStartAddressTooLarge() =>
         Assert.Throws<InvalidModbusRequestException>(() => DataStore.WriteData(new DataStore(), new DiscreteCollection(true), new ModbusDataCollection<bool>(true), 2,
-                                                     new object()));
+                                                     new Lock()));
 
     /// <summary>
     ///     http://modbus.org/docs/Modbus_Application_Protocol_V1_1b.pdf
@@ -83,9 +81,9 @@ public class DataStoreFixture
         dataStore.HoldingRegisters.Insert(2, 42);
 
         Assert.Equal(45,
-            DataStore.ReadData<RegisterCollection, ushort>(dataStore, dataStore.HoldingRegisters, 0, 1, new object())[0]);
+            DataStore.ReadData<RegisterCollection, ushort>(dataStore, dataStore.HoldingRegisters, 0, 1, new Lock())[0]);
         Assert.Equal(42,
-            DataStore.ReadData<RegisterCollection, ushort>(dataStore, dataStore.HoldingRegisters, 1, 1, new object())[0]);
+            DataStore.ReadData<RegisterCollection, ushort>(dataStore, dataStore.HoldingRegisters, 1, 1, new Lock())[0]);
     }
 
     [Fact]
@@ -106,7 +104,7 @@ public class DataStoreFixture
 
         dataStore.DataStoreWrittenTo += (obj, e) => writtenToEventFired = true;
 
-        DataStore.ReadData<RegisterCollection, ushort>(dataStore, dataStore.HoldingRegisters, 3, 3, new object());
+        DataStore.ReadData<RegisterCollection, ushort>(dataStore, dataStore.HoldingRegisters, 3, 3, new Lock());
         Assert.True(readFromEventFired);
         Assert.False(writtenToEventFired);
     }
@@ -129,7 +127,7 @@ public class DataStoreFixture
 
         dataStore.DataStoreWrittenTo += (obj, e) => writtenToEventFired = true;
 
-        DataStore.ReadData<RegisterCollection, ushort>(dataStore, dataStore.InputRegisters, 4, 0, new object());
+        DataStore.ReadData<RegisterCollection, ushort>(dataStore, dataStore.InputRegisters, 4, 0, new Lock());
         Assert.True(readFromEventFired);
         Assert.False(writtenToEventFired);
     }
@@ -146,13 +144,13 @@ public class DataStoreFixture
         {
             readFromEventFired = true;
             Assert.Equal(4, e.StartAddress);
-            Assert.Equal(new bool[] { false }, e.Data.A.ToArray());
+            Assert.Equal([false], e.Data.A.ToArray());
             Assert.Equal(ModbusDataType.Input, e.ModbusDataType);
         };
 
         dataStore.DataStoreWrittenTo += (obj, e) => writtenToEventFired = true;
 
-        DataStore.ReadData<DiscreteCollection, bool>(dataStore, dataStore.InputDiscretes, 4, 1, new object());
+        DataStore.ReadData<DiscreteCollection, bool>(dataStore, dataStore.InputDiscretes, 4, 1, new Lock());
         Assert.True(readFromEventFired);
         Assert.False(writtenToEventFired);
     }
@@ -170,14 +168,14 @@ public class DataStoreFixture
             writtenToEventFired = true;
             Assert.Equal(3, e.Data.A.Count);
             Assert.Equal(4, e.StartAddress);
-            Assert.Equal(new[] { true, false, true }, e.Data.A.ToArray());
+            Assert.Equal([true, false, true], e.Data.A.ToArray());
             Assert.Equal(ModbusDataType.Coil, e.ModbusDataType);
         };
 
         dataStore.DataStoreReadFrom += (obj, e) => readFromEventFired = true;
 
         DataStore.WriteData(dataStore, new DiscreteCollection(true, false, true), dataStore.CoilDiscretes, 4,
-            new object());
+            new Lock());
         Assert.False(readFromEventFired);
         Assert.True(writtenToEventFired);
     }
@@ -201,7 +199,7 @@ public class DataStoreFixture
 
         dataStore.DataStoreReadFrom += (obj, e) => readFromEventFired = true;
 
-        DataStore.WriteData(dataStore, new RegisterCollection(5, 6, 7), dataStore.HoldingRegisters, 0, new object());
+        DataStore.WriteData(dataStore, new RegisterCollection(5, 6, 7), dataStore.HoldingRegisters, 0, new Lock());
         Assert.False(readFromEventFired);
         Assert.True(writtenToEventFired);
     }
@@ -209,25 +207,25 @@ public class DataStoreFixture
     [Fact]
     public void Update()
     {
-        List<int> newItems = new(new int[] { 4, 5, 6 });
-        List<int> destination = new(new int[] { 1, 2, 3, 7, 8, 9 });
+        List<int> newItems = new([4, 5, 6]);
+        List<int> destination = new([1, 2, 3, 7, 8, 9]);
         DataStore.Update<int>(newItems, destination, 3);
-        Assert.Equal(new int[] { 1, 2, 3, 4, 5, 6 }, destination.ToArray());
+        Assert.Equal([1, 2, 3, 4, 5, 6], destination.ToArray());
     }
 
     [Fact]
     public void UpdateItemsTooLarge()
     {
-        List<int> newItems = new(new int[] { 1, 2, 3, 7, 8, 9 });
-        List<int> destination = new(new int[] { 4, 5, 6 });
+        List<int> newItems = new([1, 2, 3, 7, 8, 9]);
+        List<int> destination = new([4, 5, 6]);
         Assert.Throws<InvalidModbusRequestException>(() => DataStore.Update<int>(newItems, destination, 3));
     }
 
     [Fact]
     public void UpdateNegativeIndex()
     {
-        List<int> newItems = new(new int[] { 1, 2, 3, 7, 8, 9 });
-        List<int> destination = new(new int[] { 4, 5, 6 });
+        List<int> newItems = new([1, 2, 3, 7, 8, 9]);
+        List<int> destination = new([4, 5, 6]);
         Assert.Throws<InvalidModbusRequestException>(() => DataStore.Update<int>(newItems, destination, -1));
     }
 }

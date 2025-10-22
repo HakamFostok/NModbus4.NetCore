@@ -76,7 +76,7 @@ public static class EnronModbus
     {
         ArgumentNullException.ThrowIfNull(master);
 
-        master.WriteMultipleRegisters32(slaveAddress, registerAddress, new[] { value });
+        master.WriteMultipleRegisters32(slaveAddress, registerAddress, [value]);
     }
 
     /// <summary>

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Modbus.Data;
+﻿using Modbus.Data;
 using Xunit;
 
 namespace Modbus.UnitTests.Data;
@@ -48,12 +46,12 @@ public class DiscreteCollectionFixture
     {
         DiscreteCollection col = new(1, 2, 3);
         Assert.Equal(24, col.Count);
-        bool[] expected = new bool[]
-        {
+        bool[] expected =
+        [
             true, false, false, false, false, false, false, false,
             false, true, false, false, false, false, false, false,
             true, true, false, false, false, false, false, false,
-        };
+        ];
 
         Assert.Equal(expected, col);
     }
@@ -73,7 +71,7 @@ public class DiscreteCollectionFixture
     public void CreateNewDiscreteCollectionFromBytesParamsOrder()
     {
         DiscreteCollection col = new(194);
-        Assert.Equal(new bool[] { false, true, false, false, false, false, true, true }, col.ToArray());
+        Assert.Equal([false, true, false, false, false, false, true, true], col.ToArray());
     }
 
     [Fact]
@@ -81,8 +79,7 @@ public class DiscreteCollectionFixture
     {
         DiscreteCollection col = new(157, 7);
         Assert.Equal(
-            new bool[]
-            { true, false, true, true, true, false, false, true, true, true, true, false, false, false, false, false },
+            [true, false, true, true, true, false, false, true, true, true, true, false, false, false, false, false],
             col.ToArray());
     }
 

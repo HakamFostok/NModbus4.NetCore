@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Modbus.Data;
+﻿using Modbus.Data;
 using Modbus.Message;
 
 namespace Modbus.IntegrationTests.CustomMessages;

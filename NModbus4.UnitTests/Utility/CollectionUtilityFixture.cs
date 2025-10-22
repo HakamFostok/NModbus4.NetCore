@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using Modbus.Data;
 using Modbus.UnitTests.Message;
 using Modbus.Unme.Common;
@@ -14,37 +11,37 @@ public class CollectionUtilityFixture
     [Fact]
     public void SliceMiddle()
     {
-        byte[] test = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+        byte[] test = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
         Assert.Equal(new byte[] { 3, 4, 5, 6, 7 }, test.Slice(2, 5).ToArray());
     }
 
     [Fact]
     public void SliceBeginning()
     {
-        byte[] test = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+        byte[] test = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
         Assert.Equal(new byte[] { 1, 2 }, test.Slice(0, 2).ToArray());
     }
 
     [Fact]
     public void SliceEnd()
     {
-        byte[] test = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+        byte[] test = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
         Assert.Equal("\t\n"u8.ToArray(), test.Slice(8, 2).ToArray());
     }
 
     [Fact]
     public void SliceCollection()
     {
-        Collection<bool> col = new(new bool[] { true, false, false, false, true, true });
-        Assert.Equal(new bool[] { false, false, true }, col.Slice(2, 3).ToArray());
+        Collection<bool> col = new([true, false, false, false, true, true]);
+        Assert.Equal([false, false, true], col.Slice(2, 3).ToArray());
     }
 
     [Fact]
     public void SliceReadOnlyCollection()
     {
         ReadOnlyCollection<bool> col =
-            new(new bool[] { true, false, false, false, true, true });
-        Assert.Equal(new bool[] { false, false, true }, col.Slice(2, 3).ToArray());
+            new([true, false, false, false, true, true]);
+        Assert.Equal([false, false, true], col.Slice(2, 3).ToArray());
     }
 
     [Fact]

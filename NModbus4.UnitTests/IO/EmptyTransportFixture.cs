@@ -1,5 +1,4 @@
-﻿using System;
-using Modbus.IO;
+﻿using Modbus.IO;
 using Modbus.Message;
 using Xunit;
 

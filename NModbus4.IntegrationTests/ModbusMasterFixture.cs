@@ -1,12 +1,9 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.IO.Ports;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
-using System.Threading;
 using Modbus.Data;
 using Modbus.Device;
 using Modbus.IntegrationTests.CustomMessages;
@@ -21,7 +18,7 @@ public abstract class ModbusMasterFixture : IDisposable
     public const string DefaultMasterSerialPortName = "COM1";
     public const string DefaultSlaveSerialPortName = "COM2";
 
-    public static IPAddress TcpHost { get; } = new IPAddress(new byte[] { 127, 0, 0, 1 });
+    public static IPAddress TcpHost { get; } = new IPAddress([127, 0, 0, 1]);
 
     public static IPEndPoint DefaultModbusIPEndPoint { get; } = new IPEndPoint(TcpHost, Port);
 
@@ -105,14 +102,14 @@ public abstract class ModbusMasterFixture : IDisposable
     public virtual void ReadCoils()
     {
         bool[] coils = Master.ReadCoils(SlaveAddress, 2048, 8);
-        Assert.Equal(new bool[] { false, false, false, false, false, false, false, false }, coils);
+        Assert.Equal([false, false, false, false, false, false, false, false], coils);
     }
 
     [Fact]
     public virtual void ReadInputs()
     {
         bool[] inputs = Master.ReadInputs(SlaveAddress, 150, 3);
-        Assert.Equal(new bool[] { false, false, false }, inputs);
+        Assert.Equal([false, false, false], inputs);
     }
 
     [Fact]
@@ -156,7 +153,7 @@ public abstract class ModbusMasterFixture : IDisposable
     public virtual void WriteMultipleRegisters()
     {
         ushort testAddress = 120;
-        ushort[] testValues = new ushort[] { 10, 20, 30, 40, 50 };
+        ushort[] testValues = [10, 20, 30, 40, 50];
 
         ushort[] originalValues = Master.ReadHoldingRegisters(SlaveAddress, testAddress, (ushort)testValues.Length);
         Master.WriteMultipleRegisters(SlaveAddress, testAddress, testValues);
@@ -169,7 +166,7 @@ public abstract class ModbusMasterFixture : IDisposable
     public virtual void WriteMultipleCoils()
     {
         ushort testAddress = 200;
-        bool[] testValues = new bool[] { true, false, true, false, false, false, true, false, true, false };
+        bool[] testValues = [true, false, true, false, false, false, true, false, true, false];
 
         bool[] originalValues = Master.ReadCoils(SlaveAddress, testAddress, (ushort)testValues.Length);
         Master.WriteMultipleCoils(SlaveAddress, testAddress, testValues);
@@ -191,7 +188,7 @@ public abstract class ModbusMasterFixture : IDisposable
         ushort startReadAddress = 120;
         ushort numberOfPointsToRead = 5;
         ushort startWriteAddress = 50;
-        ushort[] valuesToWrite = new ushort[] { 10, 20, 30, 40, 50 };
+        ushort[] valuesToWrite = [10, 20, 30, 40, 50];
 
         ushort[] valuesToRead = Master.ReadHoldingRegisters(SlaveAddress, startReadAddress, numberOfPointsToRead);
         ushort[] readValues = Master.ReadWriteMultipleRegisters(SlaveAddress, startReadAddress, numberOfPointsToRead, startWriteAddress, valuesToWrite);
@@ -223,7 +220,7 @@ public abstract class ModbusMasterFixture : IDisposable
     public virtual void ExecuteCustomMessage_WriteMultipleRegisters()
     {
         ushort testAddress = 120;
-        ushort[] testValues = new ushort[] { 10, 20, 30, 40, 50 };
+        ushort[] testValues = [10, 20, 30, 40, 50];
         CustomReadHoldingRegistersRequest readRequest = new(3, SlaveAddress, testAddress, (ushort)testValues.Length);
         CustomWriteMultipleRegistersRequest writeRequest = new(16, SlaveAddress, testAddress, new RegisterCollection(testValues));
 

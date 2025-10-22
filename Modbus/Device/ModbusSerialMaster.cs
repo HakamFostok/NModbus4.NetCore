@@ -1,5 +1,4 @@
 ﻿using Modbus.Serial;
-using System.Diagnostics.CodeAnalysis;
 using System.Net.Sockets;
 using Modbus.Data;
 using Modbus.IO;

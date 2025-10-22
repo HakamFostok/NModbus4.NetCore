@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using Modbus.Data;
+﻿using Modbus.Data;
 using Modbus.IO;
 using Modbus.Message;
 using Modbus.UnitTests.Message;
@@ -20,7 +18,7 @@ public class ModbusSerialTransportFixture
         ModbusAsciiTransport transport = new(StreamResource);
         ReadCoilsInputsResponse expectedResponse = new(Modbus.ReadCoils, 2, 1, new DiscreteCollection(true, false, false, false, false, false, false, true));
         byte lrc = ModbusUtility.CalculateLrc(expectedResponse.MessageFrame);
-        IModbusMessage? response = transport.CreateResponse<ReadCoilsInputsResponse>(new byte[] { 2, Modbus.ReadCoils, 1, 129, lrc });
+        IModbusMessage? response = transport.CreateResponse<ReadCoilsInputsResponse>([2, Modbus.ReadCoils, 1, 129, lrc]);
 
         Assert.IsType<ReadCoilsInputsResponse>(response);
         ModbusMessageFixture.AssertModbusMessagePropertiesAreEqual(expectedResponse, response);
@@ -30,7 +28,7 @@ public class ModbusSerialTransportFixture
     public void CreateResponseErroneousLrc()
     {
         ModbusAsciiTransport transport = new(StreamResource) { CheckFrame = true };
-        byte[] frame = new byte[] { 19, Modbus.ReadCoils, 0, 0, 0, 2, 115 };
+        byte[] frame = [19, Modbus.ReadCoils, 0, 0, 0, 2, 115];
 
         Assert.Throws<IOException>(
             () => transport.CreateResponse<ReadCoilsInputsResponse>(frame));
@@ -41,7 +39,7 @@ public class ModbusSerialTransportFixture
     {
         ModbusAsciiTransport transport = new(StreamResource) { CheckFrame = false };
 
-        transport.CreateResponse<ReadCoilsInputsResponse>(new byte[] { 19, Modbus.ReadCoils, 0, 0, 0, 2, 115 });
+        transport.CreateResponse<ReadCoilsInputsResponse>([19, Modbus.ReadCoils, 0, 0, 0, 2, 115]);
     }
 
     /// <summary>

@@ -1,5 +1,4 @@
 ﻿using System.IO.Ports;
-using System.Threading;
 using Modbus.Data;
 using Modbus.Device;
 using Xunit;
@@ -26,12 +25,12 @@ public class NModbusSerialRtuSlaveFixture
         slaveThread.Start();
 
         // assert successful communication
-        Assert.Equal(new bool[] { false, true }, master.ReadCoils(1, 1, 2));
+        Assert.Equal([false, true], master.ReadCoils(1, 1, 2));
 
         // write "bonus" character
         masterPort.Write("*");
 
         // assert successful communication
-        Assert.Equal(new bool[] { false, true }, master.ReadCoils(1, 1, 2));
+        Assert.Equal([false, true], master.ReadCoils(1, 1, 2));
     }
 }

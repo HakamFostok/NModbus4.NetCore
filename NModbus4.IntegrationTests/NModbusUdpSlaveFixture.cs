@@ -1,7 +1,6 @@
-﻿using System;
+﻿#pragma warning disable CA5394 // Do not use insecure randomness
 using System.Diagnostics;
 using System.Net.Sockets;
-using System.Threading;
 using Modbus.Data;
 using Modbus.Device;
 using Xunit;
@@ -32,17 +31,16 @@ public class NModbusUdpSlaveFixture
     }
 
     [Fact]
-    public void ModbusUdpSlave_NotBound()
+    public Task ModbusUdpSlave_NotBound()
     {
         UdpClient client = new();
         ModbusSlave slave = ModbusUdpSlave.CreateUdp(1, client);
-        Assert.ThrowsAsync<InvalidOperationException>(async () => await slave.ListenAsync());
+        return Assert.ThrowsAsync<InvalidOperationException>(async () => await slave.ListenAsync());
     }
 
     [Fact]
     public void ModbusUdpSlave_MultipleMasters()
     {
-        Random randomNumberGenerator = new();
         bool master1Complete = false;
         bool master2Complete = false;
         UdpClient masterClient1 = new();
@@ -59,7 +57,7 @@ public class NModbusUdpSlaveFixture
         {
             for (int i = 0; i < 5; i++)
             {
-                Thread.Sleep(randomNumberGenerator.Next(1000));
+                Thread.Sleep(Random.Shared.Next(1000));
                 Debug.WriteLine("Read from master 1");
                 Assert.Equal(new ushort[] { 2, 3, 4, 5, 6 }, master1.ReadHoldingRegisters(1, 5));
             }
@@ -70,7 +68,7 @@ public class NModbusUdpSlaveFixture
         {
             for (int i = 0; i < 5; i++)
             {
-                Thread.Sleep(randomNumberGenerator.Next(1000));
+                Thread.Sleep(Random.Shared.Next(1000));
                 Debug.WriteLine("Read from master 2");
                 Assert.Equal(new ushort[] { 3, 4, 5, 6, 7 }, master2.ReadHoldingRegisters(2, 5));
             }
@@ -136,13 +134,12 @@ public class NModbusUdpSlaveFixture
         using ModbusIpMaster master = ModbusIpMaster.CreateIp(masterClient);
         master.Transport.Retries = 0;
 
-        Random random = new();
         for (int i = 0; i < 5; i++)
         {
             bool[] coils = master.ReadCoils(1, 1);
             Assert.Single(coils);
             Debug.WriteLine($"{Environment.CurrentManagedThreadId}: Reading coil value");
-            Thread.Sleep(random.Next(100));
+            Thread.Sleep(Random.Shared.Next(100));
         }
     }
 

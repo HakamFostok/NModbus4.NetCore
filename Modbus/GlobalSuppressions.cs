@@ -5,4 +5,4 @@
         Target = "~N:Modbus")]
 [module:
     SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace",
-        Target = "~N:Modbus.Utility")] 
+        Target = "~N:Modbus.Utility")]

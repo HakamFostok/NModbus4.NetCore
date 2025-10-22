@@ -19,7 +19,7 @@ public class UshortModbusDataCollectionFixture : ModbusDataCollectionFixture<ush
     }
 
     protected override ushort[] GetArray() =>
-        new ushort[] { 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+        [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 
     protected override ushort GetNonExistentElement() => 42;
 }

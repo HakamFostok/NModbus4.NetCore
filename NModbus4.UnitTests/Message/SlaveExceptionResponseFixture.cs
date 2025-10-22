@@ -20,6 +20,6 @@ public class SlaveExceptionResponseFixture
     {
         SlaveExceptionResponse response = new(11, Modbus.ReadCoils + Modbus.ExceptionOffset,
             2);
-        Assert.Equal(new byte[] { response.FunctionCode, response.SlaveExceptionCode }, response.ProtocolDataUnit);
+        Assert.Equal([response.FunctionCode, response.SlaveExceptionCode], response.ProtocolDataUnit);
     }
 }

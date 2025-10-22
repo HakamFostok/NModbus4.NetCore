@@ -36,7 +36,7 @@ public class EnronFixture : NModbusSerialRtuMasterDl06SlaveFixture
     public virtual void WriteMultipleRegisters32()
     {
         ushort testAddress = 120;
-        uint[] testValues = new uint[] { 10, 20, 30, 40, 50 };
+        uint[] testValues = [10, 20, 30, 40, 50];
 
         uint[] originalValues = Master.ReadHoldingRegisters32(SlaveAddress, testAddress, (ushort)testValues.Length);
         Master.WriteMultipleRegisters32(SlaveAddress, testAddress, testValues);

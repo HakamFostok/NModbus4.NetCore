@@ -35,9 +35,9 @@ public class ReadWriteMultipleRegistersRequestFixture
         ReadWriteMultipleRegistersRequest request = new(5, 3, 6, 14,
             writeCollection);
         byte[] pdu =
-        {
+        [
                 0x17, 0x00, 0x03, 0x00, 0x06, 0x00, 0x0e, 0x00, 0x03, 0x06, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff
-            };
+            ];
         Assert.Equal(pdu, request.ProtocolDataUnit);
     }
 

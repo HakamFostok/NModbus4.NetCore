@@ -11,7 +11,7 @@ namespace Modbus.IO;
 /// </summary>
 internal class ModbusIpTransport : ModbusTransport
 {
-    private static readonly object _transactionIdLock = new();
+    private static readonly Lock _transactionIdLock = new();
     private ushort _transactionId;
 
     internal ModbusIpTransport(IStreamResource streamResource)

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Modbus.Data;
+﻿using Modbus.Data;
 using Xunit;
 
 namespace Modbus.UnitTests.Data;
@@ -20,10 +18,10 @@ public class DataStoreEventArgsFixture
     [Fact]
     public void CreateDataStoreEventArgs_InvalidType() =>
         Assert.Throws<ArgumentException>(() => DataStoreEventArgs.CreateDataStoreEventArgs(5, ModbusDataType.HoldingRegister,
-                                                            new int[] { 1, 2, 3 }));
+                                                            [1, 2, 3]));
 
     [Fact]
     public void CreateDataStoreEventArgs_DataNull() =>
         Assert.Throws<ArgumentNullException>(() =>
-            DataStoreEventArgs.CreateDataStoreEventArgs(5, ModbusDataType.HoldingRegister,default(ushort[])));
+            DataStoreEventArgs.CreateDataStoreEventArgs(5, ModbusDataType.HoldingRegister, default(ushort[])));
 }

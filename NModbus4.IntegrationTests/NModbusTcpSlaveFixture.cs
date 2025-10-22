@@ -1,9 +1,7 @@
-﻿using System;
+﻿#pragma warning disable CA5394 // Do not use insecure randomness
 using System.Diagnostics;
-using System.IO;
 using System.Net.Sockets;
 using System.Reflection;
-using System.Threading;
 using Modbus.Device;
 using Xunit;
 
@@ -131,13 +129,12 @@ public class NModbusTcpSlaveFixture
         using ModbusIpMaster master = ModbusIpMaster.CreateIp(masterClient);
         master.Transport.Retries = 0;
 
-        Random random = new();
         for (int i = 0; i < 5; i++)
         {
             bool[] coils = master.ReadCoils(1, 1);
             Assert.Single(coils);
             Debug.WriteLine($"{Environment.CurrentManagedThreadId}: Reading coil value");
-            Thread.Sleep(random.Next(100));
+            Thread.Sleep(Random.Shared.Next(100));
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace Modbus.Data;
+﻿namespace Modbus.Data;
 
 /// <summary>
 ///     Modbus message containing data.

@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace Modbus.Utility;
+﻿namespace Modbus.Utility;
 
 /// <summary>
 ///     Possible options for DiscriminatedUnion type.
@@ -80,10 +78,10 @@ public class DiscriminatedUnion<TA, TB>
         new() { Option = DiscriminatedUnionOption.B, optionB = b };
 
     /// <summary>
-    ///     Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+    ///     Returns a <see cref="string" /> that represents the current <see cref="object" />.
     /// </summary>
     /// <returns>
-    ///     A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+    ///     A <see cref="string" /> that represents the current <see cref="object" />.
     /// </returns>
     public override string? ToString() =>
         Option switch

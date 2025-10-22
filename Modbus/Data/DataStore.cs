@@ -73,7 +73,7 @@ public class DataStore
     /// <summary>
     ///     An object that can be used to synchronize direct access to the DataStore collections.
     /// </summary>
-    public object SyncRoot { get; } = new();
+    public readonly Lock SyncRoot = new();
 
     /// <summary>
     ///     Retrieves subset of data from collection.
@@ -85,7 +85,7 @@ public class DataStore
         ModbusDataCollection<U> dataSource,
         ushort startAddress,
         ushort count,
-        object syncRoot)
+        Lock syncRoot)
         where T : Collection<U>, new()
     {
         DataStoreEventArgs dataStoreEventArgs;
@@ -122,7 +122,7 @@ public class DataStore
         IEnumerable<TData> items,
         ModbusDataCollection<TData> destination,
         ushort startAddress,
-        object syncRoot)
+        Lock syncRoot)
     {
         DataStoreEventArgs dataStoreEventArgs;
         int startIndex = startAddress + 1;
