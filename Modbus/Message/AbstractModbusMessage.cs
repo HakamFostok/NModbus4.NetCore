@@ -39,7 +39,7 @@ public abstract class AbstractModbusMessage
         set => MessageImpl.SlaveAddress = value;
     }
 
-    public byte[] MessageFrame =>
+    public virtual byte[] MessageFrame =>
         MessageImpl.MessageFrame;
 
     public virtual byte[] ProtocolDataUnit =>
